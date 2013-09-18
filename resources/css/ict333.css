@@ -1,0 +1,122 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* CONTENT */
+
+#container_content{
+	background: #ffffff;
+	position: relative;
+	max-width: 1024px;
+	margin: auto;
+	min-height: 570px;
+	padding: 0px;
+	box-shadow: 0px 4px 6px #222222; -moz-box-shadow: 0px 4px 6px #222222; -webkit-box-shadow: 0px 4px 6px #222222;
+}
+
+#primary_header {
+        background: #aaaaaa;
+	height: 40px;
+        padding: 7px;   
+}
+
+#primary_content {
+        height: 100%;
+        min-height: 500px;
+        padding: 7px;
+}
+
+#primary_footer {
+        background: #aaaaaa;
+	height: 30px;
+        padding: 7px;
+        font-size: 10px;
+}
+	
+
+div .page_section {
+	margin: 5px;
+	padding: 5px;
+	border: 1px solid #555555;
+	overflow: hidden;
+	border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;
+	}
+        
+
+
+/* AlertMessage */
+#message_service{
+	position:absolute;
+	top:85px;
+	right:20px;
+	padding: 10px 15px 10px 50px;
+	max-width:400px;
+	z-index:1002;
+	border-radius:       10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;
+	box-shadow:     0 0 8px #000000 ; -moz-box-shadow: 0 0 8px #000000 ; -webkit-box-shadow: 0 0 8px #000000 ;
+	display:none;
+}
+
+.message_success{
+	background:#cee6c3 url('../images/iconset/success.png') no-repeat 10px 28px;
+	border: 1px solid #359545;
+	color: #359545;
+}
+
+.message_error{
+	background:#f6cbca url('../images/iconset/error.png') no-repeat 10px 28px;
+	border: 1px solid #cb2026;
+	color: #cb2026;
+}
+
+.message_clickable{
+	cursor: pointer;
+}
+
+/* end Alert Message */
+
+
+/* START standard tags*/
+body {
+	font-family: arial,sans-serif;
+	font-size: 12px;
+}
+
+table {
+	width: 300px;
+}
+
+tr {
+	height: 20px;
+	font-size: 12px;
+	border: 1px solid #555555;
+	border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;
+}
+
+h1 {
+	font-size: 18px;
+	color: #111111;
+}
+
+h2 {
+	font-size: 16px;
+	color: #1199AA;
+}
+
+ul {
+	-webkit-padding-start: 1px;
+	}
+li {
+	font-size: 10px;
+	}
+
+form {
+	font-size: 10px;
+	}
+
+span {
+    display: block;
+    margin: 0px auto;
+    width: 200px;
+    padding: 5px;
+    }
+/* END standard tags */

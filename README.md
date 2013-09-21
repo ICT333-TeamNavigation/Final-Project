@@ -1,4 +1,4 @@
-ICT333
-======
+Final-Project
+=============
 
-ICT333
+ICT333 Final Project for Optika Solutions

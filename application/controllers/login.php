@@ -16,7 +16,7 @@ class Login extends CI_Controller {
         $this->load->view('login');
     }
     
-    public function auth() {
+    public function authenticate() {
         $username = $this->input->post('username');
         $password = $this->input->post('password');
         $login_data = array("result" => "", "message" => "");
@@ -40,22 +40,6 @@ class Login extends CI_Controller {
         $this->load->view('ajax', $data);
     } 
         
-    public function authenticate($username, $password)
-    {
-        // get record for username
-        
-        $user = $this->user_model->get_user($username);
-        if($user == NULL)
-        {
-            //fail somehow
-        } elseif ($user[0]['password'] == $password) {
-            $this->load->view('home');
-        
-    }
-        // if record exists
-        
-        
-    }
 }
 
 /* End of file login.php */

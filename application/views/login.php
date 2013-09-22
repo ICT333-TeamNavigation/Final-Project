@@ -4,7 +4,7 @@ $(document).ready(function(){
     $('#login').click(function(){
         var username = $('#username').val();
         var password = $('#password').val();
-        $('#login_result').load('index.php/login/auth', {username:username, password:password},
+        $('#login_result').load('index.php/login/authenticate', {username:username, password:password},
             function(data, status){               
                 if(ajax_result['result'] == "success"){
                     $('#primary_content').load('index.php/home/');

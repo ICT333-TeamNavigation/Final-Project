@@ -59,6 +59,7 @@ CREATE TABLE parameter
     model_id        INT           NOT NULL, 
     node_id         INT           NOT NULL,
     parm_name       VARCHAR(50)   NOT NULL,
+    units           VARCHAR(50),
     default_value   FLOAT         NOT NULL,
     min_value       FLOAT         NOT NULL,
     max_value       FLOAT         NOT NULL,

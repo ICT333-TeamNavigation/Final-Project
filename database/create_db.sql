@@ -1,12 +1,25 @@
-DROP DATABASE IF EXISTS navigation_db;
-CREATE DATABASE navigation_db;
-USE navigation_db;
+-- DROP DATABASE IF EXISTS navigation_db;
+-- CREATE DATABASE navigation_db;
+-- USE navigation_db;
+USE team05;
+
+DROP TABLE IF EXISTS model;
+DROP TABLE IF EXISTS node;
+DROP TABLE IF EXISTS link;
+DROP TABLE IF EXISTS parameter;
+DROP TABLE IF EXISTS study;
+DROP TABLE IF EXISTS study_question;
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS user_study;
+DROP TABLE IF EXISTS user_scenario;
+DROP TABLE IF EXISTS user_study_parm;
+DROP TABLE IF EXISTS user_config;
 
 CREATE TABLE model 
 (
     model_id        INT           NOT NULL, 
     name            VARCHAR(50)   NOT NULL,
-    description     VARCHAR(255), 
+    description     TEXT, 
     api             VARCHAR(50)   NOT NULL, 
     creator         VARCHAR(50),
     date_created    DATE,
@@ -63,7 +76,7 @@ CREATE TABLE study
     model_id        INT           NOT NULL, 
     study_id        INT           NOT NULL,
     name            VARCHAR(50)   NOT NULL,
-    description     VARCHAR(255), 
+    description     TEXT, 
     creator         VARCHAR(50),
     date_created    DATE,
     
@@ -78,8 +91,8 @@ CREATE TABLE study_question
 (
     model_id        INT           NOT NULL, 
     study_id        INT           NOT NULL,
-    question        VARCHAR(50)   NOT NULL,
-    description     VARCHAR(255), 
+    question        VARCHAR(255)  NOT NULL,
+    description     TEXT, 
         
     PRIMARY KEY (model_id, study_id, question),
     FOREIGN KEY (model_id, study_id) 
@@ -87,6 +100,8 @@ CREATE TABLE study_question
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+ALTER TABLE study_question ADD FULLTEXT(description, question);
+
 
 CREATE TABLE user
 (
@@ -103,7 +118,7 @@ CREATE TABLE user_study
     model_id        INT           NOT NULL, 
     study_id        INT           NOT NULL,
     name            VARCHAR(50)   NOT NULL,
-    description     VARCHAR(255), 
+    description     TEXT, 
     creator         VARCHAR(50),
     date_created    DATE,
     
@@ -125,7 +140,7 @@ CREATE TABLE user_scenario
     study_id        INT            NOT NULL,
     scenario_id     INT            NOT NULL,
     name            VARCHAR(50)    NOT NULL,
-    description     VARCHAR(255), 
+    description     TEXT, 
     parms_json      VARCHAR(2000)  NOT NULL,
     
     PRIMARY KEY (username, model_id, study_id, scenario_id),
@@ -168,16 +183,16 @@ CREATE TABLE user_config
         ON UPDATE CASCADE
 );
 
-SHOW DATABASES;
+-- SHOW DATABASES;
 SHOW TABLES;
-SHOW COLUMNS FROM model;
-SHOW COLUMNS FROM node;
-SHOW COLUMNS FROM link;
-SHOW COLUMNS FROM parameter;
-SHOW COLUMNS FROM study;
-SHOW COLUMNS FROM study_question;
-SHOW COLUMNS FROM user;
-SHOW COLUMNS FROM user_study;
-SHOW COLUMNS FROM user_scenario;
-SHOW COLUMNS FROM user_study_parm;
-SHOW COLUMNS FROM user_config;  
+-- SHOW COLUMNS FROM model;
+-- SHOW COLUMNS FROM node;
+-- SHOW COLUMNS FROM link;
+-- SHOW COLUMNS FROM parameter;
+-- SHOW COLUMNS FROM study;
+-- SHOW COLUMNS FROM study_question;
+-- SHOW COLUMNS FROM user;
+-- SHOW COLUMNS FROM user_study;
+-- SHOW COLUMNS FROM user_scenario;
+-- SHOW COLUMNS FROM user_study_parm;
+-- SHOW COLUMNS FROM user_config;  

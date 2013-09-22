@@ -21,13 +21,19 @@ class Login extends CI_Controller {
         $password = $this->input->post('password');
         $login_data = array("result" => "", "message" => "");
         
-        if($username == 'mike' and $password == 'test') {
+        $user = $this->user_model->get_user($username);
+        
+        $login_data["result"] = "error";
+        //$login_data["message"] = "test ".$user[0]["username"];
+        
+        if($user[0] == NULL) {
+            $login_data["message"] = "Username is incorrect";
+        } else if($user[0]['username'] == $username && $user[0]['password'] == $password){
             $login_data["result"] = "success";
         } else {
-            $login_data["result"] = "error";
-            $login_data["message"] = "Username or password are incorrect";
+            $login_data["message"] = "Password is incorrect";
         }
-        
+                
         $login_data = json_encode($login_data);
         
         $data['ajax'] = $login_data;

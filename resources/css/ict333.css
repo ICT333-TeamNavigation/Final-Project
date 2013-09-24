@@ -3,6 +3,13 @@
 
 /* CONTENT */
 
+.two_col {
+    float: left;
+    width: 500px;
+    height:auto;
+
+}
+
 #container_content{
 	background: #ffffff;
 	position: relative;
@@ -112,11 +119,31 @@ li {
 form {
 	font-size: 10px;
 	}
-
-span {
+        
+.login {
     display: block;
     margin: 0px auto;
     width: 200px;
     padding: 5px;
     }
+
+    .search {
+        display: inline;
+        float: right;
+        
+    }
+.icon_home {
+    position:absolute;
+    top:15px;
+    right:15px;
+    float: right;
+    height: 24px;
+    width: 24px
+
+}
 /* END standard tags */
+
+
+    
+
+

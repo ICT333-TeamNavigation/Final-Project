@@ -14,7 +14,11 @@
     <script type="text/javascript">
         $(document).ready(function(){
             $('#primary_content').load('index.php/login');
+            $(".icon_home").hide();
             $('#message_service').hide();
+            $(".icon_home").click(function(){
+                $('#primary_content').load('index.php/home');
+            });
         });
     </script>
 </head>
@@ -22,7 +26,7 @@
 
     <div id="container_content">
         <div id="message_service"></div>
-        <div id="primary_header"><h1>ICT333</h1></div>
+        <div id="primary_header"><h1>ICT333</h1><img src="<?php echo base_url('resources/images/icon_home.png');?>" class="icon_home" /></div>
 
         <div id="primary_content"></div>
 

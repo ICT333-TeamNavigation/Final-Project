@@ -1,5 +1,6 @@
 <?php
 
+    date_default_timezone_set("Australia/Perth");
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT

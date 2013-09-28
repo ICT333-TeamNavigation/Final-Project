@@ -2,9 +2,7 @@
 
 class Login extends CI_Controller {
 
-	/**
-         * 
-         */
+
     public function __construct()
     {
         parent::__construct();
@@ -20,6 +18,7 @@ class Login extends CI_Controller {
         $username = $this->input->post('username');
         $password = $this->input->post('password');
         $login_data = array("result" => "", "message" => "");
+        
         
         $user = $this->user_model->get_user($username);
         

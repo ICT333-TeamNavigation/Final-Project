@@ -1,10 +1,9 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if( !defined('BASEPATH') ) exit('No direct script access allowed');
 
-class Study extends CI_Controller {
+    
+class Study extends CI_Controller 
+{
 
-	/**
-         * 
-         */
     public function __construct()
     {
         parent::__construct();
@@ -19,4 +18,4 @@ class Study extends CI_Controller {
         
 }
 
-/* End of file login.php */
+// end of file

@@ -2,18 +2,21 @@
 -- CREATE DATABASE navigation_db;
 -- USE navigation_db;
 USE team05;
+warnings
 
-DROP TABLE IF EXISTS model;
-DROP TABLE IF EXISTS node;
-DROP TABLE IF EXISTS link;
-DROP TABLE IF EXISTS parameter;
-DROP TABLE IF EXISTS study;
-DROP TABLE IF EXISTS study_question;
-DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS user_study;
-DROP TABLE IF EXISTS user_scenario;
-DROP TABLE IF EXISTS user_study_parm;
 DROP TABLE IF EXISTS user_config;
+DROP TABLE IF EXISTS user_study_parm;
+DROP TABLE IF EXISTS user_scenario;
+DROP TABLE IF EXISTS user_study;
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS study_question;
+DROP TABLE IF EXISTS study;
+DROP TABLE IF EXISTS parameter;
+DROP TABLE IF EXISTS link;
+DROP TABLE IF EXISTS node;
+DROP TABLE IF EXISTS model;
+
+
 
 CREATE TABLE model 
 (
@@ -94,14 +97,15 @@ CREATE TABLE study_question
     study_id        INT           NOT NULL,
     question        VARCHAR(255)  NOT NULL,
     description     TEXT, 
-        
+    FULLTEXT(description, question),    
+    
     PRIMARY KEY (model_id, study_id, question),
     FOREIGN KEY (model_id, study_id) 
         REFERENCES study(model_id, study_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
-ALTER TABLE study_question ADD FULLTEXT(description, question);
+-- ALTER TABLE study_question ADD FULLTEXT(description, question);
 
 
 CREATE TABLE user

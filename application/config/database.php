@@ -57,14 +57,14 @@ $db['default']['database'] = 'team05';
 $db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
-$db['default']['db_debug'] = TRUE;
+$db['default']['db_debug'] = FALSE;
 $db['default']['cache_on'] = FALSE;
 $db['default']['cachedir'] = '';
 $db['default']['char_set'] = 'utf8';
 $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
-$db['default']['stricton'] = FALSE;
+$db['default']['stricton'] = TRUE;
 
 
 // database config settings for hal's pc
@@ -75,14 +75,14 @@ $db['hal_pc']['database'] = 'ICT333';
 $db['hal_pc']['dbdriver'] = 'mysqli';
 $db['hal_pc']['dbprefix'] = '';
 $db['hal_pc']['pconnect'] = TRUE;
-$db['hal_pc']['db_debug'] = TRUE;
+$db['hal_pc']['db_debug'] = FALSE;
 $db['hal_pc']['cache_on'] = FALSE;
 $db['hal_pc']['cachedir'] = '';
 $db['hal_pc']['char_set'] = 'utf8';
 $db['hal_pc']['dbcollat'] = 'utf8_general_ci';
 $db['hal_pc']['swap_pre'] = '';
 $db['hal_pc']['autoinit'] = TRUE;
-$db['hal_pc']['stricton'] = FALSE;
+$db['hal_pc']['stricton'] = TRUE;
 
 
 // database config settings for ben's pc
@@ -93,7 +93,7 @@ $db['ben_pc']['database'] = 'team05';
 $db['ben_pc']['dbdriver'] = 'mysqli';
 $db['ben_pc']['dbprefix'] = '';
 $db['ben_pc']['pconnect'] = TRUE;
-$db['ben_pc']['db_debug'] = TRUE;
+$db['ben_pc']['db_debug'] = FALSE;
 $db['ben_pc']['cache_on'] = FALSE;
 $db['ben_pc']['cachedir'] = '';
 $db['ben_pc']['char_set'] = 'utf8';
@@ -111,14 +111,14 @@ $db['susannah_pc']['database'] = 'team05';  // may need to change these ones
 $db['susannah_pc']['dbdriver'] = 'mysqli';
 $db['susannah_pc']['dbprefix'] = '';
 $db['susannah_pc']['pconnect'] = TRUE;
-$db['susannah_pc']['db_debug'] = TRUE;
+$db['susannah_pc']['db_debug'] = FALSE;
 $db['susannah_pc']['cache_on'] = FALSE;
 $db['susannah_pc']['cachedir'] = '';
 $db['susannah_pc']['char_set'] = 'utf8';
 $db['susannah_pc']['dbcollat'] = 'utf8_general_ci';
 $db['susannah_pc']['swap_pre'] = '';
 $db['susannah_pc']['autoinit'] = TRUE;
-$db['susannah_pc']['stricton'] = FALSE;
+$db['susannah_pc']['stricton'] = TRUE;
 
 
 

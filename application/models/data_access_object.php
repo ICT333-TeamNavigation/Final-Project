@@ -3,20 +3,34 @@
 
 class Data_access_object extends CI_Model  
 {
-    private $m_table_name;
+    private $m_table_name = null;
+    
+    // the names of the columns that need to be converted to ints 
+    // after getting from the data from the database
+    // unfortunately CodeIgniter's Active Record returns all columns as strings
+    // regardless of their datatype in the database
+    private static $int_col_names = array( "model_id", 
+                                           "study_id",
+                                           "scenario_id",
+                                           "node_id",
+                                           "link_node_id",
+                                           "default_value",
+                                           "min_value",
+                                           "max_value",
+                                           "visible",
+                                           "visible_default" );
     
     //--------------------------------------------------------------------------
     
-    function __construct()
+    public function __construct()
     {
-        //$this->m_table_name = $t_name; 
         parent::__construct(); // Call the Model constructor
         $this->load->database();
     }
     
     //--------------------------------------------------------------------------
     
-    function setTableName( $table_name )
+    public function setTableName( $table_name )
     {
         $this->m_table_name = $table_name;
     }
@@ -82,11 +96,36 @@ class Data_access_object extends CI_Model
         }
     }
     
-    
     //--------------------------------------------------------------------------
+    
+    
+    // converts the values in the result row to integers if the key is found
+    // in a list of column names
+    public static function convertRowToInt( $result_row )
+    {
+        foreach($result_row as $fieldName => $value)
+        {
+            // if is a table column defined as int
+            if( array_search( $fieldName , self::$int_col_names) !== false )
+            {
+                $result_row[$fieldName] = (int)$value;
+            }
+        }    
+        
+        return $result_row;
+    }
+    
+        
+    //--------------------------------------------------------------------------
+   
     
     public function getWhere( $where_array )
     {
+        if( $this->m_table_name === null )
+        {
+            throw new Exception("m_tablename was not set. You need to call setTableName(table_name) first.");
+        }    
+        
         self::checkIsArray( $where_array );
         
         $query = $this->db->get_where( $this->m_table_name, $where_array );
@@ -95,14 +134,20 @@ class Data_access_object extends CI_Model
             throw new Exception($this->db->_error_message(), $this->db->_error_number());
         }
                 
-        if( $query->num_rows() > 0 )
+        if( $query->num_rows() <= 0 )
         {
-            $result = $query->result_array();
+            return false;
         }
-        else 
+        $result = $query->result_array();
+        
+        // converts the values in the result array to integers if the key is found
+        // in a list of column names
+        $i = 0;
+        foreach($result as $result_row)
         {
-            $result = false;
-        }
+            $result[$i] = self::convertRowToInt($result_row);
+            $i++;
+        }    
         
         // returns false if no data is found in table
         return $result;
@@ -113,6 +158,11 @@ class Data_access_object extends CI_Model
     
     public function insert( $insert_array )
     {
+        if( $this->m_table_name === null )
+        {
+            throw new Exception("m_tablename was not set. You need to call setTableName(table_name) first.");
+        }  
+        
         self::checkIsArray( $insert_array );
         
         $success = $this->db->insert($this->m_table_name, $insert_array); 
@@ -128,6 +178,11 @@ class Data_access_object extends CI_Model
     
     public function updateWhere( $update_array, $where_array )
     {
+        if( $this->m_table_name === null )
+        {
+            throw new Exception("m_tablename was not set. You need to call setTableName(table_name) first.");
+        }  
+        
         self::checkIsArray( $update_array );
         self::checkIsArray( $where_array );
         
@@ -145,6 +200,11 @@ class Data_access_object extends CI_Model
     
     public function deleteWhere( $where_array )
     {
+        if( $this->m_table_name === null )
+        {
+            throw new Exception("m_tablename was not set. You need to call setTableName(table_name) first.");
+        }  
+        
         self::checkIsArray( $where_array );
         
         $success = $this->db->delete($this->m_table_name, $where_array );
@@ -157,32 +217,42 @@ class Data_access_object extends CI_Model
     }
     
 
-
-
     //--------------------------------------------------------------------------
     
-    // get user config settings for all users ( the whole table )
-    // may return null if no data is found in table
+    // get the whole table. 
     public function getAllRows()
     {
-        $query = $this->db->get($this->m_table_name);
-        if( !$query )
-        {
-            throw new Exception($this->db->_error_message(), $this->db->_error_number());
-        }
-        
-        if( $query->num_rows() > 0 )
-        {
-            $result = $query->result_array();
-        }
-        else 
-        {
-            $result = false;
-        }
-        
-        // returns false if no data is found in table
-        return $result;
+        return $this->getWhere(Array());
     }
+    
+    //--------------------------------------------------------------------------
+    
+    
+    // executes a general select on the database and returns the results as an
+    // array or false if no results were found
+    public function doSelect( $sql, $parms_array = null )
+    {
+        self::checkIsString("sql" , $sql);
+        self::checkStringIsValid("sql", $sql);
+        
+        $query = $this->db->query($sql, $parms_array );
+        if ( $query->num_rows() <= 0 )  // if no search results found
+        {
+            return false;
+        }
+        $result = $query->result_array();
+        
+        // converts the values in the result array to integers if the key is found
+        // in a list of column names
+        $i = 0;
+        foreach($result as $result_row)
+        {
+            $result[$i] = self::convertRowToInt($result_row);
+            $i++;
+        }    
+                    
+        return $result; 
+    }        
     
     //--------------------------------------------------------------------------
 

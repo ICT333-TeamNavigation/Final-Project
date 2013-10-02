@@ -1,3 +1,4 @@
+USE team05;
 
 -- model table
 DELETE FROM model;

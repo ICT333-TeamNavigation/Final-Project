@@ -11,7 +11,11 @@ class Model_tests extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        
+        // load all the models used in the tests
+        $this->load->model('data_access_object'); 
         $this->load->model('user_auth_model'); 
+        $this->load->model('studies_model'); 
     }
     
     //---------------------------------------------------------------------------
@@ -26,10 +30,16 @@ class Model_tests extends CI_Controller
         print self::STARS; 
         print self::NEW_LINES;
         
+        //print self::STARS;
+        //print "Testing user_auth_model.\n";
+        //print self::STARS;
+        //self::userAuthModelTests();
+        //print self::NEW_LINES;
+        
         print self::STARS;
-        print "Testing data_access_object.\n";
+        print "Testing studies_model.\n";
         print self::STARS;
-        self::authenticateUserTests();
+        self::studiesModelTests();
         print self::NEW_LINES;
         
                
@@ -48,8 +58,11 @@ class Model_tests extends CI_Controller
     
     //---------------------------------------------------------------------------
     
-    public function authenticateUserTests()
+    public function userAuthModelTests()
     {
+        $this->data_access_object->setTableName("parameter");
+        var_dump($this->data_access_object->getAllRows());
+        
         $test_num = 1;
         $test_func = "user_auth_model->userExists( 'test_user' )";
         try
@@ -99,12 +112,131 @@ class Model_tests extends CI_Controller
             $results = $e->getMessage();
         }
         self::printTestResults( $test_num, $test_func, $results);
-        
-            
-              
-        
-       
+    }
     
+    
+    //---------------------------------------------------------------------------
+    
+    
+    public function studiesModelTests()
+    {
+        $test_num = 1;
+        $test_func = "studies_model->getUserStudies( 'test_user' )";
+        try
+        {
+            $results = $this->studies_model->getUserStudies( "test_user" );
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 2;
+        $test_func = "studies_model->getUserStudies( 'executive' )";
+        try
+        {
+            $results = $this->studies_model->getUserStudies( "executive" );
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 3;
+        $test_func = "studies_model->userStudyExists( 'executive', 1, 1 )";
+        try
+        {
+            $results = $this->studies_model->userStudyExists( "executive", 1, 1 );
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 4;
+        $test_func = "studies_model->userStudyExists( 'executive', 1, 2 )";
+        try
+        {
+            $results = $this->studies_model->userStudyExists( "executive", 1, 2 );
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 5;
+        $test_func = "studies_model->getStudyQuestions( 1, 1 )";
+        try
+        {
+            $results = $this->studies_model->getStudyQuestions( 2, 1 );
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 6;
+        $test_func = "studies_model->getStudyQuestions( 1, 2 )";
+        try
+        {
+            $results = $this->studies_model->getStudyQuestions( 1, 2 );
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 7;
+        $test_func = "studies_model->getStudyDetails( 1, 2 )";
+        try
+        {
+            $results = $this->studies_model->getStudyDetails( 1, 2 );
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 8;
+        $test_func = "studies_model->getStudyDetails( 2, 1 )";
+        try
+        {
+            $results = $this->studies_model->getStudyDetails( 2, 1 );
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 9;
+        $test_func = "studies_model->searchUserStudies( )";
+        try
+        {
+            $results = $this->studies_model->searchStudies( "executive", "cost" );
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+            print $e->getTraceAsString();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
     }
     
 }

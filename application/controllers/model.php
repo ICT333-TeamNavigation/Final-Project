@@ -23,7 +23,7 @@ class Model extends CI_Controller {
     public function force()
     {
         $data['ajax']= '{
-    "name": "car",
+    "name": "Big old dog",
     "children": [
                  {
                  "name": "engine",

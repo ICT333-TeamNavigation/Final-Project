@@ -142,6 +142,16 @@ form {
 }
 /* END standard tags */
 
+#node_details{
+    position:absolute;
+    top:85px;
+    right:20px;
+    padding: 10px 10px 10px 10px;
+    width:300px;
+    z-index:900;
+    border-radius:       10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;
+    box-shadow:     0 0 8px #000000 ; -moz-box-shadow: 0 0 8px #000000 ; -webkit-box-shadow: 0 0 8px #000000 ;
+}
 
     
 

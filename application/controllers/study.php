@@ -17,5 +17,3 @@ class Study extends CI_Controller
     
         
 }
-
-// end of file

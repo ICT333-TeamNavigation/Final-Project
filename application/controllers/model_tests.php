@@ -11,7 +11,7 @@ class Model_tests extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model("user_config_dao"); 
+        $this->load->model('user_auth_model'); 
     }
     
     //---------------------------------------------------------------------------
@@ -27,9 +27,9 @@ class Model_tests extends CI_Controller
         print self::NEW_LINES;
         
         print self::STARS;
-        print "Testing user_config_model.\n";
+        print "Testing data_access_object.\n";
         print self::STARS;
-        self::userConfigModelTests();
+        self::authenticateUserTests();
         print self::NEW_LINES;
         
                
@@ -48,144 +48,60 @@ class Model_tests extends CI_Controller
     
     //---------------------------------------------------------------------------
     
-    public function userConfigModelTests()
+    public function authenticateUserTests()
     {
-        
         $test_num = 1;
-        $test_func = "user_config_model->getRow( 1, 'test_string' )";
+        $test_func = "user_auth_model->userExists( 'test_user' )";
         try
         {
-            $results = $this->user_config_dao->getRow( 1, "test_string" );
+            $results = $this->user_auth_model->userExists( "test_user" );
         }
         catch( Exception $e )
         {
             $results = $e->getMessage();
         }
         self::printTestResults( $test_num, $test_func, $results);
-            
         
-       
+        
         $test_num = 2;
-        $test_func = "user_config_model->getRow( 'test_string', 1 )";
+        $test_func = "user_auth_model->userExists( 'executive' )";
         try
         {
-            $results = $this->user_config_dao->getRow( "test_string",  1 );
+            $results = $this->user_auth_model->userExists( "executive" );
         }
         catch( Exception $e )
         {
             $results = $e->getMessage();
         }
-        self::printTestResults( $test_num, $test_func, $results );
-        
+        self::printTestResults( $test_num, $test_func, $results);
         
         
         $test_num = 3;
-        $test_func = "user_config_model->getRow( '', 'test_string' )";
+        $test_func = "user_auth_model->isCorrectPassword( 'executive', 'incorrect_password' )";
         try
         {
-            $results = $this->user_config_dao->getRow( "", "test_string" );
+            $results = $this->user_auth_model->isCorrectPassword( "executive", "incorrect_password" );
         }
         catch( Exception $e )
         {
             $results = $e->getMessage();
         }
-        self::printTestResults( $test_num, $test_func, $results );
-        
-        
+        self::printTestResults( $test_num, $test_func, $results);
         
         $test_num = 4;
-        $test_func = "user_config_model->getRow( 'test_string', '' )";
+        $test_func = "user_auth_model->isCorrectPassword( 'executive', 'executive' )";
         try
         {
-            $results = $this->user_config_dao->getRow( "test_string", "" );
+            $results = $this->user_auth_model->isCorrectPassword( "executive", "executive" );
         }
         catch( Exception $e )
         {
             $results = $e->getMessage();
         }
-        self::printTestResults( $test_num, $test_func, $results );
+        self::printTestResults( $test_num, $test_func, $results);
         
-        
-        
-        $test_num = 5;
-        $test_func = "user_config_model->getRow( 'test_string', 'test_string' )";
-        try
-        {
-            $results = $this->user_config_dao->getRow( "test_string", "test_string" );
-        }
-        catch( Exception $e )
-        {
-            $results = $e->getMessage();
-        }
-        self::printTestResults( $test_num, $test_func, $results );
-        
-        
-        $test_num = 6;
-        $test_func = "user_config_model->insertRow('executive', 'test_att', 'test_value)";
-        try
-        {
-            $results = $this->user_config_dao->insertRow("executive", "test_att", "test_value");
-        }
-        catch( Exception $e )
-        {
-            $results = $e->getMessage();
-        }
-        self::printTestResults( $test_num, $test_func, $results );
-        
-        
-        $test_num = 7;
-        $test_func = "user_config_model->getRow( 'executive', 'test_att' )";
-        try
-        {
-            $results = $this->user_config_dao->getRow( "executive", "test_att" );
-        }
-        catch( Exception $e )
-        {
-            $results = $e->getMessage();
-        }
-        self::printTestResults( $test_num, $test_func, $results );
-        
-        
-        
-        $test_num = 8;
-        $test_func = "user_config_model->updateRow( 'executive', 'test_att', 'updated_value' )";
-        try
-        {
-            $results = $this->user_config_dao->updateRow( "executive", "test_att", "updated_value" );
-        }
-        catch( Exception $e )
-        {
-            $results = $e->getMessage();
-        }
-        self::printTestResults( $test_num, $test_func, $results );
-        
-        
-               
-        $test_num = 9;
-        $test_func = "user_config_model->getAllRows()";
-        try
-        {
-            $results = $this->user_config_dao->getAllRows();
-        }
-        catch( Exception $e )
-        {
-            $results = $e->getMessage();
-        }
-        self::printTestResults( $test_num, $test_func, $results );
-        
-        
-        $test_num = 10;
-        $test_func = "user_config_model->deleteRow()";
-        try
-        {
-            $results = $this->user_config_dao->deleteRow("executive", "test_att" );
-        }
-        catch( Exception $e )
-        {
-            $results = $e->getMessage();
-        }
-        self::printTestResults( $test_num, $test_func, $results );
-                  
+            
+              
         
        
     

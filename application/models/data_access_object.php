@@ -1,4 +1,4 @@
-<?php
+<?php if ( !defined('BASEPATH') ) exit('No direct script access allowed');
 
 
 class Data_access_object extends CI_Model  
@@ -16,14 +16,14 @@ class Data_access_object extends CI_Model
     
     //--------------------------------------------------------------------------
     
-    function setTableName( $t_name )
+    function setTableName( $table_name )
     {
-        $this->m_table_name = $t_name;
+        $this->m_table_name = $table_name;
     }
     
     //--------------------------------------------------------------------------
     
-    protected static function checkIsString( $col_name, $col_value )
+    public static function checkIsString( $col_name, $col_value )
     {
         if( !is_string($col_value) )
         {
@@ -33,7 +33,7 @@ class Data_access_object extends CI_Model
     
     //--------------------------------------------------------------------------
     
-    protected static function checkIsInt( $col_name, $col_value )
+    public static function checkIsInt( $col_name, $col_value )
     {
         if( !is_int($col_value) )
         {
@@ -43,7 +43,7 @@ class Data_access_object extends CI_Model
     
     //--------------------------------------------------------------------------
     
-    protected static function checkIsFloat( $col_name, $col_value )
+    public static function checkIsFloat( $col_name, $col_value )
     {
         if( !is_float($col_value) )
         {
@@ -53,7 +53,7 @@ class Data_access_object extends CI_Model
     
     //--------------------------------------------------------------------------
     
-    protected static function checkNumberIsValid( $col_name, $col_value )
+    public static function checkNumberIsValid( $col_name, $col_value )
     {
         if( $col_value < 0 )
         {
@@ -63,7 +63,7 @@ class Data_access_object extends CI_Model
     
     //--------------------------------------------------------------------------
     
-    protected static function checkStringIsValid( $col_name, $col_value )
+    public static function checkStringIsValid( $col_name, $col_value )
     {
         $col_value = trim($col_value);
         if( $col_value == "" )
@@ -74,7 +74,7 @@ class Data_access_object extends CI_Model
     
     //--------------------------------------------------------------------------
     
-    protected static function checkIsArray( $where_array )
+    public static function checkIsArray( $where_array )
     {
         if( !is_array($where_array) )
         {
@@ -85,7 +85,7 @@ class Data_access_object extends CI_Model
     
     //--------------------------------------------------------------------------
     
-    protected function getWhere( $where_array )
+    public function getWhere( $where_array )
     {
         self::checkIsArray( $where_array );
         
@@ -111,7 +111,7 @@ class Data_access_object extends CI_Model
     //--------------------------------------------------------------------------
     
     
-    protected function insert( $insert_array )
+    public function insert( $insert_array )
     {
         self::checkIsArray( $insert_array );
         
@@ -126,7 +126,7 @@ class Data_access_object extends CI_Model
   
     //--------------------------------------------------------------------------
     
-    protected function updateWhere( $update_array, $where_array )
+    public function updateWhere( $update_array, $where_array )
     {
         self::checkIsArray( $update_array );
         self::checkIsArray( $where_array );
@@ -143,7 +143,7 @@ class Data_access_object extends CI_Model
     //--------------------------------------------------------------------------
     
     
-    protected function deleteWhere( $where_array )
+    public function deleteWhere( $where_array )
     {
         self::checkIsArray( $where_array );
         

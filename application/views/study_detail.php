@@ -1,5 +1,8 @@
 <script type="text/javascript">
 $(document).ready(function(){
+    $('#test').click(function(){
+        $('#primary_content').load('index.php/model/force_test');
+    });
     
 });
 </script>
@@ -14,3 +17,4 @@ $(document).ready(function(){
     <li>Scenario 2: extra butter </li>  
     <li>Scenario 3: extra chocolate </li> 
 </ul>
+<p id ="test"> show graph</p>

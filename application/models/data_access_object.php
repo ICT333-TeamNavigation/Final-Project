@@ -7,18 +7,21 @@ class Data_access_object extends CI_Model
     
     // the names of the columns that need to be converted to ints 
     // after getting from the data from the database
-    // unfortunately CodeIgniter's Active Record returns all columns as strings
+    private static $int_col_names =   array( "model_id", 
+                                             "study_id",
+                                             "scenario_id",
+                                             "node_id",
+                                             "link_node_id",
+                                             "visible",
+                                             "visible_default" );
+    // the names of the columns that need to be converted to floats
+    // after getting from the data from the database
+    private static $float_col_names = array( "default_value",
+                                             "min_value",
+                                             "max_value" );
+    // unfortunately CodeIgniter's Active Record class returns all columns as strings
     // regardless of their datatype in the database
-    private static $int_col_names = array( "model_id", 
-                                           "study_id",
-                                           "scenario_id",
-                                           "node_id",
-                                           "link_node_id",
-                                           "default_value",
-                                           "min_value",
-                                           "max_value",
-                                           "visible",
-                                           "visible_default" );
+     
     
     //--------------------------------------------------------------------------
     
@@ -105,11 +108,16 @@ class Data_access_object extends CI_Model
     {
         foreach($result_row as $fieldName => $value)
         {
-            // if is a table column defined as int
             if( array_search( $fieldName , self::$int_col_names) !== false )
             {
+                // table column defined as int
                 $result_row[$fieldName] = (int)$value;
             }
+            else if( array_search( $fieldName , self::$float_col_names) !== false )
+            {
+                // table column defined as float
+                $result_row[$fieldName] = (float)$value;
+            }        
         }    
         
         return $result_row;

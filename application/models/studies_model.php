@@ -65,6 +65,10 @@ class Studies_model extends CI_Model
         $search_sql .= " WHERE MATCH(" . self::COL_QUESTION . ") AGAINST( ? )";
               
         $study_keys = $this->data_access_object->doSelect($search_sql, array($question) );
+        if( $study_keys === false )
+        {
+            return $search_results;
+        }    
         
         $u_studies_i = 0;
         $non_u_studies_i = 0;
@@ -74,7 +78,7 @@ class Studies_model extends CI_Model
             $temp_study_id = $study_key[self::COL_STUDY_ID];
             
             $temp_study_details = $this->getStudyDetails($temp_model_id, $temp_study_id);
-            var_dump($temp_study_details);
+            
             if( $this->userStudyExists($username, $temp_model_id, $temp_study_id) )
             {
                 $search_results->userStudies[$u_studies_i] = $temp_study_details;
@@ -86,7 +90,7 @@ class Studies_model extends CI_Model
                 $non_u_studies_i++;
             }
         }
-        
+                
         return $search_results;
     }
     

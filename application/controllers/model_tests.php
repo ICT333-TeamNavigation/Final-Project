@@ -225,10 +225,24 @@ class Model_tests extends CI_Controller
         
         
         $test_num = 9;
-        $test_func = "studies_model->searchUserStudies( )";
+        $test_func = "studies_model->searchUserStudies( 'executive', 'cost' )";
         try
         {
             $results = $this->studies_model->searchStudies( "executive", "cost" );
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+            print $e->getTraceAsString();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 10;
+        $test_func = "studies_model->searchUserStudies( 'executive', 'effect' )";
+        try
+        {
+            $results = $this->studies_model->searchStudies( "executive", "hello" );
         }
         catch( Exception $e )
         {

@@ -1,7 +1,7 @@
--- DROP DATABASE IF EXISTS navigation_db;
--- CREATE DATABASE navigation_db;
--- USE navigation_db;
+-- DROP DATABASE IF EXISTS team05;
+-- CREATE DATABASE team05;
 USE team05;
+
 warnings
 
 DROP TABLE IF EXISTS user_config;
@@ -97,7 +97,7 @@ CREATE TABLE study_question
     study_id        INT           NOT NULL,
     question        VARCHAR(255)  NOT NULL,
     description     TEXT, 
-    FULLTEXT(description, question),    
+    FULLTEXT(question),    
     
     PRIMARY KEY (model_id, study_id, question),
     FOREIGN KEY (model_id, study_id) 
@@ -105,7 +105,7 @@ CREATE TABLE study_question
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
--- ALTER TABLE study_question ADD FULLTEXT(description, question);
+-- ALTER TABLE study_question ADD FULLTEXT(question);
 
 
 CREATE TABLE user

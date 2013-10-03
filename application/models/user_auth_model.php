@@ -8,19 +8,20 @@ class User_auth_model extends CI_Model
     
     //--------------------------------------------------------------------------
     
-    function __construct()
+    public function __construct()
     {
         parent::__construct();    // Call the Model constructor  
         $this->load->model('data_access_object'); 
-        $this->data_access_object->setTableName(self::TABLE_USER);
     }
     
     //--------------------------------------------------------------------------
     
     // pre:    username must be a non empty string
     // post:   returns true if the user exists in the database and false otherwise
-    function userExists( $username )
+    public function userExists( $username )
     {
+        $this->data_access_object->setTableName(self::TABLE_USER);
+        
         $this->data_access_object->checkIsString(self::COL_USERNAME , $username);
         $this->data_access_object->checkStringIsValid(self::COL_USERNAME, $username);
                           
@@ -41,8 +42,10 @@ class User_auth_model extends CI_Model
     // pre:    username and password must be non empty strings
     // pre:    username must exist in the database
     // post:   returns true if the user password is correct and false otherwise
-    function isCorrectPassword( $username, $password )
+    public function isCorrectPassword( $username, $password )
     {
+        $this->data_access_object->setTableName(self::TABLE_USER);
+        
         $this->data_access_object->checkIsString(self::COL_USERNAME , $username);
         $this->data_access_object->checkStringIsValid(self::COL_USERNAME, $username);
         

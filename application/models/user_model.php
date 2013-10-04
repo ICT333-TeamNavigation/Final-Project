@@ -38,7 +38,6 @@ class User_model extends CI_Model
         {
             $result = $result[0];  // get first row
         }    
-        
         return $result; 
     }
     

@@ -61,8 +61,19 @@ define('COL_MODEL_ID',          'model_id');
 define('COL_STUDY_ID',          'study_id');
 define('COL_SCENARIO_ID',       'scenario_id');
 define('COL_NODE_ID',           'node_id');
+define('COL_LINK_NODE_ID',      'link_node_id');
 define('COL_PARM_NAME',         'parm_name');
 define('COL_QUESTION',          'question');
+define('COL_NAME',              'name');
+define('COL_DESCRIPTION',       'description');
+define('COL_PARMS_JSON',        'parms_json');
+define('COL_CREATOR',           'creator');
+define('COL_DATE_CREATED',      'date_created');
+define('COL_DEFAULT_VALUE',     'default_value');
+define('COL_MIN_VALUE',         'min_value');
+define('COL_MAX_VALUE',         'max_value');
+define('COL_VISIBLE',           'visible');
+define('COL_VISIBLE_DEFAULT',   'visible_default');
 
 
 /* End of file constants.php */

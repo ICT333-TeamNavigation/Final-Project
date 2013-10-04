@@ -25,7 +25,7 @@ CREATE TABLE model
     description     TEXT, 
     api             VARCHAR(50)   NOT NULL, 
     creator         VARCHAR(50),
-    date_created    DATE,
+    date_created    DATETIME DEFAULT CURRENT_TIMESTAMP,
     
     PRIMARY KEY (model_id)
 );
@@ -82,7 +82,7 @@ CREATE TABLE study
     name            VARCHAR(50)   NOT NULL,
     description     TEXT, 
     creator         VARCHAR(50),
-    date_created    DATE,
+    date_created    DATETIME DEFAULT CURRENT_TIMESTAMP,
     
     PRIMARY KEY (model_id, study_id),
     FOREIGN KEY (model_id) 
@@ -125,7 +125,7 @@ CREATE TABLE user_study
     name            VARCHAR(50)   NOT NULL,
     description     TEXT, 
     creator         VARCHAR(50),
-    date_created    DATE,
+    date_created    DATETIME DEFAULT CURRENT_TIMESTAMP,
     
     PRIMARY KEY (username, model_id, study_id),
     FOREIGN KEY (username) 

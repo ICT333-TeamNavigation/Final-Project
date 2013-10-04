@@ -16,10 +16,8 @@ SELECT * FROM study;
 
 -- user_study table
 DELETE FROM user_study;
-INSERT INTO user_study ( username, model_id, study_id, name, description, creator, date_created )
-VALUES ( "executive", 1, 1, "study one", "this is the first test study created", "ben", CURDATE() );
-INSERT INTO user_study ( username, model_id, study_id, name, description, creator, date_created )
-VALUES ( "analyst", 1, 2, "study two", "this is the second test study created", "ben", CURDATE() );
+INSERT INTO user_study ( username, model_id, study_id ) VALUES ( "executive", 1, 1 );
+INSERT INTO user_study ( username, model_id, study_id ) VALUES ( "analyst", 1, 2 );
 SELECT * FROM user_study;
 
 -- study_question table

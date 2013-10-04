@@ -178,7 +178,8 @@ class Data_access_object extends CI_Model
     
     //--------------------------------------------------------------------------
     
-    
+    // inserts a row into the table
+    // returns the number of effected rows  ( should be one on success )
     public function insert( $insert_array )
     {
         if( $this->m_table_name === null )
@@ -188,13 +189,13 @@ class Data_access_object extends CI_Model
         
         self::checkIsArray( $insert_array );
         
-        $success = $this->db->insert($this->m_table_name, $insert_array); 
-        if( !$success )
+        $result = $this->db->insert($this->m_table_name, $insert_array); 
+        if( !$result )
         {
             throw new Exception($this->db->_error_message(), $this->db->_error_number());
         }
-        
-        return($success);
+                
+        return $this->db->affected_rows();
     }        
   
     //--------------------------------------------------------------------------
@@ -209,13 +210,13 @@ class Data_access_object extends CI_Model
         self::checkIsArray( $update_array );
         self::checkIsArray( $where_array );
         
-        $success = $this->db->update($this->m_table_name, $update_array, $where_array);
-        if( !$success )
+        $result = $this->db->update($this->m_table_name, $update_array, $where_array);
+        if( !$result )
         {
             throw new Exception($this->db->_error_message(), $this->db->_error_number());
         }
         
-        return($success);
+        return $this->db->affected_rows();
     }
     
     //--------------------------------------------------------------------------
@@ -230,13 +231,13 @@ class Data_access_object extends CI_Model
         
         self::checkIsArray( $where_array );
         
-        $success = $this->db->delete($this->m_table_name, $where_array );
-        if( !$success )
+        $result = $this->db->delete($this->m_table_name, $where_array );
+        if( !$result )
         {
             throw new Exception($this->db->_error_message(), $this->db->_error_number());
         }
         
-        return($success);
+        return $this->db->affected_rows();
     }
     
 
@@ -259,6 +260,11 @@ class Data_access_object extends CI_Model
         self::checkStringIsValid("sql", $sql);
         
         $query = $this->db->query($sql, $parms_array );
+        if( !$query )
+        {
+            throw new Exception($this->db->_error_message(), $this->db->_error_number());
+        }
+        
         if ( $query->num_rows() <= 0 )  // if no search results found
         {
             return false;
@@ -266,6 +272,28 @@ class Data_access_object extends CI_Model
         
         $result = self::convertDatatypes($query->result_array());  
         return $result; 
+    }        
+    
+    //--------------------------------------------------------------------------
+    
+    // returns the next id of a table column
+    public function getNextID( $id_col_name )
+    {
+        self::checkIsString("id_col_name" , $id_col_name);
+        self::checkStringIsValid("id_col_name", $id_col_name);
+        
+        $sql = "SELECT MAX(" . $id_col_name . ") AS id FROM " . $this->m_table_name;
+        $result = $this->doSelect($sql);
+        if( $result === false )
+        {
+            $next_id = 1; // must be no rows in the table if no rows were found
+        }
+        else
+        {
+            $next_id = (int)$result[0]["id"] + 1;
+        }    
+        
+        return $next_id;
     }        
     
     //--------------------------------------------------------------------------

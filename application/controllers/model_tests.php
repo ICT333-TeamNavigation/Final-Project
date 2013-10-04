@@ -32,11 +32,11 @@ class Model_tests extends CI_Controller
         print self::NEW_LINES;
         
         
-        //print self::STARS;
-        //print "Testing user_auth_model.\n";
-        //print self::STARS;
-        //self::userModelTests();
-        //print self::NEW_LINES;
+        print self::STARS;
+        print "Testing user_auth_model.\n";
+        print self::STARS;
+        self::userModelTests();
+        print self::NEW_LINES;
         
         
         print self::STARS;
@@ -46,11 +46,11 @@ class Model_tests extends CI_Controller
         print self::NEW_LINES;
         
         
-        //print self::STARS;
-        //print "Testing study_model.\n";
-        //print self::STARS;
-        //self::studyModelTests();
-        //print self::NEW_LINES;
+        print self::STARS;
+        print "Testing study_model.\n";
+        print self::STARS;
+        self::studyModelTests();
+        print self::NEW_LINES;
         
                
         print "</pre>\n";
@@ -159,11 +159,11 @@ class Model_tests extends CI_Controller
         
         
         $test_num = 3;
-        $test_func = "user_study_model->isUserStudy( 'executive', 1, 1 )";
+        $test_func = "user_study_model->userStudyExists( 'executive', 1, 1 )";
         try
         {
             $this->user_study_model->setUsername("executive");
-            $results = $this->user_study_model->isUserStudy( 1, 1 );
+            $results = $this->user_study_model->userStudyExists( 1, 1 );
         }
         catch( Exception $e )
         {
@@ -173,11 +173,11 @@ class Model_tests extends CI_Controller
         
         
         $test_num = 4;
-        $test_func = "user_study_model->isUserStudy( 'executive', 1, 2 )";
+        $test_func = "user_study_model->userStudyExists( 'executive', 1, 2 )";
         try
         {
             $this->user_study_model->setUsername("executive");
-            $results = $this->user_study_model->isUserStudy( 1, 2 );
+            $results = $this->user_study_model->userStudyExists( 1, 2 );
         }
         catch( Exception $e )
         {
@@ -422,18 +422,15 @@ class Model_tests extends CI_Controller
         
         
         $test_num = 10;
-        $test_func = "study_model->getNextStudyID";
+        $test_func = "study_model->createStudy()";
         try
         {
-            $study[COL_MODEL_ID]    = 1;
-            $study[COL_NAME]        = "test createStudy name";
-            $study[COL_DESCRIPTION] = "test createStudy description";
-            $study[COL_CREATOR]     = "bobby";
             $questions[0] = "question 1";
             $questions[1] = "question 2";
             $questions[2] = "question 3";
             $questions[3] = "question 4";
-            $results = $this->study_model->createStudy($study, $questions);
+            $results = $this->study_model->createStudy(1, "test createStudy name",
+                    "test createStudy description", "bobby", $questions);
         }
         catch( Exception $e )
         {

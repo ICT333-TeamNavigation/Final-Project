@@ -11,7 +11,7 @@ class User_study_model extends CI_Model
     {
         parent::__construct(); // Call the Model constructor  
         $this->load->model('data_access_object'); 
-        $this->load->model('study_model');
+        $this->load->model('study_model'); 
     }
     
     //--------------------------------------------------------------------------
@@ -234,6 +234,20 @@ class User_study_model extends CI_Model
                 throw new Exception("Failed to create user study. Insert into user_study_parm table failed.");
             }    
         }
+    }
+    
+    
+    //--------------------------------------------------------------------------
+    
+    
+    // parm_vis is an array containing the visiblity of each parameter for the user study
+    public function editUserStudy( $model_id, $study_id, $name, $description, $creator, $parm_vis )
+    {
+        // check if the user study exists  
+        // $this->username;
+        // update details in study table
+        // update details in user study table
+        // update details in user_study_parm using parm_vis
     }        
 
     
@@ -262,7 +276,7 @@ class User_study_model extends CI_Model
     
         
     // returns true if the user study exists in the database and false otherwise
-    public function isUserStudy( $model_id, $study_id )
+    public function userStudyExists( $model_id, $study_id )
     {
         if( $this->m_username == null )
         {
@@ -297,7 +311,7 @@ class User_study_model extends CI_Model
             $temp_model_id = $row[COL_MODEL_ID];
             $temp_study_id = $row[COL_STUDY_ID];
        
-            if( $this->isUserStudy($temp_model_id, $temp_study_id) )
+            if( $this->userStudyExists($temp_model_id, $temp_study_id) )
             {
                 $search_results[$i]["is_user_study"] = true;
             }

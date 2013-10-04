@@ -167,7 +167,7 @@ class Study_model extends CI_Model
     
     
     // returns the next study_id as an int
-    private function getNextStudyID()
+    public function getNextStudyID()
     {
         return $this->data_access_object->getNextID(COL_STUDY_ID);
     }
@@ -183,8 +183,10 @@ class Study_model extends CI_Model
     public function createStudy( $model_id, $name, $description, $creator , $questions_array )
     {
         $this->data_access_object->checkIsArray( $questions_array );
+        $study_id = $this->getNextStudyID();
+        
         $success = $this->insertStudy($model_id,
-                                      $this->getNextStudyID(),
+                                      $study_id,
                                       $name, 
                                       $description, 
                                       $creator);
@@ -193,8 +195,9 @@ class Study_model extends CI_Model
             throw new Exception("Failed to create study. Insert into study table failed.");
         }    
         $this->data_access_object->setTableName(TABLE_STUDY_QUESTION);
-        $insert_array[COL_MODEL_ID] = $temp_model_id;
-        $insert_array[COL_STUDY_ID] = $temp_study_id;
+        
+        $insert_array[COL_MODEL_ID] = $model_id;
+        $insert_array[COL_STUDY_ID] = $study_id;
         
         foreach($questions_array as $question)
         {

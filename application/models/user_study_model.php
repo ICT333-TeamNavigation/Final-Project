@@ -103,38 +103,15 @@ class User_study_model extends CI_Model
     
     //--------------------------------------------------------------------------
     
-    
-    // pre:    username must be set and question must be non empty string
-    // post:   returns multidimensional array of studies search results
-    //         and if no studies are found returns false
-    public function searchStudies( $question )
-    {
-        if( $this->m_username == null )
-        {
-            throw new Exception(COL_USERNAME . " was not set. Need to call setUsername() first.");
-        } 
-                      
-        $this->data_access_object->checkIsString(COL_QUESTION, $question);
-        $this->data_access_object->checkStringIsValid(COL_QUESTION , $question);
-        
-        // search the study questions in the database
-        $search_sql  = "SELECT DISTINCT model_id, study_id FROM " . TABLE_STUDY_QUESTION
-                     . " WHERE MATCH(" . COL_QUESTION . ") AGAINST( ? )";
-              
-        $study_keys = $this->data_access_object->doSelect($search_sql, array($question) );
-        if( $study_keys === false )
-        {
-            return false;
-        }    
-        
+    // for each row in search results sets the 'is_user_study' flag to true or false
+    public function flagSearchResults( $search_results )
+    { 
         $i = 0;
-        foreach ($study_keys as $study_key)
+        foreach ($search_results as $row)
         {
-            $temp_model_id = $study_key[COL_MODEL_ID];
-            $temp_study_id = $study_key[COL_STUDY_ID];
-            
-            $search_results[$i] = $this->study_model->getStudyDetails($temp_model_id, $temp_study_id);
-            
+            $temp_model_id = $row[COL_MODEL_ID];
+            $temp_study_id = $row[COL_STUDY_ID];
+       
             if( $this->isUserStudy($temp_model_id, $temp_study_id) )
             {
                 $search_results[$i]["is_user_study"] = true;
@@ -142,12 +119,11 @@ class User_study_model extends CI_Model
             else
             {
                 $search_results[$i]["is_user_study"] = false;
-            }    
+            }
             $i++;
         }
-                
         return $search_results;
-    }
+    }    
     
     //--------------------------------------------------------------------------
     

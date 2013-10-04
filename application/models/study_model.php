@@ -13,6 +13,39 @@ class Study_model extends CI_Model
     
     //--------------------------------------------------------------------------
     
+    // pre:    question must be non empty string
+    // post:   returns multidimensional array of studies search results
+    //         and if no studies are found returns false
+    public function searchStudies( $question )
+    {
+        $this->data_access_object->checkIsString(COL_QUESTION, $question);
+        $this->data_access_object->checkStringIsValid(COL_QUESTION , $question);
+        
+        // search the study questions in the database
+        $search_sql  = "SELECT DISTINCT model_id, study_id FROM " . TABLE_STUDY_QUESTION
+                     . " WHERE MATCH(" . COL_QUESTION . ") AGAINST( ? )";
+              
+        $study_keys = $this->data_access_object->doSelect($search_sql, array($question) );
+        if( $study_keys === false )
+        {
+            return false;
+        }    
+        
+        // get details from study table for each study key
+        $i = 0;
+        foreach ($study_keys as $study_key)
+        {
+            $temp_model_id = $study_key[COL_MODEL_ID];
+            $temp_study_id = $study_key[COL_STUDY_ID];
+            $search_results[$i] = $this->study_model->getStudyDetails($temp_model_id, $temp_study_id);
+            $i++;
+        }
+                
+        return $search_results;
+    }
+    
+    //--------------------------------------------------------------------------
+    
        
     // returns the details of a study from the database as an associative array
     // with keys that map to the columns in the study table.

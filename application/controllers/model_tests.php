@@ -13,7 +13,7 @@ class Model_tests extends CI_Controller
         parent::__construct();
         
         // load all the models used in the tests
-        $this->load->model('data_access_object'); 
+        //$this->load->model('data_access_object'); 
         $this->load->model('user_model'); 
         $this->load->model('user_study_model'); 
         $this->load->model('study_model'); 
@@ -190,7 +190,9 @@ class Model_tests extends CI_Controller
         $test_func = "user_study_model->searchStudies( 'cost' )";
         try
         {
-            $results = $this->user_study_model->searchStudies( "cost" );
+            $search_results = $this->study_model->searchStudies( "cost" );
+            $this->user_study_model->setUsername("executive");
+            $results = $this->user_study_model->flagSearchResults( $search_results );
         }
         catch( Exception $e )
         {
@@ -204,7 +206,9 @@ class Model_tests extends CI_Controller
         $test_func = "user_study_model->searchStudies( 'effect' )";
         try
         {
-            $results = $this->user_study_model->searchStudies( "effect" );
+            $search_results = $this->study_model->searchStudies( "effect" );
+            $this->user_study_model->setUsername("executive");
+            $results = $this->user_study_model->flagSearchResults( $search_results );
         }
         catch( Exception $e )
         {

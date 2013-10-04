@@ -19,8 +19,14 @@ class Model extends CI_Controller
         $this->load->view('force_directed');
     }
     
+    
     public function force()
     {
+        // the problem with this node structure is that a model will not have a
+        // central parent node ("Big old dog") but rather nodes will have relationships
+        // with each other, not a central parent node.
+        // also is it necessary to have size repeated in the json?
+        // maybe it would be better to store size somewhere else.
         $data['ajax']= '{
     "name": "Big old dog",
     "children": [

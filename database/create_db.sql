@@ -201,3 +201,19 @@ SHOW TABLES;
 -- SHOW COLUMNS FROM user_scenario;
 -- SHOW COLUMNS FROM user_study_parm;
 -- SHOW COLUMNS FROM user_config;  
+
+
+DELIMITER $$  
+
+CREATE TRIGGER user_study_after_update
+    AFTER UPDATE ON team05.user_study FOR EACH ROW  
+    BEGIN  
+        UPDATE study as S SET S.name         = NEW.name, 
+                              S.description  = NEW.description,
+                              S.creator      = NEW.creator,
+                              S.date_created = NEW.date_created
+        WHERE S.model_id = OLD.model_id
+        AND   S.study_id = OLD.study_id;
+    END$$  
+
+DELIMITER ; 

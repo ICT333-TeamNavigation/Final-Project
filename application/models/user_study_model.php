@@ -18,6 +18,7 @@ class User_study_model extends CI_Model
     // private CRUD functions
     //--------------------------------------------------------------------------
     
+    // returns a single user study as an array or false if no data is found
     public function getUserStudy( $model_id, $study_id )
     {
         if( $this->m_username == null )
@@ -48,12 +49,7 @@ class User_study_model extends CI_Model
     //--------------------------------------------------------------------------
     
     // insert a single row into the study table
-    // may return false if no data is found for this key
-    // $model_id     - int
-    // $study_id     - int
-    // $name         - string
-    // $description  - string
-    // $creator      - string
+    // returns true on success and false on failure
     public function insertUserStudy( $model_id, $study_id, $name, $description, $creator )
     {   
         if( $this->m_username == null )
@@ -98,13 +94,8 @@ class User_study_model extends CI_Model
     //--------------------------------------------------------------------------
     
     
-    // update a single row in the study table
-    // may return false if no data is updated
-    // $model_id     - int
-    // $study_id     - int
-    // $name         - string
-    // $description  - string
-    // $creator      - string
+    // update a single row in the user study table
+    // returns true on success and false on failure
     public function updateUserStudy( $model_id, $study_id, $name, $description, $creator )
     {   
         if( $this->m_username == null )
@@ -137,7 +128,7 @@ class User_study_model extends CI_Model
         $update_array[COL_CREATOR]     = $creator;
                
         $result = $this->data_access_object->updateWhere( $update_array, $where_array );
-        if( $result == 1 )
+        if( $result == 1 || $result == 0 )
         {    
             return true;
         }    
@@ -151,12 +142,15 @@ class User_study_model extends CI_Model
     //--------------------------------------------------------------------------
     
     
-    // delete a single row in the study table
-    // may return false if no data is deleted
-    // $model_id     - int
-    // $study_id     - int
+    // delete a single row in the user study table
+    // returns true on success and false on failure
     public function deleteUserStudy( $model_id, $study_id )
     {   
+        if( $this->m_username == null )
+        {
+            throw new Exception(COL_USERNAME . " was not set. Need to call setUsername() first.");
+        } 
+        
         $this->data_access_object->checkIsInt(COL_MODEL_ID, $model_id );
         $this->data_access_object->checkNumberIsValid(COL_MODEL_ID, $model_id );
                 
@@ -181,8 +175,9 @@ class User_study_model extends CI_Model
     
     
     //--------------------------------------------------------------------------
-    // public functions
+    // End if CRUD functions
     //--------------------------------------------------------------------------
+    
        
     public function setUsername( $username )
     {
@@ -197,6 +192,8 @@ class User_study_model extends CI_Model
     // inserts a user study row into the user study table and 
     // the parameter visiblity rows into the user_study_parm table
     // study_row is an associative array containing the details of the study
+    // returns true on success
+    // pre: setUserName must be called beforehand to set the username
     public function createUserStudy( $model_id, $study_id, $name, $description, $creator )
     {
         $success = $this->insertUserStudy($model_id,
@@ -218,7 +215,6 @@ class User_study_model extends CI_Model
         }    
         
         $this->data_access_object->setTableName(TABLE_USER_STUDY_PARM);
-        $i = 0;
         foreach($parameters as $parm)
         {
             $insert_array[COL_USERNAME]  = $this->m_username;
@@ -234,21 +230,93 @@ class User_study_model extends CI_Model
                 throw new Exception("Failed to create user study. Insert into user_study_parm table failed.");
             }    
         }
+        return true; 
     }
     
     
     //--------------------------------------------------------------------------
     
     
-    // parm_vis is an array containing the visiblity of each parameter for the user study
-    public function editUserStudy( $model_id, $study_id, $name, $description, $creator, $parm_vis )
+    // returns an array of user_study_parm records or false if no data found    
+    // this function should be called before calling editUserStudy
+    // edit the visible attribute in the array then pass it to editUserStudy
+    // to update the details eg. $parm_vis[$i][COL_VISIBLE] = true;
+    // pre: setUserName must be called beforehand to set the username
+    public function getUserStudyParmVis( $model_id, $study_id )
     {
         // check if the user study exists  
-        // $this->username;
-        // update details in study table
-        // update details in user study table
-        // update details in user_study_parm using parm_vis
+        if( !$this->userStudyExists( $model_id, $study_id ) )
+        {
+            throw new Exception("Failed to get user study parameter visibility. 
+                User study does not exist or does not belong to current user.");
+        }
+        
+        $this->data_access_object->setTableName(TABLE_USER_STUDY_PARM);
+        
+        $where_array[COL_USERNAME] = $this->m_username;
+        $where_array[COL_MODEL_ID] = $model_id;
+        $where_array[COL_STUDY_ID] = $study_id;
+        $parm_vis = $this->data_access_object->getWhere($where_array);
+        if( $parm_vis === false )
+        {
+            return false;
+        }    
+         
+        return $parm_vis;
     }        
+    
+    
+            
+    
+    
+    //--------------------------------------------------------------------------
+    
+    // parm_vis is an array containing the visiblity of each parameter for the user study
+    // returns true on success
+    // pre: setUserName must be called beforehand to set the username
+    public function editUserStudy( $model_id, $study_id, $name, $description, $creator, $parm_vis )
+    {
+        $this->data_access_object->checkIsArray($parm_vis);
+
+        // check if the user study exists  
+        if( !$this->userStudyExists( $model_id, $study_id ) )
+        {
+            throw new Exception("Failed to edit user study. 
+                User study does not exist or does not belong to current user.");
+        }        
+      
+        // after the data is updated in the user_study table the data in the study
+        // table is automaticly updated using a trigger
+        $success = $this->updateUserStudy( $model_id, $study_id, $name, $description, $creator );
+        if( $success === false )
+        {
+            throw new Exception("Failed to edit user study. Update on user_study table failed.");
+        }  
+              
+        
+        // update details in user_study_parm using parm_vis
+        $this->data_access_object->setTableName(TABLE_USER_STUDY_PARM);
+        $where_array[COL_USERNAME] = $this->m_username;
+        $where_array[COL_MODEL_ID] = $model_id;
+        $where_array[COL_STUDY_ID] = $study_id;
+        
+        foreach($parm_vis as $parm_vis_row)
+        {
+            $where_array[COL_NODE_ID]   = $parm_vis_row[COL_NODE_ID];
+            $where_array[COL_PARM_NAME] = $parm_vis_row[COL_PARM_NAME];
+        
+            $update_array[COL_VISIBLE]  = $parm_vis_row[COL_VISIBLE];
+        
+            $result = $this->data_access_object->updateWhere( $update_array, $where_array );
+            if( $result != 1 && $result != 0 )  // rows updated can be 0 if the update value is the same
+            {
+                throw new Exception("Failed to edit user study. Update on user_study_parm table failed.");
+            }    
+        }
+        return true; 
+    }
+    
+    //--------------------------------------------------------------------------
 
     
     //--------------------------------------------------------------------------
@@ -276,19 +344,9 @@ class User_study_model extends CI_Model
     
         
     // returns true if the user study exists in the database and false otherwise
+    // pre: setUserName must be called beforehand to set the username
     public function userStudyExists( $model_id, $study_id )
     {
-        if( $this->m_username == null )
-        {
-            throw new Exception(COL_USERNAME . " was not set. Need to call setUsername() first.");
-        }
-        
-        $this->data_access_object->checkIsInt(COL_MODEL_ID, $model_id );
-        $this->data_access_object->checkNumberIsValid(COL_MODEL_ID, $model_id );
-                
-        $this->data_access_object->checkIsInt(COL_STUDY_ID, $study_id );
-        $this->data_access_object->checkNumberIsValid(COL_STUDY_ID, $study_id );
-                
         $result = $this->getUserStudy($model_id, $study_id);
        
         $user_study_exists = false;
@@ -303,6 +361,9 @@ class User_study_model extends CI_Model
     
     
     // for each row in search results sets the 'is_user_study' flag to true or false
+    // search_results is an array of studies returned from the search function
+    // each study is an associative array
+    // pre: setUserName must be called beforehand to set the username
     public function flagSearchResults( $search_results )
     { 
         $i = 0;

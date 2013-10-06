@@ -122,7 +122,7 @@ class Study_model extends CI_Model
         $update_array[COL_CREATOR]     = $creator;
                
         $result = $this->data_access_object->updateWhere( $update_array, $where_array );
-        if( $result == 1 )
+        if( $result == 1 || $result == 0 )
         {    
             return true;
         }    
@@ -163,8 +163,10 @@ class Study_model extends CI_Model
         }  
     }
     
+       
     //--------------------------------------------------------------------------
-    
+    // End if CRUD functions
+    //--------------------------------------------------------------------------
     
     // returns the next study_id as an int
     public function getNextStudyID()
@@ -172,11 +174,7 @@ class Study_model extends CI_Model
         return $this->data_access_object->getNextID(COL_STUDY_ID);
     }
     
-    
     //--------------------------------------------------------------------------
-    // public functions
-    //--------------------------------------------------------------------------
-      
     
     // inserts a study into the study table
     // questions_array is an array of study questions
@@ -208,7 +206,8 @@ class Study_model extends CI_Model
             {
                 throw new Exception("Failed to create study. Insert into question table failed.");
             }    
-        }    
+        }
+        return true; 
     }  
     
     

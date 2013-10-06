@@ -17,6 +17,7 @@ class Model_tests extends CI_Controller
         $this->load->model('user_model'); 
         $this->load->model('user_study_model'); 
         $this->load->model('study_model'); 
+        $this->load->model('user_scenario_model'); 
     }
     
     //---------------------------------------------------------------------------
@@ -32,24 +33,31 @@ class Model_tests extends CI_Controller
         print self::NEW_LINES;
         
         
-        print self::STARS;
-        print "Testing user_auth_model.\n";
-        print self::STARS;
-        self::userModelTests();
-        print self::NEW_LINES;
+        //print self::STARS;
+        //print "Testing user_auth_model.\n";
+        //print self::STARS;
+        //self::userModelTests();
+        //print self::NEW_LINES;
+        
+        
+        //print self::STARS;
+        //print "Testing user_study_model.\n";
+        //print self::STARS;
+        //self::userStudyModelTests();
+        //print self::NEW_LINES;
+        
+        
+        //print self::STARS;
+        //print "Testing study_model.\n";
+        //print self::STARS;
+        //self::studyModelTests();
+        //print self::NEW_LINES;
         
         
         print self::STARS;
-        print "Testing user_study_model.\n";
+        print "Testing user_scenario_model.\n";
         print self::STARS;
-        self::userStudyModelTests();
-        print self::NEW_LINES;
-        
-        
-        print self::STARS;
-        print "Testing study_model.\n";
-        print self::STARS;
-        self::studyModelTests();
+        self::userScenarioModelTests();
         print self::NEW_LINES;
         
                
@@ -295,6 +303,31 @@ class Model_tests extends CI_Controller
         self::printTestResults( $test_num, $test_func, $results);
         
         
+        $test_num = 12;
+        $test_func = "user_study_model->editUserStudy( 1, 1 )";
+        try
+        {
+            $this->user_study_model->setUsername("analyst");
+            $parm_vis = $this->user_study_model->getUserStudyParmVis(1, 1);
+                 
+            $i = 0;
+            foreach($parm_vis as $parm_vis_row)
+            {
+                $parm_vis[$i][COL_VISIBLE] = false;
+                $i++;
+            }    
+            $results = $this->user_study_model->editUserStudy( 1, 1, "name: editUserStudy",
+                                                                 "descrition: editUserStudy",
+                                                                 "creator: ben edited", $parm_vis);
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+            print $e->getTraceAsString();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
         
     }
     
@@ -437,6 +470,121 @@ class Model_tests extends CI_Controller
             $results = $e->getMessage();
         }
         self::printTestResults( $test_num, $test_func, $results);
+     
+        
+    }
+    
+    //--------------------------------------------------------------------------
+    
+    public function userScenarioModelTests()
+    {
+        $test_num = 1;
+        $test_func = "user_scenario_model->deleteUserScenario(1, 1, 3)";
+        try
+        {
+            $this->user_scenario_model->setUsername("executive");
+            $results = $this->user_scenario_model->deleteUserScenario(1, 1, 3);
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 2;
+        $test_func = "user_scenario_model->insertUserScenario(1, 1, 3)";
+        try
+        {
+            $this->user_scenario_model->setUsername("executive");
+            $results = $this->user_scenario_model->insertUserScenario(1, 1, 3, 
+                    "name: insertUserScenario", "description: insertUserScenario", "{['\"test json\"']}");
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 3;
+        $test_func = "user_scenario_model->updateUserScenario(1, 1, 3)";
+        try
+        {
+            $this->user_scenario_model->setUsername("executive");
+            $results = $this->user_scenario_model->updateUserScenario(1, 1, 3, 
+                    "name: updatedUserScenario", "description: insertUserScenario", "{['\"test json\"']}");
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 4;
+        $test_func = "user_scenario_model->getUserScenario(1, 1, 3)";
+        try
+        {
+            $this->user_scenario_model->setUsername("executive");
+            $results = $this->user_scenario_model->getUserScenario(1, 1, 3);
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        
+        $test_num = 5;
+        $test_func = "user_scenario_model->getUserStudyScenarios(1, 1)";
+        try
+        {
+            $this->user_scenario_model->setUsername("executive");
+            $results = $this->user_scenario_model->getUserStudyScenarios(1, 1);
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 6;
+        $test_func = "user_scenario_model->getUserStudyScenarios(1, 2)";
+        try
+        {
+            $this->user_scenario_model->setUsername("executive");
+            $results = $this->user_scenario_model->getUserStudyScenarios(1, 2);
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 7;
+        $test_func = "user_scenario_model->userScenarioExists(1, 1, 3)";
+        try
+        {
+            $this->user_scenario_model->setUsername("executive");
+            $results = $this->user_scenario_model->userScenarioExists(1, 1, 3);
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         

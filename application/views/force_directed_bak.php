@@ -73,35 +73,22 @@
                 link.exit().remove();
                 
                 // Update the nodes…
-                node = vis.selectAll(".node")
+                node = vis.selectAll("circle.node")
                 .data(nodes, function(d) { return d.id; })
-                //.style("fill", color);
+                .style("fill", color);
         
                 
                 // Enter any new nodes.
-                node.enter().append("g")
+                node.enter().append("svg:circle")
                 .attr("class", "node")
-                //.attr("cx", function(d) { return d.x; })
-                //.attr("cy", function(d) { return d.y; })
-                //.attr("r", function(d) { return Math.sqrt(d.size) / 8 || 6; })
-                //.style("fill", color)
+                .attr("cx", function(d) { return d.x; })
+                .attr("cy", function(d) { return d.y; })
+                .attr("r", function(d) { return Math.sqrt(d.size) / 8 || 6; })
+                .style("fill", color)
                 .on("click", click)
                 .on("mouseover", mouseover)
                 .call(force.drag);
         
-                 node.append("image")
-                 .attr("xlink:href", "https://github.com/favicon.ico")
-                 .attr("x", -8)
-                 .attr("y", -8)
-                 .attr("width", 16)
-                 .attr("height", 16);
-         
-                 node.append("text")
-                 .attr("dx", 12)
-                 .attr("dy", ".35em")
-                 .text(function(d) { return d.name; });
-
-                force.on("tick",tick);
         
                 // Exit any old nodes.
                 node.exit().remove();

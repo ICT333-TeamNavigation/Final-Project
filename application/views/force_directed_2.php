@@ -35,7 +35,10 @@
             }
         </style>
 
-        <div id="node_details"><h3 id="node_type"></h3></div>
+        <div id="node_details">
+            <h3 id="node_type"></h3>
+            <span><label for="node_value">Value</label><input id="node_value" type="text" /></span>
+        </div>
         <div id="svgdiv"></div>
         <div id="result"></div>
         <script type="text/javascript">
@@ -97,11 +100,11 @@ function update() {
   // Restart the force layout.
   force.nodes(nodes)
       	.links(links)
-      	//.gravity(0.05)
-		.charge(-1500)
-		.linkDistance(100)
+      	.gravity(0.05)
+		.charge(-120)
+		.linkDistance(75)
 		.friction(0.5)
-		//.linkStrength(function(l, i) {return 1; })
+		.linkStrength(function(l, i) {return 1; })
 		.size([w, h])
 		.on("tick", tick)
       	.start();
@@ -205,10 +208,16 @@ function click(d) {
     d.children = d._children;
     d._children = null;
   }
-  alert(d.size);
-  d.size = d.size + 5;
+  //alert(d.size);
+  //d.size = d.size + 5;
   update();
-  root_json=createJSON(root);
+  //root_json=createJSON(root);
+ 
+    var node_name = d.name;
+    $("#node_type").text(node_name);
+    $("#node_value").val(d.size);
+    $("#node_details").show();
+    
 }
  
 /**

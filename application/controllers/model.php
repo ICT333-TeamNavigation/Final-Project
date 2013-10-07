@@ -16,7 +16,7 @@ class Model extends CI_Controller
     }
     
     public function force_test() {
-        $this->load->view('force_directed');
+        $this->load->view('force_directed_2');
     }
     
     public function force()

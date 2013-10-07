@@ -2,10 +2,10 @@ USE team05;
 
 -- model table
 DELETE FROM model;
-INSERT INTO model ( model_id, name, description, api, creator, date_created ) 
+INSERT INTO model ( model_id, name, description, api, creator ) 
 VALUES ( 1 , "Pit to Port", 
 "This model is used for monitoring and making predictions about the operations on a mine site.",
-"dummyAPI", "Ben", "2013-09-21");
+"dummyAPI", "Ben" );
 
 -- node table
 DELETE FROM node;

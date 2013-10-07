@@ -1,28 +1,31 @@
 <?php if ( !defined('BASEPATH') ) exit('No direct script access allowed');
 
+class ColType
+{
+    const INT   = 0;
+    const BOOL  = 1;
+    const FLOAT = 2;
+}
 
 class Data_access_object extends CI_Model  
 {
     private $m_table_name = null;
     
-    // the names of the columns that need to be converted to ints 
-    // after getting from the data from the database
-    private static $int_col_names =   array( "model_id", 
-                                             "study_id",
-                                             "scenario_id",
-                                             "node_id",
-                                             "link_node_id",
-                                             "visible",
-                                             "visible_default" );
-    // the names of the columns that need to be converted to floats
-    // after getting from the data from the database
-    private static $float_col_names = array( "default_value",
-                                             "min_value",
-                                             "max_value" );
+    // the names of the columns that need to be converted to their correct
+    // datatypes after getting from the data from the database.
     // unfortunately CodeIgniter's Active Record class returns all columns as strings
-    // regardless of their datatype in the database
-     
-    
+    // regardless of their datatype in the database.
+    private static $m_col_types = array(     COL_MODEL_ID        => ColType::INT, 
+                                             COL_STUDY_ID        => ColType::INT,
+                                             COL_SCENARIO_ID     => ColType::INT,
+                                             COL_NODE_ID         => ColType::INT,     
+                                             COL_LINK_NODE_ID    => ColType::INT,       
+                                             COL_VISIBLE         => ColType::BOOL,  
+                                             COL_VISIBLE_DEFAULT => ColType::BOOL,  
+                                             COL_DEFAULT_VALUE   => ColType::FLOAT,
+                                             COL_MIN_VALUE       => ColType::FLOAT,  
+                                             COL_MAX_VALUE       => ColType::FLOAT );  
+        
     //--------------------------------------------------------------------------
     
     public function __construct()
@@ -102,26 +105,49 @@ class Data_access_object extends CI_Model
     //--------------------------------------------------------------------------
     
     
-    // converts the values in the result row to integers if the key is found
-    // in a list of column names
-    public static function convertRowToInt( $result_row )
+    // converts the values in the result row to their correct datatypes
+    public static function convertDatatypesRow( $result_row )
     {
-        foreach($result_row as $fieldName => $value)
+        foreach($result_row as $col_name => $col_value)
         {
-            if( array_search( $fieldName , self::$int_col_names) !== false )
+            if ( !isset(self::$m_col_types[$col_name]) )
             {
-                // table column defined as int
-                $result_row[$fieldName] = (int)$value;
+                continue;
             }
-            else if( array_search( $fieldName , self::$float_col_names) !== false )
+              
+            $col_type = self::$m_col_types[$col_name];
+            switch($col_type)
             {
-                // table column defined as float
-                $result_row[$fieldName] = (float)$value;
-            }        
+                case ColType::INT:
+                    $result_row[$col_name] = (int)$col_value;
+                    break;
+                case ColType::BOOL:
+                    $result_row[$col_name] = (bool)$col_value;
+                    break;
+                case ColType::FLOAT:
+                    $result_row[$col_name] = (float)$col_value;
+                    break;
+            }
         }    
         
         return $result_row;
     }
+    
+    //--------------------------------------------------------------------------
+    
+    
+    // converts the values in the result array to their correct datatypes  
+    public static function convertDatatypes( $result_array )
+    {
+        $i = 0;
+        foreach($result_array as $result_row)
+        {
+            $result_array[$i] = self::convertDatatypesRow($result_row);
+            $i++;
+        }    
+        
+        return $result_array;
+    }        
     
         
     //--------------------------------------------------------------------------
@@ -133,7 +159,6 @@ class Data_access_object extends CI_Model
         {
             throw new Exception("m_tablename was not set. You need to call setTableName(table_name) first.");
         }    
-        
         self::checkIsArray( $where_array );
         
         $query = $this->db->get_where( $this->m_table_name, $where_array );
@@ -144,26 +169,17 @@ class Data_access_object extends CI_Model
                 
         if( $query->num_rows() <= 0 )
         {
-            return false;
+            return false; // returns false if no data is found in table
         }
-        $result = $query->result_array();
-        
-        // converts the values in the result array to integers if the key is found
-        // in a list of column names
-        $i = 0;
-        foreach($result as $result_row)
-        {
-            $result[$i] = self::convertRowToInt($result_row);
-            $i++;
-        }    
-        
-        // returns false if no data is found in table
+                
+        $result = self::convertDatatypes($query->result_array());  
         return $result;
     }
     
     //--------------------------------------------------------------------------
     
-    
+    // inserts a row into the table
+    // returns the number of effected rows  ( should be one on success )
     public function insert( $insert_array )
     {
         if( $this->m_table_name === null )
@@ -173,13 +189,13 @@ class Data_access_object extends CI_Model
         
         self::checkIsArray( $insert_array );
         
-        $success = $this->db->insert($this->m_table_name, $insert_array); 
-        if( !$success )
+        $result = $this->db->insert($this->m_table_name, $insert_array); 
+        if( !$result )
         {
             throw new Exception($this->db->_error_message(), $this->db->_error_number());
         }
-        
-        return($success);
+                
+        return $this->db->affected_rows();
     }        
   
     //--------------------------------------------------------------------------
@@ -194,13 +210,13 @@ class Data_access_object extends CI_Model
         self::checkIsArray( $update_array );
         self::checkIsArray( $where_array );
         
-        $success = $this->db->update($this->m_table_name, $update_array, $where_array);
-        if( !$success )
+        $result = $this->db->update($this->m_table_name, $update_array, $where_array);
+        if( !$result )
         {
             throw new Exception($this->db->_error_message(), $this->db->_error_number());
         }
         
-        return($success);
+        return $this->db->affected_rows();
     }
     
     //--------------------------------------------------------------------------
@@ -215,13 +231,13 @@ class Data_access_object extends CI_Model
         
         self::checkIsArray( $where_array );
         
-        $success = $this->db->delete($this->m_table_name, $where_array );
-        if( !$success )
+        $result = $this->db->delete($this->m_table_name, $where_array );
+        if( !$result )
         {
             throw new Exception($this->db->_error_message(), $this->db->_error_number());
         }
         
-        return($success);
+        return $this->db->affected_rows();
     }
     
 
@@ -244,22 +260,40 @@ class Data_access_object extends CI_Model
         self::checkStringIsValid("sql", $sql);
         
         $query = $this->db->query($sql, $parms_array );
+        if( !$query )
+        {
+            throw new Exception($this->db->_error_message(), $this->db->_error_number());
+        }
+        
         if ( $query->num_rows() <= 0 )  // if no search results found
         {
             return false;
         }
-        $result = $query->result_array();
         
-        // converts the values in the result array to integers if the key is found
-        // in a list of column names
-        $i = 0;
-        foreach($result as $result_row)
-        {
-            $result[$i] = self::convertRowToInt($result_row);
-            $i++;
-        }    
-                    
+        $result = self::convertDatatypes($query->result_array());  
         return $result; 
+    }        
+    
+    //--------------------------------------------------------------------------
+    
+    // returns the next id of a table column
+    public function getNextID( $id_col_name )
+    {
+        self::checkIsString("id_col_name" , $id_col_name);
+        self::checkStringIsValid("id_col_name", $id_col_name);
+        
+        $sql = "SELECT MAX(" . $id_col_name . ") AS id FROM " . $this->m_table_name;
+        $result = $this->doSelect($sql);
+        if( $result === false )
+        {
+            $next_id = 1; // must be no rows in the table if no rows were found
+        }
+        else
+        {
+            $next_id = (int)$result[0]["id"] + 1;
+        }    
+        
+        return $next_id;
     }        
     
     //--------------------------------------------------------------------------

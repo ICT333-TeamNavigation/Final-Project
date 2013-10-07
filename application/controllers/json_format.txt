@@ -1,0 +1,37 @@
+// the json consists of a nodes array which is an array of objects.
+// each node object has a node_id, name and an array of parameter objects ( children ) 
+// and a links array (ints) which links the node to other nodes.
+// each parameter stores data about the parameter such as current_value, min_value, max_value, visible.  
+
+    "nodes": 
+    [
+        {
+            "node_id"      :  (number),              
+            "name"         :  (string),       
+            "parameters"   :  
+            [
+                {
+                    "parm_name" :     (string) "parm1",
+                    "current_value":  (number),
+                    "min_value":      (number),
+                    "max_value":      (number),
+                    "visible"  :      (boolean)
+                },
+                {
+                    "parm_name" :     (string) "parm2",
+                    "current_value":  (number),
+                    # ...etc
+                }
+            ],
+            "links": 
+            [
+                1,
+               (number),
+               (number)          
+            ]
+        },
+        {
+            "node_id"      :  (number),    
+            # ...etc
+        }
+    ]

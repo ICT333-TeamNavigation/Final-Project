@@ -7,7 +7,7 @@ class Login extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('user_auth_model'); 
+        $this->load->model('user_model'); 
     }
     
     public function index()
@@ -19,12 +19,14 @@ class Login extends CI_Controller
     {
         $username = trim( $this->input->post('username') );
         $password = trim( $this->input->post('password') );
+        
+        $this->user_model->setUsername($username);
       
         $login_data["result"] = "error";
-        if( $this->user_auth_model->userExists($username) )
+        if( $this->user_model->userExists() )
         {
             // username exists in database
-            if( $this->user_auth_model->isCorrectPassword($username, $password) )
+            if( $this->user_model->isCorrectPassword($password))
             {
                 // inputted password is correct
                 $login_data["result"] = "success";

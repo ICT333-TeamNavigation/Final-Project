@@ -14,8 +14,10 @@ class Model_tests extends CI_Controller
         
         // load all the models used in the tests
         $this->load->model('data_access_object'); 
-        $this->load->model('user_auth_model'); 
-        $this->load->model('studies_model'); 
+        $this->load->model('user_model'); 
+        $this->load->model('user_study_model'); 
+        $this->load->model('study_model'); 
+        $this->load->model('user_scenario_model'); 
     }
     
     //---------------------------------------------------------------------------
@@ -30,16 +32,32 @@ class Model_tests extends CI_Controller
         print self::STARS; 
         print self::NEW_LINES;
         
+        
         //print self::STARS;
         //print "Testing user_auth_model.\n";
         //print self::STARS;
-        //self::userAuthModelTests();
+        //self::userModelTests();
         //print self::NEW_LINES;
         
+        
+        //print self::STARS;
+        //print "Testing user_study_model.\n";
+        //print self::STARS;
+        //self::userStudyModelTests();
+        //print self::NEW_LINES;
+        
+        
+        //print self::STARS;
+        //print "Testing study_model.\n";
+        //print self::STARS;
+        //self::studyModelTests();
+        //print self::NEW_LINES;
+        
+        
         print self::STARS;
-        print "Testing studies_model.\n";
+        print "Testing user_scenario_model.\n";
         print self::STARS;
-        self::studiesModelTests();
+        self::userScenarioModelTests();
         print self::NEW_LINES;
         
                
@@ -58,16 +76,15 @@ class Model_tests extends CI_Controller
     
     //---------------------------------------------------------------------------
     
-    public function userAuthModelTests()
+    public function userModelTests()
     {
-        $this->data_access_object->setTableName("parameter");
-        var_dump($this->data_access_object->getAllRows());
         
         $test_num = 1;
-        $test_func = "user_auth_model->userExists( 'test_user' )";
+        $test_func = "user_model->userExists( 'test_user' )";
         try
         {
-            $results = $this->user_auth_model->userExists( "test_user" );
+            $this->user_model->setUsername("test_user");
+            $results = $this->user_model->userExists();
         }
         catch( Exception $e )
         {
@@ -77,10 +94,11 @@ class Model_tests extends CI_Controller
         
         
         $test_num = 2;
-        $test_func = "user_auth_model->userExists( 'executive' )";
+        $test_func = "user_model->userExists( 'executive' )";
         try
         {
-            $results = $this->user_auth_model->userExists( "executive" );
+            $this->user_model->setUsername("executive");
+            $results = $this->user_model->userExists();
         }
         catch( Exception $e )
         {
@@ -90,10 +108,10 @@ class Model_tests extends CI_Controller
         
         
         $test_num = 3;
-        $test_func = "user_auth_model->isCorrectPassword( 'executive', 'incorrect_password' )";
+        $test_func = "user_model->isCorrectPassword( 'incorrect_password' )";
         try
         {
-            $results = $this->user_auth_model->isCorrectPassword( "executive", "incorrect_password" );
+            $results = $this->user_model->isCorrectPassword( "incorrect_password" );
         }
         catch( Exception $e )
         {
@@ -102,10 +120,10 @@ class Model_tests extends CI_Controller
         self::printTestResults( $test_num, $test_func, $results);
         
         $test_num = 4;
-        $test_func = "user_auth_model->isCorrectPassword( 'executive', 'executive' )";
+        $test_func = "user_model->isCorrectPassword( 'executive' )";
         try
         {
-            $results = $this->user_auth_model->isCorrectPassword( "executive", "executive" );
+            $results = $this->user_model->isCorrectPassword( "executive" );
         }
         catch( Exception $e )
         {
@@ -118,13 +136,14 @@ class Model_tests extends CI_Controller
     //---------------------------------------------------------------------------
     
     
-    public function studiesModelTests()
+    public function userStudyModelTests()
     {
         $test_num = 1;
-        $test_func = "studies_model->getUserStudies( 'test_user' )";
+        $test_func = "user_study_model->getUserStudies( 'test_user' )";
         try
         {
-            $results = $this->studies_model->getUserStudies( "test_user" );
+            $this->user_study_model->setUsername("test_user");
+            $results = $this->user_study_model->getUserStudies();
         }
         catch( Exception $e )
         {
@@ -134,10 +153,11 @@ class Model_tests extends CI_Controller
         
         
         $test_num = 2;
-        $test_func = "studies_model->getUserStudies( 'executive' )";
+        $test_func = "user_study_model->getUserStudies( 'executive' )";
         try
         {
-            $results = $this->studies_model->getUserStudies( "executive" );
+            $this->user_study_model->setUsername("executive");
+            $results = $this->user_study_model->getUserStudies("executive");
         }
         catch( Exception $e )
         {
@@ -147,10 +167,11 @@ class Model_tests extends CI_Controller
         
         
         $test_num = 3;
-        $test_func = "studies_model->userStudyExists( 'executive', 1, 1 )";
+        $test_func = "user_study_model->userStudyExists( 'executive', 1, 1 )";
         try
         {
-            $results = $this->studies_model->userStudyExists( "executive", 1, 1 );
+            $this->user_study_model->setUsername("executive");
+            $results = $this->user_study_model->userStudyExists( 1, 1 );
         }
         catch( Exception $e )
         {
@@ -160,10 +181,11 @@ class Model_tests extends CI_Controller
         
         
         $test_num = 4;
-        $test_func = "studies_model->userStudyExists( 'executive', 1, 2 )";
+        $test_func = "user_study_model->userStudyExists( 'executive', 1, 2 )";
         try
         {
-            $results = $this->studies_model->userStudyExists( "executive", 1, 2 );
+            $this->user_study_model->setUsername("executive");
+            $results = $this->user_study_model->userStudyExists( 1, 2 );
         }
         catch( Exception $e )
         {
@@ -173,62 +195,73 @@ class Model_tests extends CI_Controller
         
         
         $test_num = 5;
-        $test_func = "studies_model->getStudyQuestions( 1, 1 )";
+        $test_func = "user_study_model->searchStudies( 'cost' )";
         try
         {
-            $results = $this->studies_model->getStudyQuestions( 2, 1 );
+            $search_results = $this->study_model->searchStudies( "cost" );
+            $this->user_study_model->setUsername("executive");
+            $results = $this->user_study_model->flagSearchResults( $search_results );
         }
         catch( Exception $e )
         {
             $results = $e->getMessage();
+            print $e->getTraceAsString();
         }
         self::printTestResults( $test_num, $test_func, $results);
         
         
         $test_num = 6;
-        $test_func = "studies_model->getStudyQuestions( 1, 2 )";
+        $test_func = "user_study_model->searchStudies( 'effect' )";
         try
         {
-            $results = $this->studies_model->getStudyQuestions( 1, 2 );
+            $search_results = $this->study_model->searchStudies( "effect" );
+            $this->user_study_model->setUsername("executive");
+            $results = $this->user_study_model->flagSearchResults( $search_results );
         }
         catch( Exception $e )
         {
             $results = $e->getMessage();
+            print $e->getTraceAsString();
         }
         self::printTestResults( $test_num, $test_func, $results);
         
         
         $test_num = 7;
-        $test_func = "studies_model->getStudyDetails( 1, 2 )";
+        $test_func = "user_study_model->getUserStudy( 'effect' )";
         try
         {
-            $results = $this->studies_model->getStudyDetails( 1, 2 );
+            $this->user_study_model->setUsername("executive");
+            $results = $this->user_study_model->getUserStudy( 1, 1 );
         }
         catch( Exception $e )
         {
             $results = $e->getMessage();
+            print $e->getTraceAsString();
         }
         self::printTestResults( $test_num, $test_func, $results);
         
         
         $test_num = 8;
-        $test_func = "studies_model->getStudyDetails( 2, 1 )";
+        $test_func = "user_study_model->insertUserStudy( 1, 2, 'insert name', 'insert description', 'b')";
         try
         {
-            $results = $this->studies_model->getStudyDetails( 2, 1 );
+            $this->user_study_model->setUsername("executive");
+            $results = $this->user_study_model->insertUserStudy( 1, 2, "insert name", "insert description", "b" );
         }
         catch( Exception $e )
         {
             $results = $e->getMessage();
+            print $e->getTraceAsString();
         }
         self::printTestResults( $test_num, $test_func, $results);
         
         
         $test_num = 9;
-        $test_func = "studies_model->searchUserStudies( 'executive', 'cost' )";
+        $test_func = "user_study_model->updateUserStudy( 1, 2, 'insert name', 'insert description', 'b')";
         try
         {
-            $results = $this->studies_model->searchStudies( "executive", "cost" );
+            $this->user_study_model->setUsername("executive");
+            $results = $this->user_study_model->updateUserStudy( 1, 2, "updated name", "updated description", "b" );
         }
         catch( Exception $e )
         {
@@ -239,10 +272,11 @@ class Model_tests extends CI_Controller
         
         
         $test_num = 10;
-        $test_func = "studies_model->searchUserStudies( 'executive', 'effect' )";
+        $test_func = "user_study_model->deleteUserStudy( 1, 2 )";
         try
         {
-            $results = $this->studies_model->searchStudies( "executive", "hello" );
+            $this->user_study_model->setUsername("executive");
+            $results = $this->user_study_model->deleteUserStudy( 1, 2 );
         }
         catch( Exception $e )
         {
@@ -251,7 +285,313 @@ class Model_tests extends CI_Controller
         }
         self::printTestResults( $test_num, $test_func, $results);
         
+        
+        $test_num = 11;
+        $test_func = "user_study_model->createUserStudy( 1, 1 )";
+        try
+        {
+            $this->user_study_model->setUsername("analyst");
+            $results = $this->user_study_model->createUserStudy( 1, 1, "name: createUserStudy",
+                                                                 "descrition: createUserStudy",
+                                                                 "creator: ben");
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+            print $e->getTraceAsString();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 12;
+        $test_func = "user_study_model->editUserStudy( 1, 1 )";
+        try
+        {
+            $this->user_study_model->setUsername("analyst");
+            $parm_vis = $this->user_study_model->getUserStudyParmVis(1, 1);
+                 
+            $i = 0;
+            foreach($parm_vis as $parm_vis_row)
+            {
+                $parm_vis[$i][COL_VISIBLE] = false;
+                $i++;
+            }    
+            $results = $this->user_study_model->editUserStudy( 1, 1, "name: editUserStudy",
+                                                                 "descrition: editUserStudy",
+                                                                 "creator: ben edited", $parm_vis);
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+            print $e->getTraceAsString();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        
     }
+    
+    //---------------------------------------------------------------------------
+    
+    
+    public function studyModelTests()
+    {
+        
+        $test_num = 1;
+        $test_func = "study_model->getStudyQuestions( 1, 1 )";
+        try
+        {
+            $results = $this->study_model->getStudyQuestions( 1, 1 );
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 2;
+        $test_func = "study_model->getStudyQuestions( 1, 2 )";
+        try
+        {
+            $results = $this->study_model->getStudyQuestions( 1, 2 );
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 3;
+        $test_func = "study_model->getStudyDetails( 1, 2 )";
+        try
+        {
+            $results = $this->study_model->getStudyDetails( 1, 2 );
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 4;
+        $test_func = "study_model->getStudyDetails( 2, 1 )";
+        try
+        {
+            $results = $this->study_model->getStudyDetails( 2, 1 );
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 5;
+        $test_func = "study_model->insertStudy( 1, 5 )";
+        try
+        {
+            $results = $this->study_model->insertStudy( 1, 5, "study5", "test description", "benny" );
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 6;
+        $test_func = "study_model->updateStudy( 1, 5 )";
+        try
+        {
+            $results = $this->study_model->updateStudy( 1, 5, "study5-updated", "test description-updated", "benny-updated" );
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 7;
+        $test_func = "study_model->getStudy( 1, 5 )";
+        try
+        {
+            $results = $this->study_model->getStudy( 1, 5 );
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 8;
+        $test_func = "study_model->deleteStudy( 1, 5 )";
+        try
+        {
+            $results = $this->study_model->deleteStudy( 1, 5 );
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 9;
+        $test_func = "study_model->getNextStudyID";
+        try
+        {
+            $results = $this->study_model->getNextStudyID();
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 10;
+        $test_func = "study_model->createStudy()";
+        try
+        {
+            $questions[0] = "question 1";
+            $questions[1] = "question 2";
+            $questions[2] = "question 3";
+            $questions[3] = "question 4";
+            $results = $this->study_model->createStudy(1, "test createStudy name",
+                    "test createStudy description", "bobby", $questions);
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+     
+        
+    }
+    
+    //--------------------------------------------------------------------------
+    
+    public function userScenarioModelTests()
+    {
+        $test_num = 1;
+        $test_func = "user_scenario_model->deleteUserScenario(1, 1, 3)";
+        try
+        {
+            $this->user_scenario_model->setUsername("executive");
+            $results = $this->user_scenario_model->deleteUserScenario(1, 1, 3);
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 2;
+        $test_func = "user_scenario_model->insertUserScenario(1, 1, 3)";
+        try
+        {
+            $this->user_scenario_model->setUsername("executive");
+            $results = $this->user_scenario_model->insertUserScenario(1, 1, 3, 
+                    "name: insertUserScenario", "description: insertUserScenario", "{['\"test json\"']}");
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 3;
+        $test_func = "user_scenario_model->updateUserScenario(1, 1, 3)";
+        try
+        {
+            $this->user_scenario_model->setUsername("executive");
+            $results = $this->user_scenario_model->updateUserScenario(1, 1, 3, 
+                    "name: updatedUserScenario", "description: insertUserScenario", "{['\"test json\"']}");
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 4;
+        $test_func = "user_scenario_model->getUserScenario(1, 1, 3)";
+        try
+        {
+            $this->user_scenario_model->setUsername("executive");
+            $results = $this->user_scenario_model->getUserScenario(1, 1, 3);
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        
+        $test_num = 5;
+        $test_func = "user_scenario_model->getUserStudyScenarios(1, 1)";
+        try
+        {
+            $this->user_scenario_model->setUsername("executive");
+            $results = $this->user_scenario_model->getUserStudyScenarios(1, 1);
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 6;
+        $test_func = "user_scenario_model->getUserStudyScenarios(1, 2)";
+        try
+        {
+            $this->user_scenario_model->setUsername("executive");
+            $results = $this->user_scenario_model->getUserStudyScenarios(1, 2);
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        $test_num = 7;
+        $test_func = "user_scenario_model->userScenarioExists(1, 1, 3)";
+        try
+        {
+            $this->user_scenario_model->setUsername("executive");
+            $results = $this->user_scenario_model->userScenarioExists(1, 1, 3);
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    }        
     
 }
 

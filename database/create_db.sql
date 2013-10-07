@@ -25,7 +25,7 @@ CREATE TABLE model
     description     TEXT, 
     api             VARCHAR(50)   NOT NULL, 
     creator         VARCHAR(50),
-    date_created    DATE,
+    date_created    DATETIME DEFAULT CURRENT_TIMESTAMP,
     
     PRIMARY KEY (model_id)
 );
@@ -82,7 +82,7 @@ CREATE TABLE study
     name            VARCHAR(50)   NOT NULL,
     description     TEXT, 
     creator         VARCHAR(50),
-    date_created    DATE,
+    date_created    DATETIME DEFAULT CURRENT_TIMESTAMP,
     
     PRIMARY KEY (model_id, study_id),
     FOREIGN KEY (model_id) 
@@ -125,7 +125,7 @@ CREATE TABLE user_study
     name            VARCHAR(50)   NOT NULL,
     description     TEXT, 
     creator         VARCHAR(50),
-    date_created    DATE,
+    date_created    DATETIME DEFAULT CURRENT_TIMESTAMP,
     
     PRIMARY KEY (username, model_id, study_id),
     FOREIGN KEY (username) 
@@ -201,3 +201,19 @@ SHOW TABLES;
 -- SHOW COLUMNS FROM user_scenario;
 -- SHOW COLUMNS FROM user_study_parm;
 -- SHOW COLUMNS FROM user_config;  
+
+
+DELIMITER $$  
+
+CREATE TRIGGER user_study_after_update
+    AFTER UPDATE ON team05.user_study FOR EACH ROW  
+    BEGIN  
+        UPDATE study as S SET S.name         = NEW.name, 
+                              S.description  = NEW.description,
+                              S.creator      = NEW.creator,
+                              S.date_created = NEW.date_created
+        WHERE S.model_id = OLD.model_id
+        AND   S.study_id = OLD.study_id;
+    END$$  
+
+DELIMITER ; 

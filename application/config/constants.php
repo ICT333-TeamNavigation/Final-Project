@@ -37,5 +37,44 @@ define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 
+
+//------------------------------------------------------------------------------
+// database table name and column name constants
+//------------------------------------------------------------------------------
+// table names
+define('TABLE_MODEL',           'model');
+define('TABLE_NODE',            'node');
+define('TABLE_LINK',            'link');
+define('TABLE_PARAMETER',       'parameter');
+define('TABLE_STUDY',           'study');
+define('TABLE_STUDY_QUESTION',  'study_question');
+define('TABLE_USER_STUDY',      'user_study');
+define('TABLE_USER_SCENARIO',   'user_scenario');
+define('TABLE_USER_CONFIG',     'user_config');
+define('TABLE_USER_STUDY_PARM', 'user_study_parm');
+define('TABLE_USER',            'user');
+
+// column names
+define('COL_USERNAME',          'username');
+define('COL_PASSWORD',          'password');
+define('COL_MODEL_ID',          'model_id');
+define('COL_STUDY_ID',          'study_id');
+define('COL_SCENARIO_ID',       'scenario_id');
+define('COL_NODE_ID',           'node_id');
+define('COL_LINK_NODE_ID',      'link_node_id');
+define('COL_PARM_NAME',         'parm_name');
+define('COL_QUESTION',          'question');
+define('COL_NAME',              'name');
+define('COL_DESCRIPTION',       'description');
+define('COL_PARMS_JSON',        'parms_json');
+define('COL_CREATOR',           'creator');
+define('COL_DATE_CREATED',      'date_created');
+define('COL_DEFAULT_VALUE',     'default_value');
+define('COL_MIN_VALUE',         'min_value');
+define('COL_MAX_VALUE',         'max_value');
+define('COL_VISIBLE',           'visible');
+define('COL_VISIBLE_DEFAULT',   'visible_default');
+
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

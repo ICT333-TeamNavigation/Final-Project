@@ -1,115 +1,73 @@
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-<script type="text/javascript" src="<?php echo base_url('resources/js/d3.v2.js');?>"></script>
-<style type="text/css">
-.node {
-    stroke: #009900;
-    stroke-width: 1.5px;
-    color: #009900;
-}
-
-.node text {
-    pointer-events: none;
-    font: 15px sans-serif;
-    stroke-width: 0px;
-}
-
-.link {
-    stroke: #999;
-    /* stroke-opacity: 2.6; */
-}
-
-path.link {
-    fill: none;
-    stroke-width: 2px;
-}
-
-marker#end {
-    fill: #999;
-}
-
-line {
-    stroke: #000;
-    stroke-width: 1.5px;
-}
-</style>
-<div><p onClick="persist()">persist</p></div>
-<div id="node_details">
-    <h3 id="node_type"></h3>
-    <span><label for="node_value">Value</label><input id="node_value" type="text" /></span>
-    <span id="node_details_save">save</span>
-</div>
-
-<div id="svgdiv"></div>
-
-<div id="result"></div>
-
-<script type="text/javascript">
+/* 
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
     
-    //TODO refactor
-    var current_node;
-    var w = 960,
-    h = 500,
-    maxNodeSize = 50,
-    root,
-    root_json;
+function scenario_graph() {
+    
+    this.w = 960,
+    this.h = 500,
+    this.maxNodeSize = 50,
+    this.root,
+    this.root_json;
  
-    var vis;
-    var force = d3.layout.force(); 
- 
-    $(document).ready(function() {
-        $("#node_details").hide();
-        $("#node_details_save").click(function(){saveNode(current_node, $("#node_value").val()); });
-	$("#svgdiv").html("<svg id='graph' width='100%' style='height: 500px'></svg>");
- 
-	vis = d3.select("svg");
- 
-        $('#result').load("index.php/model/force", function(data){
-            
-            root = ajax_result;
-            root.fixed = true;
-            root.x = w / 2;
-            root.y = 120;
- 
-            // Build the arrow
-            var defs = vis.insert("svg:defs").selectAll("marker")
-                .data(["end"]);
+    this.vis = d3.select("svg");
+    this.force = d3.layout.force(); 
+    console.log(this.vis);
 
-            defs.enter().append("svg:marker")
-                .attr("id", "end")
-                .attr("viewBox", "0 -5 10 10")
-                .attr("refX", 10)
-                .attr("refY", 0)
-                .attr("markerWidth", 6)
-                .attr("markerHeight", 6)
-                .attr("orient", "auto")
-              .append("svg:path")
-                .attr("d", "M0,-5L10,0L0,5");
- 
-	   update();
-	});
-    });
+
+    this.loadData = function(data){
+        this.root = data;
+        this.root.fixed = true;
+        this.root.x = this.w / 2;
+        this.root.y = 120;
+
+        // Build the arrow
+//        console.log("insert markers");
+        var defs = this.vis.insert("svg:defs").selectAll("marker")
+            .data(["end"]);
+
+        defs.enter().append("svg:marker")
+            .attr("id", "end")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("refX", 10)
+            .attr("refY", 0)
+            .attr("markerWidth", 6)
+            .attr("markerHeight", 6)
+            .attr("orient", "auto")
+          .append("svg:path")
+            .attr("d", "M0,-5L10,0L0,5");
+//       console.log("call update");     
+        this.update();
+    }
+    
+
  
 /**
  *   
  */
-function update() {
-    
-    var nodes = flatten(root),
+this.update = function() {
+
+    var nodes = flatten(this.root),
     links = d3.layout.tree().links(nodes);
- 
+    console.log("links:");
+    console.log(links);
+    
   // Restart the force layout.
-    force.nodes(nodes)
+    this.force.nodes(nodes)
         .links(links)
-        //.gravity(0.05)
+        .gravity(0.05)
             .charge(-120)
             .linkDistance(75)
-         //   .friction(0.5)
-          //  .linkStrength(function(l, i) {return 1; })
-            .size([w, h])
+            .friction(0.5)
+            .linkStrength(function(l, i) {return 1; })
+            .size([this.w, this.h])
             .on("tick", tick)
         .start();
  
-    var path = vis.selectAll("path.link")
+    console.log("force started");
+    
+    var path = this.vis.selectAll("path.link")
         .data(links, function(d) { return d.target.id; });
  
     path.enter().insert("svg:path")
@@ -119,24 +77,24 @@ function update() {
  
   // Exit any old paths.
   path.exit().remove();
- 
+ console.log("point: 0.5");
   // Update the nodes…
-  var node = vis.selectAll("g.node")
+  var node = this.vis.selectAll("g.node")
       .data(nodes, function(d) { return d.id; });
- 
+   console.log("point: 1");
   // Enter any new nodes.
   var nodeEnter = node.enter().append("svg:g")
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
       .on("click", click)
-      .call(force.drag);
- 
+      .call(this.force.drag);
+ console.log("point: 2");
   // Append a circle
   nodeEnter.append("svg:circle")
       .attr("r", function(d) { return Math.sqrt(d.size) / 10 || 4.5; })
       .style("fill", color);
  
- 
+ console.log("point: 3");
   // Add text to the node (as defined by the json file) 
   nodeEnter.append("svg:text")
       .attr("text-anchor", "middle")
@@ -144,7 +102,7 @@ function update() {
       .attr("dy", ".35em")
       .text(function(d) { return d.name; });
   
- 
+ console.log("point: 4");
   //Add an image to the node (if any)
   nodeEnter.append("svg:image")
 	      .attr("xlink:href",  function(d) { return d.logo;})
@@ -157,10 +115,17 @@ function update() {
   node.exit().remove();
  
   // Re-select for update.
-  path = vis.selectAll("path.link");
-  node = vis.selectAll("g.node");
-  
- 
+  path = this.vis.selectAll("path.link");
+  node = this.vis.selectAll("g.node");
+
+// function tick() {
+//     path.attr("x1", function(d) { return d.source.x; })
+//        .attr("y1", function(d) { return d.source.y; })
+//        .attr("x2", function(d) { return d.target.x; })
+//        .attr("y2", function(d) { return d.target.y; });
+//
+//    node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+// }
 function tick() {
  
     path.attr("d", function(d) {
@@ -185,8 +150,8 @@ function tick() {
  * http://bl.ocks.org/mbostock/1129492
  */ 
 function nodeTransform(d) {
-    d.x =  Math.max(maxNodeSize, Math.min(w - (d.logowidth/2 || 16), d.x));
-    d.y =  Math.max(maxNodeSize, Math.min(h - (d.logoheight/2 || 16), d.y));
+    //d.x =  Math.max(this.maxNodeSize, Math.min(this.w - (d.logowidth/2 || 16), d.x));
+    //d.y =  Math.max(this.maxNodeSize, Math.min(h - (d.logoheight/2 || 16), d.y));
     return "translate(" + d.x + "," + d.y + ")";
    }
  
@@ -210,11 +175,10 @@ function click(d) {
   }
   //alert(d.size);
   //d.size = d.size + 5;
-  update();
-  root_json=createJSON(root);
- 
+  sg.update();
+  this.root_json=createJSON(this.root);
+  current_node = d;
     var node_name = d.name;
-    current_node = d;
     $("#node_type").text(node_name);
     $("#node_value").val(d.size);
     $("#node_details").show();
@@ -227,7 +191,7 @@ function click(d) {
 function flatten(root) {
   var nodes = []; 
   var i = 0;
- 
+   
   function recurse(node) {
     if (node.children) 
     	node.children.forEach(recurse);
@@ -237,7 +201,12 @@ function flatten(root) {
   }
  
   recurse(root);
+  console.log("Nodes:");
+  console.log(nodes);
   return nodes;
+}
+
+
 }
 
 function createJSON(obj){
@@ -253,8 +222,6 @@ function saveNode(node, val) {
 }
 
 function persist() {
-    var jsonObj = createJSON(root);
+    var jsonObj = createJSON(sg.root);
     console.log(jsonObj);
 }
-            
-</script>

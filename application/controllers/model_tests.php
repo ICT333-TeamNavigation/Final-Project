@@ -18,6 +18,7 @@ class Model_tests extends CI_Controller
         $this->load->model('user_study_model'); 
         $this->load->model('study_model'); 
         $this->load->model('user_scenario_model'); 
+        $this->load->model('json_builder_model'); 
     }
     
     //---------------------------------------------------------------------------
@@ -54,10 +55,17 @@ class Model_tests extends CI_Controller
         //print self::NEW_LINES;
         
         
+        //print self::STARS;
+        //print "Testing user_scenario_model.\n";
+        //print self::STARS;
+        //self::userScenarioModelTests();
+        //print self::NEW_LINES;
+        
+        
         print self::STARS;
-        print "Testing user_scenario_model.\n";
+        print "Testing json_builder_model.\n";
         print self::STARS;
-        self::userScenarioModelTests();
+        self::jsonBuilderModelTests();
         print self::NEW_LINES;
         
                
@@ -578,20 +586,99 @@ class Model_tests extends CI_Controller
         }
         self::printTestResults( $test_num, $test_func, $results);
         
+    } 
+    
+    //--------------------------------------------------------------------------
+    
+    public function jsonBuilderModelTests()
+    {
+        $test_num = 1;
+        $test_func = "json_builder_model->getModelNodes(1)";
+        try
+        {
+            $results = $this->json_builder_model->getModelNodes(1);
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
         
         
+        $test_num = 2;
+        $test_func = "json_builder_model->getNodeParameters(1, 1)";
+        try
+        {
+            $results = $this->json_builder_model->getNodeParameters(1, 1);
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
         
         
+        $test_num = 3;
+        $test_func = "json_builder_model->getNodeLinks(1, 1)";
+        try
+        {
+            $results = $this->json_builder_model->getNodeLinks(1, 1);
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
         
         
+        $test_num = 4;
+        $test_func = "json_builder_model->getNodeParameterJSON()";
+        try
+        {
+            $results = $this->json_builder_model->getNodeParameters(1, 1);
+            $results = $results[0];
+            $results = $this->json_builder_model->getNodeParameterJSON($results);
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
         
         
+        $test_num = 5;
+        $test_func = "json_builder_model->getNodeJSON(1, 1, 'Diggers')";
+        try
+        {
+            $results = $this->json_builder_model->getNodeJSON(1, 1, "Diggers");
+            
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
+        self::printTestResults( $test_num, $test_func, $results);
         
         
+        $test_num = 6;
+        $test_func = "json_builder_model->getModelJSON(1)";
+        try
+        {
+            $results = $this->json_builder_model->getModelJSON(1);
+            
+        }
+        catch( Exception $e )
+        {
+            $results = $e->getMessage();
+        }
         
+        self::printTestResults( $test_num, $test_func, $results);
+        print $results;
         
         
     }        
+    
+    //--------------------------------------------------------------------------
     
 }
 

@@ -67,6 +67,7 @@ CREATE TABLE parameter
     min_value       FLOAT         NOT NULL,
     max_value       FLOAT         NOT NULL,
     visible_default TINYINT(1)    NOT NULL,
+    control_type    VARCHAR(50)   NOT NULL,
     
     PRIMARY KEY (model_id, node_id, parm_name),
     FOREIGN KEY (model_id, node_id) 

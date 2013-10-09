@@ -11,6 +11,7 @@ class ColType
 class Data_access_object extends CI_Model  
 {
     private $m_table_name = null;
+   
     
     // the names of the columns that need to be converted to their correct
     // datatypes after getting from the data from the database.

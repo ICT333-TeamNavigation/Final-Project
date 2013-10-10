@@ -21,7 +21,6 @@ class Login extends CI_Controller
         $password = $this->input->post('password');
         
         
-      
         try
         {
             $this->user_model->setUsername($username);

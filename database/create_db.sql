@@ -1,16 +1,14 @@
 -- DROP DATABASE IF EXISTS team05;
 -- CREATE DATABASE team05;
 USE team05;
-
 warnings
 
+
 DROP TABLE IF EXISTS user_config;
-DROP TABLE IF EXISTS user_study_parm;
-DROP TABLE IF EXISTS user_scenario;
-DROP TABLE IF EXISTS user_study;
-DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS study_question;
+DROP TABLE IF EXISTS scenario;
+DROP TABLE IF EXISTS study_parameter;
 DROP TABLE IF EXISTS study;
+DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS parameter;
 DROP TABLE IF EXISTS link;
 DROP TABLE IF EXISTS node;
@@ -21,6 +19,7 @@ DROP TABLE IF EXISTS model;
 CREATE TABLE model 
 (
     model_id        INT           NOT NULL, 
+
     name            VARCHAR(50)   NOT NULL,
     description     TEXT, 
     api             VARCHAR(50)   NOT NULL, 
@@ -30,10 +29,12 @@ CREATE TABLE model
     PRIMARY KEY (model_id)
 );
 
+
 CREATE TABLE node 
 (
     model_id        INT           NOT NULL, 
     node_id         INT           NOT NULL,
+
     name            VARCHAR(50)   NOT NULL,
     picture         VARCHAR(255),
     
@@ -43,6 +44,7 @@ CREATE TABLE node
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+
 
 CREATE TABLE link 
 (
@@ -57,17 +59,19 @@ CREATE TABLE link
         ON UPDATE CASCADE
 );
 
+
 CREATE TABLE parameter
 (
     model_id        INT           NOT NULL, 
     node_id         INT           NOT NULL,
     parm_name       VARCHAR(50)   NOT NULL,
+
     units           VARCHAR(50),
     default_value   FLOAT         NOT NULL,
     min_value       FLOAT         NOT NULL,
     max_value       FLOAT         NOT NULL,
     visible_default TINYINT(1)    NOT NULL,
-    control_type    VARCHAR(50)   NOT NULL,
+    control_type    VARCHAR(50)   DEFAULT  'slider',
     
     PRIMARY KEY (model_id, node_id, parm_name),
     FOREIGN KEY (model_id, node_id) 
@@ -75,38 +79,6 @@ CREATE TABLE parameter
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
-
-CREATE TABLE study 
-(
-    model_id        INT           NOT NULL, 
-    study_id        INT           NOT NULL,
-    name            VARCHAR(50)   NOT NULL,
-    description     TEXT, 
-    creator         VARCHAR(50),
-    date_created    DATETIME DEFAULT CURRENT_TIMESTAMP,
-    
-    PRIMARY KEY (model_id, study_id),
-    FOREIGN KEY (model_id) 
-        REFERENCES model(model_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
-
-CREATE TABLE study_question 
-(
-    model_id        INT           NOT NULL, 
-    study_id        INT           NOT NULL,
-    question        VARCHAR(255)  NOT NULL,
-    description     TEXT, 
-    FULLTEXT(question),    
-    
-    PRIMARY KEY (model_id, study_id, question),
-    FOREIGN KEY (model_id, study_id) 
-        REFERENCES study(model_id, study_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
--- ALTER TABLE study_question ADD FULLTEXT(question);
 
 
 CREATE TABLE user
@@ -118,56 +90,62 @@ CREATE TABLE user
 );
 
 
-CREATE TABLE user_study 
+CREATE TABLE study 
 (
-    username        VARCHAR(50)   NOT NULL,
-    model_id        INT           NOT NULL, 
     study_id        INT           NOT NULL,
+
     name            VARCHAR(50)   NOT NULL,
-    description     TEXT, 
+    description     TEXT,
+    questions       TEXT          NOT NULL, 
+    FULLTEXT(questions),  
     creator         VARCHAR(50),
-    date_created    DATETIME DEFAULT CURRENT_TIMESTAMP,
+    date_created    DATETIME      DEFAULT CURRENT_TIMESTAMP,
     
-    PRIMARY KEY (username, model_id, study_id),
+
+    username        VARCHAR(50),
+    model_id        INT           NOT NULL, 
+
+    PRIMARY KEY (study_id),
     FOREIGN KEY (username) 
         REFERENCES user(username)
-        ON DELETE CASCADE
+        ON DELETE SET NULL
         ON UPDATE CASCADE,
-    FOREIGN KEY (model_id, study_id) 
-        REFERENCES study(model_id, study_id)
+    FOREIGN KEY (model_id) 
+        REFERENCES model(model_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
-CREATE TABLE user_scenario
+
+CREATE TABLE scenario
 (
-    username        VARCHAR(50)    NOT NULL,
-    model_id        INT            NOT NULL, 
     study_id        INT            NOT NULL,
     scenario_id     INT            NOT NULL,
+
     name            VARCHAR(50)    NOT NULL,
     description     TEXT, 
-    parms_json      VARCHAR(2000)  NOT NULL,
+    parms_json      TEXT           NOT NULL,
     
-    PRIMARY KEY (username, model_id, study_id, scenario_id),
-    FOREIGN KEY (username, model_id, study_id) 
-        REFERENCES user_study(username, model_id, study_id)
+    PRIMARY KEY (study_id, scenario_id),
+    FOREIGN KEY (study_id) 
+        REFERENCES study(study_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
-CREATE TABLE user_study_parm 
+
+CREATE TABLE study_parameter 
 (
-    username        VARCHAR(50)   NOT NULL,
     model_id        INT           NOT NULL, 
     study_id        INT           NOT NULL,
     node_id         INT           NOT NULL,
     parm_name       VARCHAR(50)   NOT NULL,
-    visible         TINYINT(1)    NOT NULL,
+    
+    visible         TINYINT(1)    DEFAULT 1,
         
-    PRIMARY KEY (username, model_id, study_id, node_id, parm_name),
-    FOREIGN KEY (username, model_id, study_id) 
-        REFERENCES user_study(username, model_id, study_id)
+    PRIMARY KEY (model_id, study_id, node_id, parm_name),
+    FOREIGN KEY (study_id) 
+        REFERENCES study(study_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     FOREIGN KEY (model_id, node_id, parm_name) 
@@ -175,6 +153,7 @@ CREATE TABLE user_study_parm
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+
 
 CREATE TABLE user_config
 (
@@ -189,7 +168,8 @@ CREATE TABLE user_config
         ON UPDATE CASCADE
 );
 
--- SHOW DATABASES;
+
+
 SHOW TABLES;
 -- SHOW COLUMNS FROM model;
 -- SHOW COLUMNS FROM node;
@@ -202,19 +182,3 @@ SHOW TABLES;
 -- SHOW COLUMNS FROM user_scenario;
 -- SHOW COLUMNS FROM user_study_parm;
 -- SHOW COLUMNS FROM user_config;  
-
-
-DELIMITER $$  
-
-CREATE TRIGGER user_study_after_update
-    AFTER UPDATE ON team05.user_study FOR EACH ROW  
-    BEGIN  
-        UPDATE study as S SET S.name         = NEW.name, 
-                              S.description  = NEW.description,
-                              S.creator      = NEW.creator,
-                              S.date_created = NEW.date_created
-        WHERE S.model_id = OLD.model_id
-        AND   S.study_id = OLD.study_id;
-    END$$  
-
-DELIMITER ; 

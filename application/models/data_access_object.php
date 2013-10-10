@@ -17,16 +17,16 @@ class Data_access_object extends CI_Model
     // datatypes after getting from the data from the database.
     // unfortunately CodeIgniter's Active Record class returns all columns as strings
     // regardless of their datatype in the database.
-    private static $m_col_types = array(     COL_MODEL_ID        => ColType::INT, 
-                                             COL_STUDY_ID        => ColType::INT,
-                                             COL_SCENARIO_ID     => ColType::INT,
-                                             COL_NODE_ID         => ColType::INT,     
-                                             COL_LINK_NODE_ID    => ColType::INT,       
-                                             COL_VISIBLE         => ColType::BOOL,  
-                                             COL_VISIBLE_DEFAULT => ColType::BOOL,  
-                                             COL_DEFAULT_VALUE   => ColType::FLOAT,
-                                             COL_MIN_VALUE       => ColType::FLOAT,  
-                                             COL_MAX_VALUE       => ColType::FLOAT );  
+    private static $m_col_types = array( COL_MODEL_ID        => ColType::INT, 
+                                         COL_STUDY_ID        => ColType::INT,
+                                         COL_SCENARIO_ID     => ColType::INT,
+                                         COL_NODE_ID         => ColType::INT,     
+                                         COL_LINK_NODE_ID    => ColType::INT,       
+                                         COL_VISIBLE         => ColType::BOOL,  
+                                         COL_VISIBLE_DEFAULT => ColType::BOOL,  
+                                         COL_DEFAULT_VALUE   => ColType::FLOAT,
+                                         COL_MIN_VALUE       => ColType::FLOAT,  
+                                         COL_MAX_VALUE       => ColType::FLOAT );  
         
     //--------------------------------------------------------------------------
     

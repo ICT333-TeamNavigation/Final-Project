@@ -65,18 +65,13 @@ line {
 
  
  $('dcoument').ready(function(){
-     $('#result').load("index.php/model/force", function(data){
-         
+     $("#node_details").hide();
+     $("#result").load("index.php/model/force", function(data){
         graph_data = ajax_result;
         sg = new Graph(ajax_result);
         sg.update();
          });
  });
  
- var cont = new Array();
- var obj1 = {name:"hal", age:38};
- var obj2 = {name:"mike", age:27};
- cont.push(obj1);
- cont.push(obj2);
     
 </script>

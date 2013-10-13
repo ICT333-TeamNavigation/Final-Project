@@ -178,8 +178,8 @@ function click(d) {
   sg.update();
   this.root_json=createJSON(this.root);
   current_node = d;
-    var node_name = d.name;
-    $("#node_type").text(node_name);
+    //var node_name = d.name;
+    $("#node_type").text(d.name);
     $("#node_value").val(d.size);
     $("#node_details").show();
     

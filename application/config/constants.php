@@ -47,11 +47,9 @@ define('TABLE_NODE',            'node');
 define('TABLE_LINK',            'link');
 define('TABLE_PARAMETER',       'parameter');
 define('TABLE_STUDY',           'study');
-define('TABLE_STUDY_QUESTION',  'study_question');
-define('TABLE_USER_STUDY',      'user_study');
-define('TABLE_USER_SCENARIO',   'user_scenario');
+define('TABLE_SCENARIO',        'scenario');
 define('TABLE_USER_CONFIG',     'user_config');
-define('TABLE_USER_STUDY_PARM', 'user_study_parm');
+define('TABLE_STUDY_PARAMETER', 'study_parameter');
 define('TABLE_USER',            'user');
 
 // column names
@@ -63,7 +61,7 @@ define('COL_SCENARIO_ID',       'scenario_id');
 define('COL_NODE_ID',           'node_id');
 define('COL_LINK_NODE_ID',      'link_node_id');
 define('COL_PARM_NAME',         'parm_name');
-define('COL_QUESTION',          'question');
+define('COL_QUESTIONS',         'questions');
 define('COL_NAME',              'name');
 define('COL_DESCRIPTION',       'description');
 define('COL_PARMS_JSON',        'parms_json');
@@ -74,6 +72,7 @@ define('COL_MIN_VALUE',         'min_value');
 define('COL_MAX_VALUE',         'max_value');
 define('COL_VISIBLE',           'visible');
 define('COL_VISIBLE_DEFAULT',   'visible_default');
+define('COL_CONTROL_TYPE',      'control_type');
 
 
 /* End of file constants.php */

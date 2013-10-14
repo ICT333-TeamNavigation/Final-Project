@@ -106,7 +106,7 @@ $db['ben_pc']['stricton'] = TRUE;
 // database config settings for susannah's pc
 $db['susannah_pc']['hostname'] = 'localhost';
 $db['susannah_pc']['username'] = 'root';  // may need to change these ones
-$db['susannah_pc']['password'] = '';  // may need to change these ones
+$db['susannah_pc']['password'] = 'root';  // may need to change these ones
 $db['susannah_pc']['database'] = 'team05';  // may need to change these ones
 $db['susannah_pc']['dbdriver'] = 'mysqli';
 $db['susannah_pc']['dbprefix'] = '';

@@ -41,18 +41,13 @@ line {
 <div><p onClick="persist()">persist</p></div>
     <div id="node_details">
         <h3 id="node_type"></h3>
-        <ul id="listviewid" data-role="listview" data-inset="true">
-            <li>
-                <p>
-                    <label for="amount">Value:</label>
-                    <input type="text" id="amount" style="border: 0; color: #f6931f; font-weight: bold;" />
-                 </p>
-                <div id="node_slider"></div>
-            </li>    
-            <li id="node_details_save">
-                save
-            </li>
-        </ul>
+        <div>
+            <label for="amount">Value:</label>
+            <input type="text" id="amount" style="border: 0; color: #f6931f; font-weight: bold;" />
+        </div>        
+        <div id="node_slider" ></div>
+        <div style="padding: 10px 10px 10px 10px;"></div>
+        <div class="button" id="node_details_save" >save</div>
     </div>
 
 <div id="svgdiv"></div>
@@ -66,12 +61,16 @@ line {
  
  $('dcoument').ready(function(){
      $("#node_details").hide();
+     $("#node_details_save").click(function(){
+         console.log("save button clicked");
+         saveParameter($("#amount").val());
+     });
      $("#result").load("index.php/model/force", function(data){
         graph_data = ajax_result;
-        sg = new Graph(ajax_result);
+        sg = new Graph(graph_data);
         sg.update();
          });
  });
  
-    
+   
 </script>

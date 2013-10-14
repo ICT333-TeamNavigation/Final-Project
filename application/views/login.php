@@ -25,7 +25,7 @@ function doLogin(){
             if(ajax_result['result'] == "success"){
                 $('#primary_content').load('index.php/home/', function(){$(".icon_home").show();});
             } else {
-                var msg = new MessageService('error','incorrect username or password');
+                var msg = new MessageService('error', data);
                 msg.showMessage();
             }
         }

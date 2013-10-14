@@ -22,16 +22,12 @@ class Model extends CI_Controller
     
     public function force()
     {
-        // the problem with this node structure is that a model will not have a
-        // central parent node ("Big old dog") but rather nodes will have relationships
-        // with each other, not a central parent node.
-        // also is it necessary to have size repeated in the json?
-        // maybe it would be better to store size somewhere else.
+        // test data
         $data['ajax']= '{"nodes":
         [
-        {"name":"A","group":0,"id":0,"type":"node","children":[{"name":"a1","value":6,"type":"parameter","group":0},{"name":"a2", "value":5,"type":"parameter","group":0},{"name":"a3", "value":6,"type":"parameter","group":0}]},
-        {"name":"B","group":0,"id":1,"type":"node","children":[{"name":"b1","value":8,"type":"parameter","group":3},{"name":"b2","value":8,"type":"parameter","group":3}]},
-        {"name":"C","group":8,"id":2,"type":"node","children":[{"name":"c1","value":8,"type":"parameter","group":3},{"name":"c2","value":8,"type":"parameter","group":3}]}
+        {"name":"A","group":0,"id":0,"type":"node","parameters":[{"name":"a1","value":6,"type":"parameter","group":0},{"name":"a2", "value":5,"type":"parameter","group":0},{"name":"a3", "value":6,"type":"parameter","group":0}]},
+        {"name":"B","group":0,"id":1,"type":"node","parameters":[{"name":"b1","value":8,"type":"parameter","group":3},{"name":"b2","value":8,"type":"parameter","group":3}]},
+        {"name":"C","group":8,"id":2,"type":"node","parameters":[{"name":"c1","value":8,"type":"parameter","group":3},{"name":"c2","value":8,"type":"parameter","group":3}]}
         ],
         "links":
         [
@@ -41,7 +37,6 @@ class Model extends CI_Controller
         ]
 }';
         $this->load->view('ajax', $data);
-        //return json_encode($data['ajax']);
-        //return $data['ajax'];
+        
     }
 }

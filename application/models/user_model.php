@@ -47,7 +47,7 @@ class User_model extends CI_Model
     {
         if( $this->m_username == null )
         {
-            throw new Exception(COL_USERNAME . " was not set. Need to call setUsername() first.");
+            throw new Exception(z . " was not set. Need to call setUsername() first.");
         }
         $this->data_access_object->checkIsString(COL_PASSWORD , $password);
         $this->data_access_object->checkStringIsValid(COL_PASSWORD, $password);
@@ -67,7 +67,8 @@ class User_model extends CI_Model
         if( $result[COL_PASSWORD] == $password )
         {
             $passwordCorrect = true;
-        }    
+        }
+        
         return $passwordCorrect;
     }
     

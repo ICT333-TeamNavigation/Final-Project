@@ -16,7 +16,7 @@ class Model extends CI_Controller
     }
     
     public function force_test() {
-        $this->load->view('force_directed_2');
+        $this->load->view('force_directed');
     }
     
     
@@ -27,73 +27,18 @@ class Model extends CI_Controller
         // with each other, not a central parent node.
         // also is it necessary to have size repeated in the json?
         // maybe it would be better to store size somewhere else.
-        $data['ajax']= '{
-    "name": "Big old dog",
-    "children": [
-                 {
-                 "name": "engine",
-                 "children": [
-                              {
-                              "name": "graph",
-                              "children": [
-                                           {"name": "BetweennessCentrality", "size": 3000},
-                                           {"name": "SpanningTree", "size": 3000}
-                                           ]
-                              },
-                              {
-                              "name": "optimization",
-                              "children": [
-                                           {"name": "AspectRatioBanker", "size": 3000}
-                                           ]
-                              }
-                              ]
-                 },
-                 {
-                 "name": "Wheels",
-                 "children": [
-                              {"name": "Easing", "size": 3000},
-                              {"name": "FunctionSequence", "size": 3000},
-                              {
-                              "name": "interpolate",
-                              "children": [
-                                           {"name": "ArrayInterpolator", "size": 3000},
-                                           {"name": "PointInterpolator", "size": 3000},
-                                           {"name": "RectangleInterpolator", "size": 3000}
-                                           ]
-                              },
-                              {"name": "ISchedulable", "size": 3000},
-                              {"name": "Tween", "size": 3000}
-                              ]
-                 },
-                 {
-                 "name": "Chasis",
-                 "children": [
-                              {
-                              "name": "converters",
-                              "children": [
-                                           {"name": "Converters", "size": 3000},
-                                           {"name": "DelimitedTextConverter", "size": 3000},
-                                           {"name": "JSONConverter", "size": 3000}
-                                           ]
-                              },
-                              {"name": "DataField", "size": 3000},
-                              {"name": "DataUtil", "size": 3000}
-                              ]
-                 },
-                 {
-                 "name": "Fuel",
-                 "children": [
-                              {"name": "DirtySprite", "size": 3000},
-                              {"name": "TextSprite", "size": 3000}
-                              ]
-                 },
-                 {
-                 "name": "Body",
-                 "children": [
-                              {"name": "FlareVis", "size": 3000}
-                              ]
-                 }
-                 ]
+        $data['ajax']= '{"nodes":
+        [
+        {"name":"A","group":0,"id":0,"type":"node","children":[{"name":"a1","value":6,"type":"parameter","group":0},{"name":"a2", "value":5,"type":"parameter","group":0},{"name":"a3", "value":6,"type":"parameter","group":0}]},
+        {"name":"B","group":0,"id":1,"type":"node","children":[{"name":"b1","value":8,"type":"parameter","group":3},{"name":"b2","value":8,"type":"parameter","group":3}]},
+        {"name":"C","group":8,"id":2,"type":"node","children":[{"name":"c1","value":8,"type":"parameter","group":3},{"name":"c2","value":8,"type":"parameter","group":3}]}
+        ],
+        "links":
+        [
+        {"source":0,"target":1},
+        {"source":1,"target":2},
+        {"source":2,"target":0}
+        ]
 }';
         $this->load->view('ajax', $data);
         //return json_encode($data['ajax']);

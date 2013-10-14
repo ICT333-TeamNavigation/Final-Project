@@ -85,7 +85,7 @@ class Json_builder_model extends CI_Model
             throw new Exception("Failed to get model JSON. Unable to get node data from node table.");
         }  
                 
-        $json_str = "\"nodes\": [ ";
+        $json_str = "\"nodes\": [ \n";
                   
         $i = 0;
         $last_node_index = count($nodes) - 1;
@@ -110,7 +110,7 @@ class Json_builder_model extends CI_Model
             $i++;
         }
         
-        $json_str .= " ]";
+        $json_str .= "]";
         
         return $json_str;
     }
@@ -125,19 +125,25 @@ class Json_builder_model extends CI_Model
         $node_parameters = $this->getNodeParameters( $model_id, $node_id );   
         if( $node_parameters === false )
         {
-            throw new Exception("Failed to get node JSON. Unable to get parameter data from parameter table.");
+            $msg  = "Failed to get node JSON. Unable to get parameter data from parameter table.\n";
+            $msg .= "model_id: " . $model_id . "\n";
+            $msg .= "node_id : " . $node_id  . "\n";
+            throw new Exception($msg);
         }
         
         $node_links = $this->getNodeLinks( $model_id, $node_id );   
-        if( $node_parameters === false )
+        if( $node_links === false )
         {
-            throw new Exception("Failed to get node JSON. Unable to get links data from links table.");
+            $msg  = "Failed to get node JSON. Unable to get links data from links table.\n";
+            $msg .= "model_id: " . $model_id . "\n";
+            $msg .= "node_id:  " . $node_id  . "\n";
+            throw new Exception($msg);
         }    
         
                 
-        $node_json  = "{ \"node_id\"    : $node_id,";
-        $node_json .= "  \"name\"       : \"$name\",";
-        $node_json .= "  \"parameters\" : [ ";
+        $node_json  = "{\n  \"node_id\"          : $node_id,";
+        $node_json .=  "\n  \"name\"             : \"$name\",";
+        $node_json .=  "\n  \"parameters\"       : [\n ";
                    
         
         $i = 0;
@@ -152,8 +158,8 @@ class Json_builder_model extends CI_Model
             }
             $i++;
         }
-        $node_json .= "],\n";  // close parameters json array
-        $node_json .= "\"links\" : [";
+        $node_json .= "\n],\n";  // close parameters json array
+        $node_json .= "\"links\" : [ ";
          
         $i = 0;
         $last_link_index = count($node_links) - 1; 
@@ -162,12 +168,12 @@ class Json_builder_model extends CI_Model
             $node_json .= $link[COL_LINK_NODE_ID];
             if( $i != $last_link_index  )
             {
-                $node_json .= ",\n"; // add the ',' to separate the node json objects
+                $node_json .= ", "; // add the ',' to separate the node json objects
             }
             $i++;
         }    
         
-        $node_json .= " ] \n }";
+        $node_json .= " ]\n}\n";
         
         return $node_json;
     }
@@ -181,13 +187,20 @@ class Json_builder_model extends CI_Model
     {
         $this->data_access_object->checkIsArray($node_parm);
         
-        $parm_json = "{ \n";
-        $parm_json .= "\n   \"parm_name\"     : \"". $node_parm[COL_PARM_NAME] . "\"";
-        $parm_json .= "\n   \"current_value\" : "  . $node_parm[COL_DEFAULT_VALUE];
-        $parm_json .= "\n   \"min_value\"     : "  . $node_parm[COL_MIN_VALUE];
-        $parm_json .= "\n   \"max_value\"     : "  . $node_parm[COL_MAX_VALUE];
-        $parm_json .= "\n   \"visible\"       : "  . $node_parm[COL_VISIBLE];
-        $parm_json .= "\n }";
+        $visible = "false";
+        if($node_parm[COL_VISIBLE_DEFAULT])
+        {
+            $visible = "true";
+        }    
+        
+        $parm_json = " {";
+        $parm_json .= "\n     \"parm_name\"     : \"". $node_parm[COL_PARM_NAME] . "\"";
+        $parm_json .= "\n     \"current_value\" : "  . $node_parm[COL_DEFAULT_VALUE];
+        $parm_json .= "\n     \"min_value\"     : "  . $node_parm[COL_MIN_VALUE];
+        $parm_json .= "\n     \"max_value\"     : "  . $node_parm[COL_MAX_VALUE];
+        $parm_json .= "\n     \"visible\"       : "  . $visible;
+        $parm_json .= "\n     \"control_type\"  : \"". $node_parm[COL_CONTROL_TYPE] . "\"";
+        $parm_json .= "\n  }";
         
         return $parm_json;
     }

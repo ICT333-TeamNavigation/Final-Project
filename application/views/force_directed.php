@@ -1,165 +1,77 @@
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<script type="text/javascript" src="<?php echo base_url('resources/js/d3.v3.min.js');?>"></script>
+<script type="text/javascript" src="<?php echo base_url('resources/js/Graph.js');?>"></script>
+<script type="text/javascript" src="<?php echo base_url('resources/js/jquery/jquery-ui-1.10.3.custom.min.js');?>"></script>
 
-        <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-            <title>Force-Directed Graph</title>
-            <script type="text/javascript" src="<?php echo base_url('resources/js/d3.v2.js');?>"></script>
-            <style type="text/css">
-                circle.node {
-                    cursor: pointer;
-                    stroke: #3182bd;
-                    stroke-width: 1.5px;
-                }
-                
-                line.link {
-                    fill: none;
-                    stroke: #9ecae1;
-                    stroke-width: 1.5px;
-                }
-                
-                </style>
+<link rel="stylesheet" href="<?php echo base_url('css/start/jquery-ui-1.10.3.custom.min.css');?>" />
 
-        <div id="node_details"><h3 id="node_type"></h3></div>
-        <div id="chart"></div>
-        <div id="result"></div>
-        <script type="text/javascript">
-            $(document).ready(function(){
-                $("#node_details").hide();
-            });
-            
-            var w = 960,
-            h = 500,
-            node,
-            link,
-            root;
-            
-            var force = d3.layout.force()
-            .linkDistance(50)
-            .charge(-120)
-            .on("tick", tick)
-            .size([w, h]);
-            
-            var vis = d3.select("#chart").append("svg:svg")
-            .attr("width", w)
-            .attr("height", h);
-            
-            // Get data from scenario..
-            $('#result').load("index.php/model/force", function(data){
-                root = ajax_result;
-                update();
-            });
-            
-            function update() {
-                var nodes = flatten(root),
-                links = d3.layout.tree().links(nodes);
-                
-                // Restart the force layout.
-                force
-                .nodes(nodes)
-                .links(links)
-                .start();
-                
-                // Update the links…
-                link = vis.selectAll("line.link")
-                .data(links, function(d) { return d.target.id; });
-                
-                // Enter any new links.
-                link.enter().insert("svg:line", ".node")
-                .attr("class", "link")
-                .attr("x1", function(d) { return d.source.x; })
-                .attr("y1", function(d) { return d.source.y; })
-                .attr("x2", function(d) { return d.target.x; })
-                .attr("y2", function(d) { return d.target.y; });
-                
-                // Exit any old links.
-                link.exit().remove();
-                
-                // Update the nodes…
-                node = vis.selectAll(".node")
-                .data(nodes, function(d) { return d.id; })
-                //.style("fill", color);
-        
-                
-                // Enter any new nodes.
-                node.enter().append("g")
-                .attr("class", "node")
-                //.attr("cx", function(d) { return d.x; })
-                //.attr("cy", function(d) { return d.y; })
-                //.attr("r", function(d) { return Math.sqrt(d.size) / 8 || 6; })
-                //.style("fill", color)
-                .on("click", click)
-                .on("mouseover", mouseover)
-                .call(force.drag);
-        
-                 node.append("image")
-                 .attr("xlink:href", "https://github.com/favicon.ico")
-                 .attr("x", -8)
-                 .attr("y", -8)
-                 .attr("width", 16)
-                 .attr("height", 16);
-         
-                 node.append("text")
-                 .attr("dx", 12)
-                 .attr("dy", ".35em")
-                 .text(function(d) { return d.name; });
+<style type="text/css">
+.node {
+    stroke: #009900;
+    stroke-width: 1.5px;
+    color: #009900;
+}
 
-                force.on("tick",tick);
-        
-                // Exit any old nodes.
-                node.exit().remove();
-            }
-            
-            function tick() {
-                link.attr("x1", function(d) { return d.source.x; })
-                .attr("y1", function(d) { return d.source.y; })
-                .attr("x2", function(d) { return d.target.x; })
-                .attr("y2", function(d) { return d.target.y; });
-                
-                node.attr("cx", function(d) { return d.x; })
-                .attr("cy", function(d) { return d.y; });
-            }
-            
-            // Color leaf nodes orange, and packages white or blue.
-            function color(d) {
-                return d._children ? "#3182bd" : d.children ? "#c6dbef" : "#fd8d3c";
-            }
-            
-            // Toggle children on click.
-            function click(d) {
-                if (d.children) {
-                    d._children = d.children;
-                    d.children = null;
-                    //alert("this");
-                } else {
-                    d.children = d._children;
-                    d._children = null;
-                    //alert("that");
-                }             
-                
-                update();
-            }
-            
-            function collapse(d){
-                d._children = d.children;
-                d.children = null;
-            }
-            
-            function mouseover(d) {
-                var node_name = d.name;
-                $("#node_type").text(node_name);
-                $("#node_details").show(); 
-            }
-            
-            // Returns a list of all nodes under the root.
-            function flatten(root) {
-                var nodes = [], i = 0;
-                
-                function recurse(node) {
-                    if (node.children) node.children.forEach(recurse);
-                    if (!node.id) node.id = ++i;
-                    nodes.push(node);
-                }
-                
-                recurse(root);
-                return nodes;
-            }
-            
-            </script>
+.node text {
+    pointer-events: none;
+    font: 15px sans-serif;
+    stroke-width: 0px;
+}
+
+.link {
+    stroke: #999;
+    /* stroke-opacity: 2.6; */
+}
+
+path.link {
+    fill: none;
+    stroke-width: 2px;
+}
+
+marker#end {
+    fill: #999;
+}
+
+line {
+    stroke: #000;
+    stroke-width: 1.5px;
+}
+</style>
+
+<div><p onClick="persist()">persist</p></div>
+    <div id="node_details">
+        <h3 id="node_type"></h3>
+        <ul id="listviewid" data-role="listview" data-inset="true">
+            <li>
+                <p>
+                    <label for="amount">Value:</label>
+                    <input type="text" id="amount" style="border: 0; color: #f6931f; font-weight: bold;" />
+                 </p>
+                <div id="node_slider"></div>
+            </li>    
+            <li id="node_details_save">
+                save
+            </li>
+        </ul>
+    </div>
+
+<div id="svgdiv"></div>
+
+<div id="result"></div>
+
+<script type="text/javascript">
+ site_root = '<?php echo base_url(); ?>'
+ expanded = new Array();
+
+ 
+ $('dcoument').ready(function(){
+     $("#node_details").hide();
+     $("#result").load("index.php/model/force", function(data){
+        graph_data = ajax_result;
+        sg = new Graph(ajax_result);
+        sg.update();
+         });
+ });
+ 
+    
+</script>

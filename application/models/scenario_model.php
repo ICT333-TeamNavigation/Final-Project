@@ -1,8 +1,9 @@
 <?php if ( !defined('BASEPATH') ) exit('No direct script access allowed');
 
-class User_scenario_model extends CI_Model
+class Scenario_model extends CI_Model
 {
-    private $m_username = null; 
+    private $m_model_id = null; 
+    private $m_study_id = null; 
     
     //--------------------------------------------------------------------------
     
@@ -10,32 +11,117 @@ class User_scenario_model extends CI_Model
     {
         parent::__construct(); // Call the Model constructor  
         $this->load->model('data_access_object'); 
+        $this->load->model('json_builder_model'); 
     }
-    
+           
+   
     //--------------------------------------------------------------------------
-    // CRUD functions
-    //--------------------------------------------------------------------------
+      
     
-    // returns a single user scenario as an array or false if no data is found
-    public function getUserScenario( $model_id, $study_id, $scenario_id )
+    public function setAttributes( $model_id, $study_id )
     {
-        if( $this->m_username == null )
-        {
-            throw new Exception(COL_USERNAME . " was not set. Need to call setUsername() first.");
-        } 
-        
         $this->data_access_object->checkIsInt(COL_MODEL_ID, $model_id );
         $this->data_access_object->checkNumberIsValid(COL_MODEL_ID, $model_id );
         
         $this->data_access_object->checkIsInt(COL_STUDY_ID, $study_id );
         $this->data_access_object->checkNumberIsValid(COL_STUDY_ID, $study_id );
         
+        $this->m_model_id = $model_id;
+        $this->m_study_id = $study_id;
+    }
+    
+       
+    //--------------------------------------------------------------------------
+    
+    // pre:    study_id must be set
+    // post:   returns multidimensional array of scenarios belonging to the user study
+    //         return false if no data is found
+    public function getStudyScenarios()
+    {
+        if( $this->m_study_id == null )
+        {
+            throw new Exception(COL_STUDY_ID . " was not set. Need to call setAttributes() first.");
+        }
+               
+        $this->data_access_object->setTableName(TABLE_SCENARIO);
+        $where_array[COL_STUDY_ID] = $this->m_study_id;
+        
+        $result = $this->data_access_object->getWhere($where_array);
+        
+        return $result;
+    }   
+    
+    //--------------------------------------------------------------------------
+    
+    // returns true if the user scenario exists in the database and false otherwise
+    // pre: setUserName must be called beforehand to set the username
+    public function isStudyScenario( $scenario_id )
+    {
+        if( $this->m_study_id == null )
+        {
+            throw new Exception(COL_STUDY_ID . " was not set. Need to call setAttributes() first.");
+        }
+        
+        $result = $this->getScenario($this->m_study_id, $scenario_id);
+        if( $result !== false )
+        {
+            $result = true;
+        }
+        
+        return $result;
+    }        
+    
+    //--------------------------------------------------------------------------
+    
+    
+    // create a new user scenario for the user study
+    // the scenario_id is set automatically 
+    // and the parms_json is set using a JSON string built using the model tables
+    // pre: setUserName must be called beforehand to set the username
+    // on success returns the scenario_id of the scenario just created 
+    public function createScenario( $name, $description )
+    {
+        if( $this->m_model_id == null )
+        {
+            throw new Exception(COL_MODEL_ID_ID . " was not set. Need to call setAttributes() first.");
+        }
+        
+        if( $this->m_study_id == null )
+        {
+            throw new Exception(COL_STUDY_ID . " was not set. Need to call setAttributes() first.");
+        }
+        
+        $model_id = $this->m_model_id;
+        $study_id = $this->m_study_id;
+        $scenario_id = $this->getNextScenarioID();
+        $parms_json = $this->json_builder_model->getModelJSON( $model_id );
+        
+        $success = $this->insertScenario($study_id, $scenario_id, 
+                                             $name, $description, $parms_json);
+        if( $success === false )
+        {
+            throw new Exception("Failed to create user scenario. Insert into user_scenario table failed.");
+        } 
+        return $scenario_id;
+    }
+
+    
+    
+     
+    //--------------------------------------------------------------------------
+    // CRUD functions
+    //--------------------------------------------------------------------------
+    
+    // returns a single user scenario as an array or false if no data is found
+    public function getScenario( $study_id, $scenario_id )
+    {
+        $this->data_access_object->checkIsInt(COL_STUDY_ID, $study_id );
+        $this->data_access_object->checkNumberIsValid(COL_STUDY_ID, $study_id );
+        
         $this->data_access_object->checkIsInt(COL_SCENARIO_ID, $scenario_id );
         $this->data_access_object->checkNumberIsValid(COL_SCENARIO_ID, $scenario_id );
         
-        $this->data_access_object->setTableName(TABLE_USER_SCENARIO);
-        $where_array[COL_USERNAME]    = $this->m_username;
-        $where_array[COL_MODEL_ID]    = $model_id;
+        $this->data_access_object->setTableName(TABLE_SCENARIO);
         $where_array[COL_STUDY_ID]    = $study_id;
         $where_array[COL_SCENARIO_ID] = $scenario_id;
         
@@ -52,16 +138,8 @@ class User_scenario_model extends CI_Model
     
     // insert a single row into the scenario table
     // returns true on success and false on failure
-    public function insertUserScenario( $model_id, $study_id, $scenario_id, $name, $description, $parms_json )
+    public function insertScenario( $study_id, $scenario_id, $name, $description, $parms_json )
     {
-         if( $this->m_username == null )
-        {
-            throw new Exception(COL_USERNAME . " was not set. Need to call setUsername() first.");
-        } 
-        
-        $this->data_access_object->checkIsInt(COL_MODEL_ID, $model_id );
-        $this->data_access_object->checkNumberIsValid(COL_MODEL_ID, $model_id );
-           
         $this->data_access_object->checkIsInt(COL_STUDY_ID, $study_id );
         $this->data_access_object->checkNumberIsValid(COL_STUDY_ID, $study_id );
         
@@ -77,9 +155,7 @@ class User_scenario_model extends CI_Model
         $this->data_access_object->checkIsString(COL_PARMS_JSON , $parms_json);
         $this->data_access_object->checkStringIsValid(COL_PARMS_JSON, $parms_json);
         
-        $this->data_access_object->setTableName(TABLE_USER_SCENARIO);
-        $insert_array[COL_USERNAME]    = $this->m_username;
-        $insert_array[COL_MODEL_ID]    = $model_id;
+        $this->data_access_object->setTableName(TABLE_SCENARIO);
         $insert_array[COL_STUDY_ID]    = $study_id;
         $insert_array[COL_SCENARIO_ID] = $scenario_id;
         $insert_array[COL_NAME]        = $name;
@@ -101,16 +177,8 @@ class User_scenario_model extends CI_Model
     
     // update a single row in the user scenario table
     // returns true on success and false on failure
-    public function updateUserScenario( $model_id, $study_id, $scenario_id, $name, $description, $parms_json )
+    public function updateScenario( $study_id, $scenario_id, $name, $description, $parms_json )
     {
-        if( $this->m_username == null )
-        {
-            throw new Exception(COL_USERNAME . " was not set. Need to call setUsername() first.");
-        } 
-        
-        $this->data_access_object->checkIsInt(COL_MODEL_ID, $model_id );
-        $this->data_access_object->checkNumberIsValid(COL_MODEL_ID, $model_id );
-           
         $this->data_access_object->checkIsInt(COL_STUDY_ID, $study_id );
         $this->data_access_object->checkNumberIsValid(COL_STUDY_ID, $study_id );
         
@@ -126,9 +194,7 @@ class User_scenario_model extends CI_Model
         $this->data_access_object->checkIsString(COL_PARMS_JSON , $parms_json);
         $this->data_access_object->checkStringIsValid(COL_PARMS_JSON, $parms_json);
         
-        $this->data_access_object->setTableName(TABLE_USER_SCENARIO);
-        $where_array[COL_USERNAME]     = $this->m_username;
-        $where_array[COL_MODEL_ID]     = $model_id;
+        $this->data_access_object->setTableName(TABLE_SCENARIO);
         $where_array[COL_STUDY_ID]     = $study_id;
         $where_array[COL_SCENARIO_ID]  = $scenario_id;
         
@@ -151,25 +217,15 @@ class User_scenario_model extends CI_Model
     
     // delete a single row from the user scenario table
     // returns true on success and false on failure
-    public function deleteUserScenario( $model_id, $study_id, $scenario_id )
+    public function deleteScenario( $study_id, $scenario_id )
     {
-        if( $this->m_username == null )
-        {
-            throw new Exception(COL_USERNAME . " was not set. Need to call setUsername() first.");
-        } 
-        
-        $this->data_access_object->checkIsInt(COL_MODEL_ID, $model_id );
-        $this->data_access_object->checkNumberIsValid(COL_MODEL_ID, $model_id );
-           
         $this->data_access_object->checkIsInt(COL_STUDY_ID, $study_id );
         $this->data_access_object->checkNumberIsValid(COL_STUDY_ID, $study_id );
         
         $this->data_access_object->checkIsInt(COL_SCENARIO_ID, $scenario_id );
         $this->data_access_object->checkNumberIsValid(COL_SCENARIO_ID, $scenario_id );
                 
-        $this->data_access_object->setTableName(TABLE_USER_SCENARIO);
-        $where_array[COL_USERNAME]    = $this->m_username;
-        $where_array[COL_MODEL_ID]    = $model_id;
+        $this->data_access_object->setTableName(TABLE_SCENARIO);
         $where_array[COL_STUDY_ID]    = $study_id;
         $where_array[COL_SCENARIO_ID] = $scenario_id;
                        
@@ -189,7 +245,6 @@ class User_scenario_model extends CI_Model
     // End if CRUD functions
     //--------------------------------------------------------------------------
         
-    
     // returns the next scenario_id as an int
     public function getNextScenarioID()
     {
@@ -197,81 +252,6 @@ class User_scenario_model extends CI_Model
     }
     
     //--------------------------------------------------------------------------
-       
-    public function setUsername( $username )
-    {
-        $this->data_access_object->checkIsString(COL_USERNAME , $username);
-        $this->data_access_object->checkStringIsValid(COL_USERNAME, $username);
-        
-        $this->m_username = $username;
-    }
-    
-    //--------------------------------------------------------------------------
-    
-    // pre:    username must be set
-    // post:   returns multidimensional array of scenarios belonging to the user study
-    //         return false if no data is found
-    public function getUserStudyScenarios( $model_id, $study_id )
-    {
-        if( $this->m_username == null )
-        {
-            throw new Exception(COL_USERNAME . " was not set. Need to call setUsername() first.");
-        }
-        
-        $this->data_access_object->checkIsInt(COL_MODEL_ID, $model_id );
-        $this->data_access_object->checkNumberIsValid(COL_MODEL_ID, $model_id );
-           
-        $this->data_access_object->checkIsInt(COL_STUDY_ID, $study_id );
-        $this->data_access_object->checkNumberIsValid(COL_STUDY_ID, $study_id );
-        
-        $this->data_access_object->setTableName(TABLE_USER_SCENARIO);
-        $where_array[COL_USERNAME] = $this->m_username;
-        $where_array[COL_MODEL_ID] = $model_id;
-        $where_array[COL_STUDY_ID] = $study_id;
-        
-        $result = $this->data_access_object->getWhere($where_array);
-        
-        return $result;
-    }   
-    
-    //--------------------------------------------------------------------------
-    
-    // returns true if the user scenario exists in the database and false otherwise
-    // pre: setUserName must be called beforehand to set the username
-    public function userScenarioExists( $model_id, $study_id, $scenario_id )
-    {
-        $result = $this->getUserScenario($model_id, $study_id, $scenario_id);
-       
-        $user_scenario_exists = false;
-        if( $result !== false )
-        {
-            $user_scenario_exists = true;
-        }    
-        return $user_scenario_exists;
-    }        
-    
-    //--------------------------------------------------------------------------
-    
-    
-    // create a new user scenario for the user study
-    // the scenario_id is set automatically 
-    // and the parms_json is set using a JSON string built using the model tables
-    // pre: setUserName must be called beforehand to set the username
-    public function createUserScenario( $model_id, $study_id, $name, $description )
-    {
-        $scenario_id = $this->getNextScenarioID();
-        //$parms_json = $this->getModelJSON( $model_id );
-        $success = $this->insertUserScenario($model_id, $study_id, $scenario_id, 
-                                             $name, $description, $parms_json);
-        if( $success === false )
-        {
-            throw new Exception("Failed to create user scenario. Insert into user_scenario table failed.");
-        } 
-    }
-    
-    //--------------------------------------------------------------------------
-    
-   
 
 }
 

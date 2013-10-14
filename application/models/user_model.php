@@ -25,26 +25,7 @@ class User_model extends CI_Model
         
     //--------------------------------------------------------------------------
     
-    private function getUser()
-    {
-        if( $this->m_username == null )
-        {
-            throw new Exception(COL_USERNAME . " was not set. Need to call setUsername() first.");
-        } 
         
-        $this->data_access_object->setTableName(TABLE_USER);
-        $where_array[COL_USERNAME] = $this->m_username;
-        $result = $this->data_access_object->getWhere($where_array);
-        if( $result !== false )
-        {
-            $result = $result[0];  // get first row
-        }    
-        return $result; 
-    }
-    
-    //--------------------------------------------------------------------------
-    
-    
     // pre:    username must be set
     // post:   returns true if the user exists in the database and false otherwise
     public function userExists()
@@ -93,7 +74,28 @@ class User_model extends CI_Model
     
     
     //--------------------------------------------------------------------------
+    // private functions
+    //--------------------------------------------------------------------------
     
+    private function getUser()
+    {
+        if( $this->m_username == null )
+        {
+            throw new Exception(COL_USERNAME . " was not set. Need to call setUsername() first.");
+        } 
+        
+        $this->data_access_object->setTableName(TABLE_USER);
+        $where_array[COL_USERNAME] = $this->m_username;
+        $result = $this->data_access_object->getWhere($where_array);
+        if( $result !== false )
+        {
+            $result = $result[0];  // get first row
+        }    
+        return $result; 
+    }
+    
+    
+    //--------------------------------------------------------------------------
     
 }
 

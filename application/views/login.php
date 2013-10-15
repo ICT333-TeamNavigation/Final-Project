@@ -22,7 +22,8 @@ function doLogin(){
     var password = $('#password').val();
     $('#login_result').load('index.php/login/authenticate', {username:username, password:password},
         function(data, status){               
-            if(ajax_result['result'] == "success"){
+            if(ajax_result['result'] == "success")
+            {
                 $('#primary_content').load('index.php/home/', function(){$(".icon_home").show();});
             } else {
                 var msg = new MessageService('error','incorrect username or password');

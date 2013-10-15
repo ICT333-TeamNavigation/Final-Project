@@ -62,12 +62,12 @@ class Scenario_model extends CI_Model
             throw new Exception(COL_STUDY_ID . " was not set. Need to call setAttributes() first.");
         }
         
-        $result = $this->getScenario($this->m_study_id, $scenario_id);
-        if( $result !== false )
-        {
+        $result = $this->getScenario($scenario_id);
+        if( ($result !== false) && ($result[COL_STUDY_ID] == $this->m_study_id) )
+        {    
             $result = true;
         }
-        
+                
         return $result;
     }        
     
@@ -83,7 +83,7 @@ class Scenario_model extends CI_Model
     {
         if( $this->m_model_id == null )
         {
-            throw new Exception(COL_MODEL_ID_ID . " was not set. Need to call setAttributes() first.");
+            throw new Exception(COL_MODEL_ID . " was not set. Need to call setAttributes() first.");
         }
         
         if( $this->m_study_id == null )
@@ -113,16 +113,12 @@ class Scenario_model extends CI_Model
     //--------------------------------------------------------------------------
     
     // returns a single user scenario as an array or false if no data is found
-    public function getScenario( $study_id, $scenario_id )
+    public function getScenario( $scenario_id )
     {
-        $this->data_access_object->checkIsInt(COL_STUDY_ID, $study_id );
-        $this->data_access_object->checkNumberIsValid(COL_STUDY_ID, $study_id );
-        
         $this->data_access_object->checkIsInt(COL_SCENARIO_ID, $scenario_id );
         $this->data_access_object->checkNumberIsValid(COL_SCENARIO_ID, $scenario_id );
         
         $this->data_access_object->setTableName(TABLE_SCENARIO);
-        $where_array[COL_STUDY_ID]    = $study_id;
         $where_array[COL_SCENARIO_ID] = $scenario_id;
         
         $result = $this->data_access_object->getWhere($where_array);
@@ -217,16 +213,12 @@ class Scenario_model extends CI_Model
     
     // delete a single row from the user scenario table
     // returns true on success and false on failure
-    public function deleteScenario( $study_id, $scenario_id )
+    public function deleteScenario( $scenario_id )
     {
-        $this->data_access_object->checkIsInt(COL_STUDY_ID, $study_id );
-        $this->data_access_object->checkNumberIsValid(COL_STUDY_ID, $study_id );
-        
         $this->data_access_object->checkIsInt(COL_SCENARIO_ID, $scenario_id );
         $this->data_access_object->checkNumberIsValid(COL_SCENARIO_ID, $scenario_id );
                 
         $this->data_access_object->setTableName(TABLE_SCENARIO);
-        $where_array[COL_STUDY_ID]    = $study_id;
         $where_array[COL_SCENARIO_ID] = $scenario_id;
                        
         $result = $this->data_access_object->deleteWhere( $where_array );

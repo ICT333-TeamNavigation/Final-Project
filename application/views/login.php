@@ -36,9 +36,9 @@ function doLogin(){
 
 <span class="login">Please Login</span>
 
-<span class="login"><input type="text" id="username"></span>
+<span class="login"><input type="text" id="username" required="required" ></span>
 
-<span class="login"><input type="password" id="password"></span>
+<span class="login"><input type="password" id="password" required="required" ></span>
 
 <span class="login"><button id='login'>Login</button></span>
 

@@ -119,14 +119,14 @@ CREATE TABLE study
 
 CREATE TABLE scenario
 (
-    study_id        INT            NOT NULL,
     scenario_id     INT            NOT NULL,
 
     name            VARCHAR(50)    NOT NULL,
     description     TEXT, 
     parms_json      TEXT           NOT NULL,
-    
-    PRIMARY KEY (study_id, scenario_id),
+    study_id        INT            NOT NULL,
+
+    PRIMARY KEY (scenario_id),
     FOREIGN KEY (study_id) 
         REFERENCES study(study_id)
         ON DELETE CASCADE

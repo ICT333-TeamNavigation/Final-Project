@@ -32,9 +32,9 @@ VALUES ( 1, 1, "scenario one", "this is the first test scenario created", "dummy
 INSERT INTO scenario ( study_id, scenario_id, name, description, parms_json )
 VALUES ( 1, 2, "scenario two", "this is the second test scenario created", "dummy json 2" );
 INSERT INTO scenario ( study_id, scenario_id, name, description, parms_json )
-VALUES ( 2, 1, "scenario one", "this is the first test scenario created", "dummy json 3" );
+VALUES ( 2, 3, "scenario one", "this is the first test scenario created", "dummy json 3" );
 INSERT INTO scenario ( study_id, scenario_id, name, description, parms_json )
-VALUES ( 2, 2, "scenario two", "this is the second test scenario created", "dummy json 4" );
+VALUES ( 2, 4, "scenario two", "this is the second test scenario created", "dummy json 4" );
 SELECT * FROM scenario;
 
 

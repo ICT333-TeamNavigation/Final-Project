@@ -45,7 +45,7 @@
 | the active record class
 */
 
-$active_group = 'hal_pc';
+$active_group = 'ben_pc';
 $active_record = TRUE;
 
 

@@ -31,6 +31,7 @@ class Login extends CI_Controller
             
             if( $user_exists )
             {
+                log_message('debug', 'user exists');
                 // username exists in database
                 if( $this->user_model->isCorrectPassword($password))
                 {

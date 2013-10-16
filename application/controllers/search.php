@@ -31,6 +31,7 @@ class Search extends CI_Controller
     public function searchStudies()
     {
         $search_str = trim( $this->input->post("searchbox") );
+        
         print "Username: " . $this->m_username . "<br>";
         print "Model_ID: " . self::MODEL_ID . "<br>";
         print "Search string: " . $search_str . "<br>";

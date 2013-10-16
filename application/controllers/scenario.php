@@ -19,9 +19,19 @@ class Scenario extends CI_Controller
     }
     
     //--------------------------------------------------------------------------
-           
-    public function loadScenario( $scenario_id )
+        
+    public function index()
     {
+        print $_SESSION["username"];
+        $this->loadScenario();
+    }   
+    
+    //--------------------------------------------------------------------------
+           
+    public function loadScenario()
+    {
+        $scenario_id = $this->input->post("scenario_id");
+        
         try
         {
             $this->scenario_model->setAttributes(self::MODEL_ID, $this->m_study_id);
@@ -43,14 +53,16 @@ class Scenario extends CI_Controller
         }
         catch(Exception $e)
         {
-            
+            print $e->getMessage();
+            print $e->getTraceAsString();
         }
     }
     
     //--------------------------------------------------------------------------
     
-    public function saveScenario( $scenario_id )
+    public function saveScenario()
     {
+        $scenario_id = $this->input->post("scenario_id");
         $name        = trim( $this->input->post("name") );
         $description = trim( $this->input->post("description") );
         $parms_json  = trim( $this->input->post("parms_json") );
@@ -72,7 +84,8 @@ class Scenario extends CI_Controller
         }
         catch(Exception $e)
         {
-            
+            print $e->getMessage();
+            print $e->getTraceAsString();
         }
     }
     
@@ -92,15 +105,18 @@ class Scenario extends CI_Controller
         }
         catch(Exception $e)
         {
-            
+            print $e->getMessage();
+            print $e->getTraceAsString();
         }
         
     }
     
     //--------------------------------------------------------------------------
     
-    public function deleteScenario( $scenario_id )
+    public function deleteScenario()
     {
+        $scenario_id = $this->input->post("scenario_id");
+        
         try
         {
             $this->scenario_model->setAttributes(self::MODEL_ID, $this->m_study_id);
@@ -122,7 +138,8 @@ class Scenario extends CI_Controller
         }
         catch(Exception $e)
         {
-            
+            print $e->getMessage();
+            print $e->getTraceAsString();
         }
                
     }

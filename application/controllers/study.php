@@ -18,9 +18,19 @@ class Study extends CI_Controller
     }
     
     //--------------------------------------------------------------------------
-        
-    public function viewStudy( $study_id )
+    
+    public function index()
     {
+        print $_SESSION["username"];
+        $this->viewStudy();
+    }   
+    
+    //--------------------------------------------------------------------------
+        
+    public function viewStudy()
+    {
+        $study_id = $this->input->post("study_id");
+        
         try
         {
             $this->study_model->setAttributes($this->m_username, self::MODEL_ID);
@@ -33,7 +43,8 @@ class Study extends CI_Controller
         }
         catch(Exception $e)
         {
-            
+            print $e->getMessage();
+            print $e->getTraceAsString();
         }
     } 
     
@@ -53,19 +64,22 @@ class Study extends CI_Controller
                                                                 $description,
                                                                 $questions,
                                                                 $creator);
-            viewStudy($created_study_id);
+            //viewStudy($created_study_id);
+            // need to display a view here
         }
         catch(Exception $e)
         {
-            
+            print $e->getMessage();
+            print $e->getTraceAsString();
         }
         
     }
     
     //--------------------------------------------------------------------------
             
-    public function editStudy( $study_id )
+    public function editStudy()
     {
+        $study_id    = $this->input->post("study_id");
         $name        = trim( $this->input->post("name") );
         $description = trim( $this->input->post("description") );
         $questions   = trim( $this->input->post("questions") );
@@ -75,24 +89,29 @@ class Study extends CI_Controller
         try
         {
             $this->study_model->setAttributes($this->m_username, self::MODEL_ID);
-            $this->study_model->editStudy($name, 
+            $this->study_model->editStudy($study_id,
+                                          $name, 
                                           $description,
                                           $questions,
                                           $creator,
                                           $parm_vis);
-            viewStudy($study_id);
+            //viewStudy($study_id);
+            // need to display a view here
         }
         catch(Exception $e)
         {
-            
+            print $e->getMessage();
+            print $e->getTraceAsString();
         }
         
     }        
             
     //--------------------------------------------------------------------------
             
-    public function removeStudy( $study_id )
+    public function removeStudy()
     {        
+        $study_id = $this->input->post("study_id");
+        
         try
         {
             $this->study_model->setAttributes($this->m_username, self::MODEL_ID);
@@ -102,7 +121,8 @@ class Study extends CI_Controller
         }
         catch(Exception $e)
         {
-            
+            print $e->getMessage();
+            print $e->getTraceAsString();
         }  
         
     }

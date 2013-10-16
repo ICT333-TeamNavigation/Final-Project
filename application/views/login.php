@@ -26,7 +26,7 @@ function doLogin(){
             {
                 $('#primary_content').load('index.php/home/', function(){$(".icon_home").show();});
             } else {
-                var msg = new MessageService('error', data);
+                var msg = new MessageService('error', ajax_result['message']);
                 msg.showMessage();
             }
         }

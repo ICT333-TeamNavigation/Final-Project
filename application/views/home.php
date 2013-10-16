@@ -13,8 +13,15 @@ $(document).ready(function(){
 <!--</div>-->
 
 <div class="searchbox">
-    <label for="searchbox" style="height: 30px;">Search</label>
-    <input type="text" length="50" id="searchbox" style="vertical-align: text-bottom;"></input>
+    <form method="post" action="index.php/search/" >  
+        <table>
+            <tr>
+            <td><label for="searchbox" >Search Studies</label></td>
+            <td><input type="text" length="50" id="searchbox" required="required" /></td>
+            <td><input id="submit-button" type="submit" value="Submit" /></td>
+            </tr>
+        </table>
+    </form>  
 </div>
 
 <div>Create new study</div>

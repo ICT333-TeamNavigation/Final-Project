@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+
+<?php session_start(); 
+$_SESSION["username"] = "test username";?>
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -36,7 +40,6 @@
         </div>
         <div id="primary_content"></div>
         
-
         <!--<div id="primary_footer"><p>Page rendered in {elapsed_time} seconds</p></div>-->
     </div>
     </div>

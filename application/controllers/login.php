@@ -7,11 +7,13 @@ class Login extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('user_model'); 
+        $this->load->model('user_model');
+        session_start();
     }
     
     public function index()
     {
+        
         $this->load->view('login');
     }
     
@@ -37,6 +39,9 @@ class Login extends CI_Controller
                 {
                     // inputted password is correct
                     $login_data["result"] = "success";
+                    
+                    $_SESSION["username"] = $username;
+                    
                 }
                 else
                 {

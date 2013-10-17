@@ -34,13 +34,14 @@ function doLogin(){
 }
 </script>
 
-<span class="login">Please Login</span>
-
-<span class="login"><input type="text" id="username" required="required" ></span>
-
-<span class="login"><input type="password" id="password" required="required" ></span>
-
-<span class="login"><button id='login'>Login</button></span>
+<div class="login">
+    <h2>Please Login</h2>
+    <label for="username" >Username: </label>
+    <input type="text" id="username" required="required" > 
+    <label for="password" >Password: </label> 
+    <input type="password" id="password" required="required" > 
+    <button id='login'>Login</button>
+</div>
 
 <div id="login_result"></div>
 

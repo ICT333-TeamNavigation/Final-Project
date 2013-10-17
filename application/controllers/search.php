@@ -30,7 +30,7 @@ class Search extends CI_Controller
     
     public function searchStudies()
     {
-        $search_str = trim( $this->input->post("searchbox") );
+        $search_str = trim( $this->input->post("search_str") );
         
         print "Username: " . $this->m_username . "<br>";
         print "Model_ID: " . self::MODEL_ID . "<br>";
@@ -41,7 +41,8 @@ class Search extends CI_Controller
         {
             $this->study_model->setAttributes($this->m_username, self::MODEL_ID);
             $data["search_results"] = $this->study_model->searchStudies($search_str);
-            $this->load->view("search_results", $data);
+            var_dump($data["search_results"]);
+            $this->load->view('ajax', $data);
         }
         catch(Exception $e)
         {
@@ -50,6 +51,25 @@ class Search extends CI_Controller
             print $e->getTraceAsString();
         }
     }
+    
+    //--------------------------------------------------------------------------
+    
+    public function loadUserStudies()
+    {
+        try
+        {
+            $this->study_model->setAttributes($this->m_username, self::MODEL_ID);
+            $data["user_studies"] = $this->study_model->getUserStudies();
+                      
+            $this->load->view('ajax', $data);
+        }
+        catch(Exception $e)
+        {
+            
+            print $e->getMessage();
+            print $e->getTraceAsString();
+        }
+    }        
     
     //--------------------------------------------------------------------------    
 }

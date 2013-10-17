@@ -13,21 +13,21 @@ class Study extends CI_Controller
         parent::__construct();
         $this->load->model("study_model"); 
         $this->load->model("scenario_model"); 
-        
+        session_start();
         $this->m_username = $_SESSION["username"]; // get username from session
     }
     
     //--------------------------------------------------------------------------
     
-    public function index()
-    {
-        print $_SESSION["username"];
-        $this->viewStudy();
-    }   
+    //public function index()
+    //{
+    //    print $_SESSION["username"];
+    //    $this->viewStudy();
+    //}   
     
     //--------------------------------------------------------------------------
         
-    public function viewStudy()
+    public function loadStudy()
     {
         $study_id = $this->input->post("study_id");
         
@@ -39,7 +39,9 @@ class Study extends CI_Controller
             $this->scenario_model->setAttributes( self::MODEL_ID, $study_id );
             $data["study_scenarios"] = $this->scenario_model->getStudyScenarios();
             
-            $this->load->view("study_detail", $data);
+            $_SESSION["study_id"] = $study_id; // store study id in session
+            
+            $this->load->view("ajax", $data);
         }
         catch(Exception $e)
         {
@@ -60,12 +62,11 @@ class Study extends CI_Controller
         try
         {
             $this->study_model->setAttributes($this->m_username, self::MODEL_ID);
-            $created_study_id = $this->study_model->createStudy($name, 
+            $data["created_study_id"] = $this->study_model->createStudy($name, 
                                                                 $description,
                                                                 $questions,
                                                                 $creator);
-            //viewStudy($created_study_id);
-            // need to display a view here
+            $this->load->view("ajax", $data);
         }
         catch(Exception $e)
         {
@@ -77,7 +78,7 @@ class Study extends CI_Controller
     
     //--------------------------------------------------------------------------
             
-    public function editStudy()
+    public function saveStudy()
     {
         $study_id    = $this->input->post("study_id");
         $name        = trim( $this->input->post("name") );
@@ -95,8 +96,9 @@ class Study extends CI_Controller
                                           $questions,
                                           $creator,
                                           $parm_vis);
-            //viewStudy($study_id);
-            // need to display a view here
+            
+            $data["saved_study_id"] = $study_id;            
+            $this->load->view("ajax", $data);
         }
         catch(Exception $e)
         {
@@ -117,7 +119,8 @@ class Study extends CI_Controller
             $this->study_model->setAttributes($this->m_username, self::MODEL_ID);
             $this->study_model->removeStudy($study_id);
             
-            // need to load a view here
+            $data["removed_study_id"] = $study_id;        
+            $this->load->view("ajax", $data);
         }
         catch(Exception $e)
         {

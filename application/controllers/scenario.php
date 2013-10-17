@@ -13,18 +13,18 @@ class Scenario extends CI_Controller
     {
         parent::__construct();
         $this->load->model('scenario_model'); 
-        
+        session_start();
         $this->m_username = $_SESSION["username"]; // get username from session
         $this->m_study_id = $_SESSION["study_id"]; // get study_id from session
     }
     
     //--------------------------------------------------------------------------
         
-    public function index()
-    {
-        print $_SESSION["username"];
-        $this->loadScenario();
-    }   
+    //public function index()
+    //{
+    //   print $_SESSION["username"];
+    //    $this->loadScenario();
+    //}   
     
     //--------------------------------------------------------------------------
            
@@ -48,8 +48,8 @@ class Scenario extends CI_Controller
                 throw new Exception( "Error loading scenario: $scenario_id. The scenario does not exist.");
             }    
             
-            $data["scenario_detail"] = $scenario;
-            $this->load->view('scenario_detail', $data);
+            $data["scenario"] = $scenario;        
+            $this->load->view("ajax", $data);
         }
         catch(Exception $e)
         {
@@ -80,7 +80,8 @@ class Scenario extends CI_Controller
                 throw new Exception( "Error saving scenario: $scenario_id. The scenario update failed.");
             }   
             
-            loadScenario($scenario_id);
+            $data["saved_scenario_id"] = $scenario_id;            
+            $this->load->view("ajax", $data);
         }
         catch(Exception $e)
         {
@@ -101,7 +102,8 @@ class Scenario extends CI_Controller
             $this->scenario_model->setAttributes(self::MODEL_ID, $this->m_study_id);
             $created_scenario_id = $this->scenario_model->createScenario($name, $description); 
                                                                 
-            loadScenario($created_scenario_id);
+            $data["created_scenario_id"] = $created_scenario_id;            
+            $this->load->view("ajax", $data);
         }
         catch(Exception $e)
         {
@@ -113,7 +115,7 @@ class Scenario extends CI_Controller
     
     //--------------------------------------------------------------------------
     
-    public function deleteScenario()
+    public function removeScenario()
     {
         $scenario_id = $this->input->post("scenario_id");
         
@@ -134,7 +136,8 @@ class Scenario extends CI_Controller
                 "Error deleting scenario: $scenario_id. The scenario does not exist so cannot be deleted.");
             }    
             
-            // need to load a view here
+            $data["removed_scenario_id"] = $scenario_id;            
+            $this->load->view("ajax", $data);
         }
         catch(Exception $e)
         {

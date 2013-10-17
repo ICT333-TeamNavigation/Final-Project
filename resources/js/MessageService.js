@@ -18,7 +18,7 @@ function MessageService(alertType, alertText) {
 		$('#message_service').show();
 		
 		if(this.displayTime > 0) {
-			$('#message_service').delay(this.displayTime).fadeOut(1000);
+			$('#message_service').delay(this.displayTime).fadeOut(3000);
 		}
 		
 	};

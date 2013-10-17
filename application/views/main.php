@@ -26,6 +26,9 @@
             $(".logo").click(function(){
                 $('#primary_content').load('index.php/home');
             });
+            $("#home").click(function(){
+                $('#primary_content').load('index.php/home');
+            });
         });
     </script>
 </head>
@@ -35,8 +38,8 @@
         <div id="message_service"></div>
         <div id="primary_header">
             <div class="logo"><img src="<?php echo base_url('resources/images/logo.png');?>" /></div>
-            <!--<img src="<?php echo base_url('resources/images/icon_home.png');?>" class="icon_home" />-->
-            <h2 style="text-align: right;" >Home</h2>
+            <img src="<?php echo base_url('resources/images/icon_home.png');?>" class="icon_home" />
+            <h2 id="home" style="text-align: right;" >Home</h2>
         </div>
         <div id="primary_content"></div>
         

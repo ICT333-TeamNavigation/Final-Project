@@ -3,11 +3,9 @@
 
 /* CONTENT */
 
-.two_col {
-    float: left;
-    width: 50%;
-    height:auto;
-
+.two_col 
+{
+    clear: left;
 }
 
 #right_frame
@@ -15,6 +13,30 @@
     float: right;
     text-align: right;
 }
+
+
+.study
+{
+    display: inline;   
+    clear: both;
+    width: 100%;
+}
+
+.study .left
+{
+    float: left;
+    clear: right;
+    width: 50%;
+    font-weight:bold;
+}
+
+.study .right
+{
+    width: 50%;
+    float: right;
+}
+
+
 
 #search
 {
@@ -141,16 +163,25 @@ tr {
 }
 
 h1 {
-	font-size: 18px;
+	font-size: 20px;
 	color: #111111;
 }
 
 h2 {
-	font-size: 18px;
+	font-size: 20px;
 	color: #1199AA;
 }
 h3 {
 	font-size: 16px;
+        color: #1199AA;
+        font-style:italic;
+        
+}
+h4
+{
+    font-size: 16px;
+    color: #1199AA;
+    font-style:italic
 }
 
 ul {

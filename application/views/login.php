@@ -1,4 +1,6 @@
 <script type="text/javascript">
+    
+     //$('#primary_content').load('index.php/home/', function(){$(".icon_home").show();});
 $(document).ready(function(){
     // keypress behaviour
     $("#password").keypress(function( event ) {
@@ -41,7 +43,9 @@ function doLogin(){
     <label for="password" >Password: </label> 
     <input type="password" id="password" required="required" > 
     <button id='login'>Login</button>
+    
 </div>
 
+<div id="message_service"></div>
 <div id="login_result"></div>
 

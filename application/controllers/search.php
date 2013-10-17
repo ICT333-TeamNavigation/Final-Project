@@ -18,31 +18,18 @@ class Search extends CI_Controller
     }
     
     //--------------------------------------------------------------------------
-    
-    public function index()
-    {
-        print $_SESSION["username"];
-        $this->searchStudies();
-    }        
-    
-    
-    //--------------------------------------------------------------------------
-    
+        
     public function searchStudies()
     {
         $search_str = trim( $this->input->post("search_str") );
-        
-        print "Username: " . $this->m_username . "<br>";
-        print "Model_ID: " . self::MODEL_ID . "<br>";
-        print "Search string: " . $search_str . "<br>";
-        
-        
+             
         try
         {
             $this->study_model->setAttributes($this->m_username, self::MODEL_ID);
-            $data["search_results"] = $this->study_model->searchStudies($search_str);
-            var_dump($data["search_results"]);
-            $this->load->view('ajax', $data);
+            $data["study_list"] = $this->study_model->searchStudies($search_str);
+            
+            $data["title"] = "Search Results";
+            $this->load->view("study_list", $data);
         }
         catch(Exception $e)
         {
@@ -59,9 +46,10 @@ class Search extends CI_Controller
         try
         {
             $this->study_model->setAttributes($this->m_username, self::MODEL_ID);
-            $data["user_studies"] = $this->study_model->getUserStudies();
-                      
-            $this->load->view('ajax', $data);
+            $data["study_list"] = $this->study_model->getUserStudies();
+            
+            $data["title"] = "User Studies";
+            $this->load->view("study_list", $data);
         }
         catch(Exception $e)
         {

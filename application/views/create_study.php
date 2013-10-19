@@ -68,19 +68,19 @@ $(document).ready(function(){
 
 <p> To create a new Study, please fill out the form below and click submit. </p>
 
-<label class="left_frame" for="name" >Study Name: </label>
+<h3><label class="left_frame" for="name" >Study Name: </label></h3>
 <input class="right_frame" type="text" id="name" required="required" style="width: 347px; height: 20px;" /> 
 <br/> <br/> <br/>
 
-<label class="left_frame" for="description" >Description: </label>
+<h3><label class="left_frame" for="description" >Description: </label></h3>
 <textarea class="right_frame" id="description" required="required" style="width: 345px; height: 50px;"/> 
 <br/> <br/> <br/>
 
-<label class="left_frame" for="questions" >Questions: </label>
+<h3><label class="left_frame" for="questions" >Questions: </label></h3>
 <textarea class="right_frame" id="questions" required="required" style="width: 345px; height: 50px;"/> 
 <br/> <br/> <br/>
 
-<label class="left_frame" for="creator" >Creator: </label>
+<h3><label class="left_frame" for="creator" >Creator: </label></h3>
 <input class="right_frame" type="text" id="creator" required="required" style="width: 347px; height: 20px;" /> 
 <br/> <br/> <br/>
 

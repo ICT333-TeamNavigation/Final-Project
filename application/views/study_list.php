@@ -1,14 +1,19 @@
 <script type="text/javascript">
 
+
 $(document).ready(function(){
-    $('#test').click(function(){
-        $('#primary_content').load('index.php/model/force_test');
-    });
     
+    $('.study.button').click(function(){
+        
+        // get the study_id which is stored in a div next to the button that was clicked
+        var study_id = $(this).next().html();
+        $('#primary_content').load('index.php/study/viewStudyDetails', { study_id: study_id } );
+    });
+   
 });
 
-
 </script>
+
 
 <?php
     print "<h2>$title</h2>";    
@@ -23,25 +28,28 @@ $(document).ready(function(){
     {
         print "<div class='study'>";
         
-        print "<h3>{$study[COL_NAME]}</h3>";
+        print "<h3 class='left_frame'>Study Name:</h3>";
+        print "<h3 class='right_frame'>{$study[COL_NAME]}</h3> <br/>";
+        //print "<h3>{$study[COL_NAME]}</h3>";
                 
-        print "<span class='left_frame'>Description:</span>";
-        print "<span class='right_frame'>{$study[COL_DESCRIPTION]}</span> <br/>";
+        //print "<span class='left_frame'>Description:</span>";
+        //print "<span class='right_frame'>{$study[COL_DESCRIPTION]}</span> <br/>";
         
         print "<span class='left_frame'>Questions this Study Answers:</span>";
         print "<span class='right_frame'>{$study[COL_QUESTIONS]}</span> <br/>";
         
-        print "<span class='left_frame'>Creator:</span>";
-        print "<span class='right_frame'>{$study[COL_CREATOR]}</span> <br/>";
+        //print "<span class='left_frame'>Creator:</span>";
+        //print "<span class='right_frame'>{$study[COL_CREATOR]}</span> <br/>";
         
-        print "<span class='left_frame'>Date Created:</span>";
-        print "<span class='right_frame'>{$study[COL_DATE_CREATED]}</span> <br/>";
+        //print "<span class='left_frame'>Date Created:</span>";
+        //print "<span class='right_frame'>{$study[COL_DATE_CREATED]}</span> <br/>";
         
         print "<span class='left_frame'>User:</span> <br/>";
         print "<span class='right_frame'>{$study[COL_USERNAME]}</span> <br/> <br/>";
         
         print "<span class='left_frame'>";
-        print "<div class='button' value='{$study[COL_STUDY_ID]}' >Select</div>";    
+        print "<div class='study button' >Select</div>";
+        print "<div class='study_id' style='display: none;'>{$study[COL_STUDY_ID]}</div>";
         print "</span> <br/>";
         
         print "</div>";

@@ -8,9 +8,8 @@ $(document).ready(function(){
 });
 </script>
 
+<h2>Study Details</h2>
 
-
-<div class="left_frame">
 <?php
    
     if($study_details === false)
@@ -18,22 +17,25 @@ $(document).ready(function(){
         print "Error. Something went wrong fetching the study details.";
         exit(0);
     }
-      
-    print "<h2>Study Details</h2>";
+         
+    print "<h3 class='left_frame'>Study Name:</h3>"; 
+    print "<span class='right_frame'>{$study_details[COL_NAME]}</span>";
+    print "<br/> <br/> <br/>";
     
-    print "<h3>Name:</h3> "; 
-    print $study_details[COL_NAME];
+    print "<h3 class='left_frame'>Description:</h3>";
+    print "<span class='right_frame'>{$study_details[COL_DESCRIPTION]}</span>";
+    print "<br/> <br/> <br/>";
     
-    print "<h3>Description:</h3>";
-    print $study_details[COL_DESCRIPTION];
+    print "<h3 class='left_frame'>Questions:</h3>";
+    print "<span class='right_frame'>{$study_details[COL_QUESTIONS]}</span>";
+    print "<br/> <br/> <br/>";
     
-    print "<h3>Questions:</h3>";
-    print $study_details[COL_QUESTIONS];
+    print "<h3 class='left_frame'>Creator:</h3>";
+    print "<span class='right_frame'>{$study_details[COL_CREATOR]}</span>";
+    print "<br/> <br/> <br/>";
     
-    print "<h3>Creator:</h3>";
-    print $study_details[COL_CREATOR];
-    
-    print "<h3>Scenarios:</h3>";
+    print "<h3 class='left_frame'>Scenarios:</h3>";
+    print "<span class='right_frame'>";
     if($study_scenarios === false)
     {
         print "No scenarios.";
@@ -46,15 +48,15 @@ $(document).ready(function(){
             print $scenario[COL_DESCRIPTION];
         }    
     }
-
+    print "</span>";
+    print "<br/> <br/> <br/>";
 ?>
-<div>
-   
-<br/> <br/> <br/>
-<div class="left_frame">
-<div class="button" >Edit Study</div> <br/>
-</div>
-<div class="button" >Delete Study</div> <br/>
-<div class="button" id="test" >Show Model Graph</div> <br/>
-</div>
-   
+
+<div class="center_frame">
+<div class="button" style="float: left;" >Edit Study</div> 
+
+<div class="button" style="float: left;" >Delete Study</div> 
+
+<div class="button" id="test" style="float: left;" >Show Model</div> 
+</div>   
+<br/> <br/> <br/> <br/>

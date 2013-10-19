@@ -36,7 +36,7 @@ class Study extends CI_Controller
     
     public function viewStudyDetails()
     {
-        $study_id = $this->input->post("study_id");
+        $study_id = (int)$this->input->post("study_id");
         $data = $this->getStudyDetails($study_id);
         
         $this->load->view("study_details", $data);
@@ -128,7 +128,7 @@ class Study extends CI_Controller
             
     public function removeStudy()
     {        
-        $study_id = $this->input->post("study_id");
+        $study_id = (int)$this->input->post("study_id");
         
         try
         {

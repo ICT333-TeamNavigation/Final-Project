@@ -1,6 +1,6 @@
 <script type="text/javascript">
 
-function doSearch()
+function postSearch()
 {
     var search_str = $('#search_str').val();
     search_str = search_str.trim();
@@ -16,16 +16,16 @@ function doSearch()
 $(document).ready(function(){
     
     // load user studies from search controller
-    $('#user-studies').load('index.php/search/loadUserStudies');
+    $('#user_studies').load('index.php/search/loadUserStudies');
     
     $("#search_str").keypress(function( event ) {
             if ( event.which === 13) {
-                doSearch();
+                postSearch();
             }
      });
      
     $("#submit").click(function(){
-        doSearch();
+        postSearch();
     });
     
     $("#create_study").click(function(){
@@ -36,7 +36,7 @@ $(document).ready(function(){
 </script>
 
 
-<div id="search" class="two_col">
+<div id="search" class="left_frame">
     <h2>Search Studies</h2>
     <label for="search_str" >Enter a Study Question: </label> <br/>
     <input type="text" size="40" length="200" id="search_str" required="required" /> <br/> <br/>
@@ -44,14 +44,13 @@ $(document).ready(function(){
     <br/> <br/> <br/>
 </div>
 
-<div id="right_frame" >
-    
-    <div class="button" id="create_study" >Create New Study</div> 
+<div class="right_frame" >
+    <div class="button" id="create_study" style="float: right;" >Create New Study</div> 
 </div>
 
-
-<div id="user-studies" class="two_col">
+<div id="user_studies" class="center_frame" ></div>
 </div>
+
 <br/> <br/> <br/>
 <br/> <br/> <br/>
 

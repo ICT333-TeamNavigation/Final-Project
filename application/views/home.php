@@ -17,6 +17,10 @@ $(document).ready(function(){
     $("#submit").click(function(){
         doSearch();
     });
+    
+    //load users studies
+    
+    $("#user_studies").load("index.php/study/loadUserStudies");
 }    
 );  
 </script>
@@ -24,16 +28,17 @@ $(document).ready(function(){
 
 <div id="left_frame" class="two_col">
     <h2>User Studies</h2>
-    <ul>
-        <li class="study">study 1: foo </li>
-        <li class="study">study 2: bar </li>  
-        <li class="study">study 3: zee </li> 
-    </ul>
-    
-    <br/> <br/> <br/>
-    
-    
-    
+    <div id="user_studies">
+        <ul>
+            <li class="study">study 1: foo </li>
+            <li class="study">study 2: bar </li>  
+            <li class="study">study 3: zee </li> 
+        </ul>
+
+        <br/> <br/> <br/>
+
+
+    </div>
 </div>
 
 

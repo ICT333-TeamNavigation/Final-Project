@@ -131,4 +131,22 @@ class Study extends CI_Controller
     }
    
     //--------------------------------------------------------------------------
+    
+        public function loadUserStudies()
+    {
+        
+        
+        try
+        {
+            $this->study_model->setAttributes($this->m_username, self::MODEL_ID);
+            $data["study_list"] = $this->study_model->getUserStudies();
+            
+            $this->load->view("study_list", $data);
+        }
+        catch(Exception $e)
+        {
+            print $e->getMessage();
+            print $e->getTraceAsString();
+        }
+    } 
 }

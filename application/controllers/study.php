@@ -19,6 +19,13 @@ class Study extends CI_Controller
     
     //--------------------------------------------------------------------------
     
+    public function viewCreateStudy()
+    {
+        $this->load->view("create_study");
+    }   
+    
+    //--------------------------------------------------------------------------
+    
     //public function index()
     //{
     //    print $_SESSION["username"];

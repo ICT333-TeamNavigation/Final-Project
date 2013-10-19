@@ -45,8 +45,7 @@ function doLogin(){
     <label for="password" >Password: </label> 
     <input type="password" id="password" required="required" >
     <br/> <br/>
-    <a><div class="button" id="login" >Submit</div></a>
-        
+    <div class="button" id="login" >Submit</div>
 </div>
 
 <div id="message_service"></div>

@@ -27,6 +27,10 @@ $(document).ready(function(){
     $("#submit").click(function(){
         doSearch();
     });
+    
+    $("#create_study").click(function(){
+        $('#primary_content').load('index.php/study/viewCreateStudy');
+    });
 }    
 );  
 </script>
@@ -42,7 +46,7 @@ $(document).ready(function(){
 
 <div id="right_frame" >
     
-    <div class="button" >Create New Study</div> 
+    <div class="button" id="create_study" >Create New Study</div> 
 </div>
 
 

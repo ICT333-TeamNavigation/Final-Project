@@ -21,26 +21,29 @@
     clear: both;
     width: 100%;
     margin-top: 3px;
-    margin-bottom: 3px;
+    margin-bottom: 50px;
     border-top: 2px solid black;
+    
 }
 
-.study .left
+.left
 {
+    
     float: left;
-    clear: right;
-    width: 50%;
+    clear: both;
+    width: 40%;
     font-weight:bold;
-    margin-top: 3px;
-    margin-bottom: 3px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
-.study .right
+.right
 {
+    
     width: 50%;
     float: right;
-    margin-top: 3px;
-    margin-bottom: 3px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 

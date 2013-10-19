@@ -19,6 +19,13 @@ class Study extends CI_Controller
     
     //--------------------------------------------------------------------------
     
+    public function viewCreateStudy()
+    {
+        $this->load->view("create_study");
+    }   
+    
+    //--------------------------------------------------------------------------
+    
     //public function index()
     //{
     //    print $_SESSION["username"];
@@ -26,22 +33,30 @@ class Study extends CI_Controller
     //}   
     
     //--------------------------------------------------------------------------
-        
-    public function loadStudy()
+    
+    public function viewStudyDetails()
     {
         $study_id = $this->input->post("study_id");
+        $data = $this->getStudyDetails($study_id);
         
+        $this->load->view("study_details", $data);
+    }        
+    
+    //--------------------------------------------------------------------------
+        
+    public function getStudyDetails( $study_id )
+    {
         try
         {
             $this->study_model->setAttributes($this->m_username, self::MODEL_ID);
-            $data["study_detail"] = $this->study_model->getStudy($study_id);
+            $data["study_details"] = $this->study_model->getStudy($study_id);
             
             $this->scenario_model->setAttributes( self::MODEL_ID, $study_id );
             $data["study_scenarios"] = $this->scenario_model->getStudyScenarios();
             
             $_SESSION["study_id"] = $study_id; // store study id in session
             
-            $this->load->view("ajax", $data);
+            return($data);
         }
         catch(Exception $e)
         {
@@ -62,11 +77,12 @@ class Study extends CI_Controller
         try
         {
             $this->study_model->setAttributes($this->m_username, self::MODEL_ID);
-            $data["created_study_id"] = $this->study_model->createStudy($name, 
+            $created_study_id = $this->study_model->createStudy($name, 
                                                                 $description,
                                                                 $questions,
                                                                 $creator);
-            $this->load->view("ajax", $data);
+            $data = $this->getStudyDetails($created_study_id);
+            $this->load->view("study_details", $data);
         }
         catch(Exception $e)
         {

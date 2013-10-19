@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 
-<?php session_start(); ?>
-
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <title>Charles</title>
-
 
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
     <link rel="stylesheet" media="all" href="<?php echo base_url('resources/css/ict333.css');?>" />
@@ -21,13 +18,18 @@
     <script type="text/javascript">
         $(document).ready(function(){
             $('#primary_content').load('index.php/login');
-            $(".icon_home").hide();
+            
             $('#message_service').hide();
             $(".logo").click(function(){
                 $('#primary_content').load('index.php/home');
             });
+            
+            $("#home").click(function(){
+                $('#primary_content').load('index.php/home');
+            });
         });
     </script>
+    
 </head>
 <body>
     <div class="bodybg">
@@ -35,12 +37,10 @@
         <div id="message_service"></div>
         <div id="primary_header">
             <div class="logo"><img src="<?php echo base_url('resources/images/logo.png');?>" /></div>
-            <!--<img src="<?php echo base_url('resources/images/icon_home.png');?>" class="icon_home" />-->
-            <h2 style="text-align: right;" >Home</h2>
+            
+            <h2 id="home" style="text-align: right;" >Home</h2>
         </div>
         <div id="primary_content"></div>
-        
-        <!--<div id="primary_footer"><p>Page rendered in {elapsed_time} seconds</p></div>-->
     </div>
     </div>
     

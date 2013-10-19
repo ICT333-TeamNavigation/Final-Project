@@ -1,69 +1,89 @@
 @charset "utf-8";
-/* CSS Document */
 
-/* CONTENT */
-
-.two_col {
+.left_frame 
+{
+    
     float: left;
-    width: 50%;
-    height:auto;
-
+    clear: both;
+    width: 40%;
+    font-weight:bold;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    
 }
 
-#right_frame
+.right_frame
 {
     float: right;
-    text-align: right;
+    width: 50%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    
+}
+
+.center_frame
+{
+    clear: both;
+}
+
+.study
+{
+    clear: both;
+    width: 100%;
+    margin-top: 3px;
+    margin-bottom: 50px;
+    border-top: 2px solid black;
 }
 
 #search
 {
-        display: inline;
-        float: left;
-	clear: both;
+    display: inline;
+    float: left;
+    clear: both;
 }
 
-#container_content{
-	/*background: #ffffff;*/
-	position: relative;
-	width: 80%;
-	max-width: /*1024px*/ 960px;
-	margin: auto;
-	min-height: 570px;
-	padding: 0px;
-	/*box-shadow: 0px 4px 6px #222222; -moz-box-shadow: 0px 4px 6px #222222; -webkit-box-shadow: 0px 4px 6px #222222;*/
+#container_content
+{
+    position: relative;
+    width: 80%;
+    max-width: /*1024px*/ 960px;
+    margin: auto;
+    min-height: 570px;
+    padding: 0px;
 }
 
-#primary_header {
-    /*background: #aaaaaa;*/
-	height: 110px;
+#primary_header 
+{
+    height: 110px;
     padding: 7px;   
 }
 
-#primary_content {
+#primary_content 
+{
     background: #ffffff;
     height: 100%;
-    min-height: 500px;
+    min-height: 400px;
     padding: 50px 100px;
 }
 
-#primary_footer {
+#primary_footer 
+{
     background: #A5B6C0;
-	height: auto;
+    height: auto;
     padding: 7px;
     font-size: 10px;
     text-align: center;
     clear: both;
 }
-	
 
-div .page_section {
-	margin: 5px;
-	padding: 5px;
-	border: 1px solid #555555;
-	overflow: hidden;
-	border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;
-	}
+div .page_section 
+{
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #555555;
+    overflow: hidden;
+    border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;
+}
         
 
 
@@ -92,100 +112,81 @@ div .page_section {
 	color: #cb2026;
 }
 
-.message_clickable{
-	cursor: pointer;
+.message_clickable
+{
+    cursor: pointer;
 }
-
 /* end Alert Message */
 
 
+
+
 /* START standard tags*/
-body {
-	font-family: arial,sans-serif;
-	font-size: 12px;
-	height: auto;
-	width: 100%;
-	margin: auto;
-	padding: 0;
-        font-size: 14px;
+body 
+{
+    font-family: arial,sans-serif;
+    font-size: 12px;
+    height: auto;
+    width: 100%;
+    margin: auto;
+    padding: 0;
+    font-size: 14px;
 }
 
-.bodybg {
-	background-image: url("../images/top_bg.png");
-	background-position: center top;
-	background-repeat: no-repeat;
-	height: auto;
-	margin: 0;
-	padding: 0;
-	width: 100%;
+.bodybg 
+{
+    background-image: url("../images/top_bg.png");
+    background-position: center top;
+    background-repeat: no-repeat;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    width: 100%;
 }
 
-.logo {
-	display: inline;
-	float: left;
-	height: auto;
-	margin: 24px 0 0 24px;
-	padding: 0;
-	width: 295px;
+.logo 
+{
+    float: left;        
 }
 
-table {
-	width: 300px;
+
+h1 
+{
+    font-size: 24px;
+    color: #1199AA;
 }
 
-tr {
-	height: 20px;
-	font-size: 12px;
-	border: 1px solid #555555;
-	border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;
+h2 
+{
+    font-size: 20px;
+    color: #1199AA;
 }
 
-h1 {
-	font-size: 18px;
-	color: #111111;
+h3 
+{
+    font-size: 16px;
+    color: #1199AA;
+    font-style: italic;
 }
 
-h2 {
-	font-size: 18px;
-	color: #1199AA;
-}
-h3 {
-	font-size: 16px;
-}
 
-ul {
-	-webkit-padding-start: 1px;
-	}
-li {
-	font-size: 12px;
-	}
-
-form {
-	font-size: 10px;
-	}
         
-.login {
+.login 
+{
     display: block;
     margin: 0px auto;
     width: 200px;
     padding: 5px;
-    }
-
-    
-.icon_home {
-    position:absolute;
-    top:15px;
-    right:15px;
-    float: right;
-    height: 24px;
-    width: 24px
-
 }
 /* END standard tags */
 
+
+
+
+
 #node_details{
     position:absolute;
-    top:85px;
+    top:140px;
     right:20px;
     padding: 10px 10px 10px 10px;
     width:300px;
@@ -195,12 +196,23 @@ form {
 }
 
 .button {
+    font-weight:bold;
     padding: 10px 15px;
     text-align: center;
     background: #4479BA;
     color: #FFF;
     width: 100px;
     border-radius:       10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;
+}
+
+.small_button {
+    
+    padding: 5px 10px;
+    text-align: center;
+    background: #4479BA;
+    color: #FFF;
+    width: 50px;
+    border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;
 }
 
 .disabled{

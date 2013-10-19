@@ -39,7 +39,7 @@ line {
 </style>
 
 <div><p onClick="persist()">persist</p></div>
-    <div id="node_details" style="display: none">
+    <div id="node_details" style="display: none;">
         <h3 id="node_type"></h3>
         <div>
             <label for="amount">Value:</label>

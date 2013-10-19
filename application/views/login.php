@@ -1,6 +1,8 @@
 <script type="text/javascript">
     
-     //$('#primary_content').load('index.php/home/', function(){$(".icon_home").show();});
+// used to skip the login page
+//$('#primary_content').load('index.php/home/', function(){$(".icon_home").show();});
+     
 $(document).ready(function(){
     // keypress behaviour
     $("#password").keypress(function( event ) {
@@ -41,9 +43,10 @@ function doLogin(){
     <label for="username" >Username: </label>
     <input type="text" id="username" required="required" > 
     <label for="password" >Password: </label> 
-    <input type="password" id="password" required="required" > 
-    <button id='login'>Login</button>
-    
+    <input type="password" id="password" required="required" >
+    <br/> <br/>
+    <a><div class="button" id="login" >Submit</div></a>
+        
 </div>
 
 <div id="message_service"></div>

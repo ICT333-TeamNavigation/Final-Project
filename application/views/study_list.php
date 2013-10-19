@@ -12,6 +12,7 @@
         print "<div class='study'>";
         
         print "<h3>{$study[COL_NAME]}</h3>";
+                
         print "<span class='left'>Description:</span>";
         print "<span class='right'>{$study[COL_DESCRIPTION]}</span> <br/>";
         
@@ -24,9 +25,13 @@
         print "<span class='left'>Date Created:</span>";
         print "<span class='right'>{$study[COL_DATE_CREATED]}</span> <br/>";
         
-        print "<span class='left'>User:</span>";
-        print "<span class='right'>{$study[COL_USERNAME]}</span> <br/>";
-                
+        print "<span class='left'>User:</span> <br/>";
+        print "<span class='right'>{$study[COL_USERNAME]}</span> <br/> <br/>";
+        
+        print "<span class='left' style='font-weight:normal;'>";
+        print "<div class='button' >Select</div>";    
+        print "</span> <br/>";
+        
         print "</div>";
         print "<br/>";
     }    

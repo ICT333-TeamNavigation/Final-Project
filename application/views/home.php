@@ -34,22 +34,22 @@ $(document).ready(function(){
 
 <div id="search" class="two_col">
     <h2>Search Studies</h2>
-    <label for="search_str" >Enter a Study Question: </label>
-    <input type="text" length="200" id="search_str" required="required" />
-    <button id="submit">Submit</button> 
-    <br/> <br/> <br/>
+    <label for="search_str" >Enter a Study Question: </label> <br/>
+    <input type="text" size="40" length="200" id="search_str" required="required" /> <br/> <br/>
+    <div class="button" id="submit" >Submit</div> 
     <br/> <br/> <br/>
 </div>
 
 <div id="right_frame" >
-    <h2>Create New Study</h2>
-    <button id="new_study">Create New Study</button>     
+    
+    <div class="button" >Create New Study</div> 
 </div>
-<br/> <br/> <br/>
+
 
 <div id="user-studies" class="two_col">
 </div>
-
+<br/> <br/> <br/>
+<br/> <br/> <br/>
 
 
 

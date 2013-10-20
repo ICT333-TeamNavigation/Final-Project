@@ -2,7 +2,6 @@
 
 .left_frame 
 {
-    
     float: left;
     clear: both;
     width: 40%;
@@ -15,6 +14,7 @@
 .right_frame
 {
     float: right;
+    text-align: left;
     width: 50%;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -24,6 +24,7 @@
 .center_frame
 {
     clear: both;
+    
 }
 
 .study
@@ -125,12 +126,12 @@ div .page_section
 body 
 {
     font-family: arial,sans-serif;
-    font-size: 12px;
+    font-size: 16px;
     height: auto;
     width: 100%;
     margin: auto;
     padding: 0;
-    font-size: 14px;
+    
 }
 
 .bodybg 
@@ -146,26 +147,27 @@ body
 
 .logo 
 {
-    float: left;        
+    float: left; 
+    
 }
-
 
 h1 
 {
-    font-size: 24px;
+    font-size: 26px;
     color: #1199AA;
 }
 
 h2 
 {
-    font-size: 20px;
+    font-size: 22px;
     color: #1199AA;
+    
 }
 
 h3 
 {
-    font-size: 16px;
-    color: #1199AA;
+    font-size: 18px;
+    
     font-style: italic;
 }
 
@@ -196,8 +198,10 @@ h3
 }
 
 .button {
+    border: 1px solid black;
     font-weight:bold;
     padding: 10px 15px;
+    margin: 10px 10px 10px 0;
     text-align: center;
     background: #4479BA;
     color: #FFF;
@@ -205,15 +209,14 @@ h3
     border-radius:       10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;
 }
 
-.small_button {
-    
-    padding: 5px 10px;
-    text-align: center;
-    background: #4479BA;
-    color: #FFF;
-    width: 50px;
-    border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;
+
+.button:hover
+{
+    background: #4470BF;
+    cursor: pointer;
 }
+
+
 
 .disabled{
     background: #dddddd;

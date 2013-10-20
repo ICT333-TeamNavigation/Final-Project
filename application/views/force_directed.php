@@ -38,7 +38,7 @@ line {
 }
 </style>
 
-<div><p onClick="persist()">persist</p></div>
+<div><p onClick="saveScenario()">save</p></div>
     <div id="node_details" style="display: none;">
         <h3 id="node_type"></h3>
         <div>
@@ -60,11 +60,11 @@ line {
 
  
  $('dcoument').ready(function(){
-     //$("#node_details").hide();
-     $("#node_details_save").click(function(){
-         console.log("save button clicked");
-         saveParameter($("#amount").val());
+     $("#node_details").load("index.php/study/node", function(){
+         
      });
+     //$("#node_details").hide();
+
      $("#result").load("index.php/model/force", function(data){
         graph_data = ajax_result;
         sg = new Graph(graph_data);
@@ -72,5 +72,21 @@ line {
          });
  });
  
+function saveScenario() {
+    var description = "reduction in load by 5%";
+    var name = "scenario 1 baby";
+    var json_string = JSON.stringify(graph_data);
+    alert(json_string);
+    $("#result").post("index.php/scenario/saveScenario",
+        {
+            scenario_id: 1,
+            name: name,
+            description: description,
+            parms_json: json_string
+        }, function(status) {
+            alert(status);
+        }
+    );
+}
    
 </script>

@@ -15,7 +15,7 @@ class Scenario extends CI_Controller
         $this->load->model('scenario_model'); 
         session_start();
         $this->m_username = $_SESSION["username"]; // get username from session
-        $this->m_study_id = $_SESSION["study_id"]; // get study_id from session
+        $this->m_study_id = (int)$_SESSION["study_id"]; // get study_id from session
     }
     
     //--------------------------------------------------------------------------
@@ -62,7 +62,7 @@ class Scenario extends CI_Controller
     
     public function saveScenario()
     {
-        $scenario_id = $this->input->post("scenario_id");
+        $scenario_id = (int)$this->input->post("scenario_id");
         $name        = trim( $this->input->post("name") );
         $description = trim( $this->input->post("description") );
         $parms_json  = trim( $this->input->post("parms_json") );
@@ -70,7 +70,8 @@ class Scenario extends CI_Controller
         try
         {
             $this->scenario_model->setAttributes(self::MODEL_ID, $this->m_study_id);
-            $scenario_updated = $this->scenario_model->updateScenario($this->m_study_id,
+            $scenario_updated = $this->scenario_model->updateScenario(
+                                                                      $this->m_study_id,
                                                                       $scenario_id, 
                                                                       $name, 
                                                                       $description, 

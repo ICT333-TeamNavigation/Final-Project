@@ -165,4 +165,9 @@ class Study extends CI_Controller
             print $e->getTraceAsString();
         }
     } 
+    
+    public function node()
+    {
+        $this->load->view("node_detail");
+    } 
 }

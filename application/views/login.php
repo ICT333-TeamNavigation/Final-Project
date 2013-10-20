@@ -51,4 +51,3 @@ function doLogin(){
 
 <div id="message_service"></div>
 <div id="login_result"></div>
-

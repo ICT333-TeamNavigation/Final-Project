@@ -16,6 +16,8 @@ class Model extends CI_Controller
     }
     
     public function force_test() {
+        session_start();
+        $_SESSION["study_id"] = trim( $this->input->post("study_id") );
         $this->load->view('force_directed');
     }
     

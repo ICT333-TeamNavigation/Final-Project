@@ -1,8 +1,9 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-    $('#test').click(function(){
-        $('#primary_content').load('index.php/model/force_test');
+    $('h3').click(function(){
+        var study_id =  $(this).attr('id');
+        $('#primary_content').load('index.php/model/force_test',{study_id:study_id});
     });
     
 });
@@ -11,7 +12,7 @@ $(document).ready(function(){
 </script>
 
 <?php
-    print "<h2>$title</h2>";    
+    print "<h2>Study List</h2>";    
 
     if($study_list === false)
     {
@@ -23,7 +24,7 @@ $(document).ready(function(){
     {
         print "<div class='study'>";
         
-        print "<h3>{$study[COL_NAME]}</h3>";
+        print "<h3 id='{$study[COL_STUDY_ID]}'>{$study[COL_NAME]}</h3>";
                 
         print "<span class='left_frame'>Description:</span>";
         print "<span class='right_frame'>{$study[COL_DESCRIPTION]}</span> <br/>";

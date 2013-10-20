@@ -21,7 +21,7 @@ function Graph(graphData){
         .attr("height", height);
 
     var force = d3.layout.force()
-        .gravity(.01)
+        .gravity(.001)
         .distance(100)
         .charge(-100)
         .size([width, height]);
@@ -175,20 +175,24 @@ function click(d) {
    if(d.type === "parameter") {
       current_param = d;
       toggleSave("disbled");
+      
               
-      $(function() {
-          $( "#node_slider" ).slider({
-             range: "min",
-             value: d.value,
-             min:  1500,
-             max: 3000,
-             slide: function( event, ui ) {
-               $( "#amount" ).val( ui.value );
-               toggleSave("enabled");
-             }
-           });
-          $( "#amount" ).val( $( "#node_slider" ).slider( "value" ) );
-       }); 
+//      $(function() {
+//          $( "#node_slider" ).slider({
+//             range: "min",
+//             value: d.value,
+//             min:  1500,
+//             max: 3000,
+//             slide: function( event, ui ) {
+//               $( "#amount" ).val( ui.value );
+//               toggleSave("enabled");
+//             }
+//           });
+//          $( "#amount" ).val( $( "#node_slider" ).slider( "value" ) );
+//       }); 
+       $("#node_slider").attr('max', 3000);
+       $("#node_slider").attr('min', 0);
+       $("#node_slider").val(d.value);
        
        $("#node_type").text(d.name);
        $("#node_details").show();

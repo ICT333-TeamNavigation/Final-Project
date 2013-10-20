@@ -97,7 +97,7 @@ CREATE TABLE study
     name            VARCHAR(50)   NOT NULL,
     description     TEXT,
     questions       TEXT          NOT NULL, 
-    FULLTEXT(questions),  
+    FULLTEXT(name, questions),  
     creator         VARCHAR(50),
     date_created    DATETIME      DEFAULT CURRENT_TIMESTAMP,
     

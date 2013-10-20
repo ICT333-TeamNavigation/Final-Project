@@ -42,7 +42,7 @@ class Study_model extends CI_Model
         
         // search the study questions in the database
         $search_sql  = "SELECT * FROM " . TABLE_STUDY
-                     . " WHERE MATCH(" . COL_QUESTIONS . ") AGAINST( ? )";
+                     . " WHERE MATCH(".COL_NAME.",".COL_QUESTIONS.") AGAINST( ? )";
               
         $study_results = $this->data_access_object->doSelect($search_sql, array($question));
         if( $study_results === false )

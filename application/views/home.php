@@ -33,7 +33,6 @@ $(document).ready(function(){
     });
     
     //load users studies
-    
     $("#user_studies").load("index.php/search/loadUserStudies");
 }    
 );  

@@ -4,7 +4,7 @@
 function MessageService(alertType, alertText) {
 	this.alertText = alertText;
 	this.alertType = alertType;
-	this.displayTime = 1000;
+	this.displayTime = 2000;
 	
 	if (this.alertType == 'success') {
 		$('#message_service').addClass('message_success');
@@ -18,7 +18,7 @@ function MessageService(alertType, alertText) {
 		$('#message_service').show();
 		
 		if(this.displayTime > 0) {
-			$('#message_service').delay(this.displayTime).fadeOut(3000);
+			$('#message_service').delay(this.displayTime).fadeOut(2000);
 		}
 		
 	};

@@ -1,7 +1,9 @@
 <script type="text/javascript">
 
-function postCreateStudy()
+function postEditStudy()
 {
+    var study_id = $('#study_id').html();
+        
     var name = $('#name').val();
     name = name.trim();
     if( name.length === 0 )
@@ -38,24 +40,25 @@ function postCreateStudy()
         return;
     }  
     
-    var post_obj = { name:        name, 
+    var post_obj = { study_id:    study_id,
+                     name:        name, 
                      description: description,
                      questions:   questions,
                      creator:     creator   }; 
          
      
-    $('#primary_content').load('index.php/study/createStudy', post_obj);
+    $('#primary_content').load('index.php/study/saveStudy', post_obj);
 }    
     
     
     
 $(document).ready(function(){
-    $('#create_study_submit').click(function(){
+    $('#edit_study_submit').click(function(){
         
-        var success_msg = new MessageService("success", "Please wait while your study is created.");
+        var success_msg = new MessageService("success", "Please wait while the Study Details are updated.");
         success_msg.showMessage();    
         
-        postCreateStudy();
+        postEditStudy();
     });
     
 });
@@ -64,9 +67,11 @@ $(document).ready(function(){
 
 
 
-<h2>Create New Study</h2>
+<h2>Edit Study Details</h2>
 
-<p> To create a new Study, please fill out the form below and click submit. </p>
+<p> To edit the Study Details, please fill out the form below and click submit. </p>
+
+<div id='study_id' style='display: none;'><?php print $study_id; ?></div>
 
 <h3><label class="left_frame" for="name" >Study Name: </label></h3>
 <input class="right_frame" type="text" id="name" value="<?php if(isset($name)) print $name; ?>" 
@@ -90,6 +95,6 @@ $(document).ready(function(){
 
 
 <div class="left_frame">
-<div class="button" id="create_study_submit" >Submit</div>
+<div class="button" id="edit_study_submit" >Submit</div>
 <div>
 <br/> <br/> <br/>

@@ -122,9 +122,9 @@ class Study_model extends CI_Model
     // parm_vis is an array containing the visiblity of each parameter for the user study
     // returns true on success
     // pre: setAttributes must be called beforehand to set the username and model_id
-    public function editStudy( $study_id, $name, $description, $questions, $creator, $parm_vis )
+    public function editStudy( $study_id, $name, $description, $questions, $creator /*, $parm_vis */ )
     {
-        $this->data_access_object->checkIsArray($parm_vis);
+        //$this->data_access_object->checkIsArray($parm_vis);
 
         if( $this->m_username == null )
         {
@@ -155,7 +155,7 @@ class Study_model extends CI_Model
             throw new Exception("Failed to edit study. Update on study table failed.");
         }  
               
-        
+        /*
         // update details in study_parameter using parm_vis
         $this->data_access_object->setTableName(TABLE_STUDY_PARAMETER);
         
@@ -175,6 +175,8 @@ class Study_model extends CI_Model
                 throw new Exception("Failed to edit user study. Update on user_study_parm table failed.");
             }    
         }
+         
+        */
         return true; 
     }
     

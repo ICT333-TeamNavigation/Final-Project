@@ -17,15 +17,7 @@ class Scenario extends CI_Controller
         $this->m_username = $_SESSION["username"]; // get username from session
         $this->m_study_id = (int)$_SESSION["study_id"]; // get study_id from session
     }
-    
-    //--------------------------------------------------------------------------
-        
-    //public function index()
-    //{
-    //   print $_SESSION["username"];
-    //    $this->loadScenario();
-    //}   
-    
+       
     //--------------------------------------------------------------------------
            
     public function loadScenario()

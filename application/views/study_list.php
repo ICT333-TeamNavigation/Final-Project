@@ -8,14 +8,9 @@ $(document).ready(function(){
     });
     
     $('.study.button').click(function(){
-        
         // get the study_id which is stored in a div next to the button that was clicked
         var study_id = $(this).next().html();
-        
-        // get the is_user_study flag which is stored in a div next to the study_id div
-        var is_user_study = $(this).next().next().html();
-        
-        //console.log(is_user_study);
+                
         $('#primary_content').load('index.php/study/viewStudyDetails', { study_id: study_id } );
     });
    
@@ -25,7 +20,7 @@ $(document).ready(function(){
 
 
 <?php
-    print "<h2>Study List</h2>";    
+    print "<h2>$title</h2>";    
 
     if($study_list === false)
     {
@@ -60,12 +55,12 @@ $(document).ready(function(){
         print "<div class='study button' >Select</div>";
         print "<div class='study_id' style='display: none;'>{$study[COL_STUDY_ID]}</div>";
         
-        $is_user_study = 0;
-        if( $_SESSION["username"] == $study[COL_USERNAME] )
-        {
-            $is_user_study = 1;
-        }
-        print "<div class='is_user_study' style='display: none;'>$is_user_study</div>";
+        //$is_user_study = 0;
+        //if( $_SESSION["username"] == $study[COL_USERNAME] )
+        //{
+        //    $is_user_study = 1;
+        //}
+        //print "<div class='is_user_study' style='display: none;'>$is_user_study</div>";
         print "</span> <br/>";
         
         print "</div>";

@@ -33,8 +33,7 @@ $(document).ready(function(){
     });
     
     //load users studies
-    
-    $("#user_studies").load("index.php/study/loadUserStudies");
+    $("#user_studies").load("index.php/search/loadUserStudies");
 }    
 );  
 </script>

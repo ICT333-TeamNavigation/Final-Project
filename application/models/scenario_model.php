@@ -197,7 +197,7 @@ class Scenario_model extends CI_Model
         $update_array[COL_NAME]        = $name;
         $update_array[COL_DESCRIPTION] = $description;
         $update_array[COL_PARMS_JSON]  = $parms_json;
-               
+        
         $result = $this->data_access_object->updateWhere( $update_array, $where_array );
         if( $result == 1 || $result == 0 )
         {    

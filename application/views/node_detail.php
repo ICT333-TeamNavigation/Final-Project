@@ -6,13 +6,7 @@
         <link rel="stylesheet" href="<?php echo base_url('resources/js/jquery/jquery.mobile-1.3.2.min.css'); ?>">
         <script type="text/javascript">
             $(document).ready(function(){
-//                $("#node_details_save").click(function(){
-//                    console.log("save button clicked");
-//                    saveParameter($("#node_slider").val());
-//                });
-                
                 $( "#node_slider" ).on( 'slidestop', function( event ) { 
-//                    toggleSave("enabled");
                     saveParameter($("#node_slider").val());
                 });
             });

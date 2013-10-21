@@ -221,3 +221,7 @@ h3
 .disabled{
     background: #dddddd;
 }   
+
+.scenario_list {
+    font-size: 12px;
+}

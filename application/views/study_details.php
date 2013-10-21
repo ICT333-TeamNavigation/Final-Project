@@ -2,7 +2,8 @@
    
 $(document).ready(function(){
     $('#test').click(function(){
-        $('#primary_content').load('index.php/model/force_test');
+        var study_id = $("#study_id").html();
+        $('#primary_content').load('index.php/model/force_test', {study_id:study_id});
     });
     
 });
@@ -36,6 +37,8 @@ $(document).ready(function(){
     
     print "<h3 class='left_frame'>Scenarios:</h3>";
     print "<span class='right_frame'>";
+    
+    print "<span id='study_id'>{$study_details[COL_STUDY_ID]}</span>";
     if($study_scenarios === false)
     {
         print "No scenarios.";

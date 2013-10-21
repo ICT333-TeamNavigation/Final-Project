@@ -38,52 +38,71 @@ line {
 }
 </style>
 
-<div><p onClick="saveScenario()">save</p></div>
-    <div id="node_details" style="display: none;">
-        <h3 id="node_type"></h3>
-        <div>
-            <label for="amount">Value:</label>
-            <input type="text" id="amount" style="border: 0; color: #f6931f; font-weight: bold;" />
-        </div>        
-        <div id="node_slider" ></div>
-        <div style="padding: 10px 10px 10px 10px;"></div>
-        <div class="button" id="node_details_save" >save</div>
-    </div>
-
-<div id="svgdiv"></div>
-
+<div>
+    <div class="left_frame" id="scenario_list"></div>
+    <div class="right_frame"id="svgdiv"></div>
+</div>
+<div id="node_details" style="display: none;">
+    <h3 id="node_type"></h3>
+    <div>
+        <label for="amount">Value:</label>
+        <input type="text" id="amount" style="border: 0; color: #f6931f; font-weight: bold;" />
+    </div>        
+    <div id="node_slider" ></div>
+    <div style="padding: 10px 10px 10px 10px;"></div>
+    <div class="button" id="node_details_save" >save</div>
+</div>
 <div id="result"></div>
+
 
 <script type="text/javascript">
  site_root = '<?php echo base_url(); ?>'
  expanded = new Array();
 
  
- $('dcoument').ready(function(){
+ $('document').ready(function(){
      $("#node_details").load("index.php/study/node", function(){
          
      });
-     //$("#node_details").hide();
+     
+     $("#scenario_list").load("index.php/scenario/loadStudyScenarios");
 
-     $("#result").load("index.php/model/force", function(data){
-        graph_data = ajax_result;
+     sg = null;
+     graph_data = null;
+
+
+//     $("#result").load("index.php/model/force", function(data){
+//        graph_data = ajax_result;
+//        sg = new Graph(graph_data);
+//        sg.update();
+//     });
+
+ });
+ 
+ function createGraph(jsondata){
+     sg = null;
+     graph_data = null;
+     $("#svgdiv").children("svg").remove();
+//     $("#result").load("index.php/model/force", function(data){
+        graph_data = jsondata;
         sg = new Graph(graph_data);
         sg.update();
-         });
- });
+//     });
+ }
  
 function saveScenario() {
     var description = "reduction in load by 5%";
     var name = "scenario 1 baby";
     var json_string = JSON.stringify(graph_data);
     alert(json_string);
-    $("#result").post("index.php/scenario/saveScenario",
+    $("#result").load("index.php/scenario/saveScenario",
         {
             scenario_id: 1,
             name: name,
             description: description,
             parms_json: json_string
-        }, function(status) {
+        }, function(data, status) {
+            console.log(data);
             alert(status);
         }
     );

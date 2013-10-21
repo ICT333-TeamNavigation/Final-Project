@@ -2,10 +2,6 @@
 
 
 $(document).ready(function(){
-    $('h3').click(function(){
-        var study_id =  $(this).attr('id');
-        $('#primary_content').load('index.php/model/force_test',{study_id:study_id});
-    });
     
     $('.study.button').click(function(){
         

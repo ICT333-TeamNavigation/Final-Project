@@ -10,10 +10,8 @@ function Graph(graphData){
     // properties
     this.orig_data = graphData;
     this.json = jQuery.extend(true, {}, graphData);
-    var width = 960,
+    var width = 500,
         height = 500;
- 
-    
 
     // TODO: specify the DOM object for the graph
     var svg = d3.select("#svgdiv").append("svg")
@@ -157,24 +155,24 @@ function saveParameter(val){
        }
    }
    
-   toggleSave("disabled");
+//   toggleSave("disabled");
 } 
 
-function toggleSave(status) {
-    if(status === "enabled") {
-        $("#node_details_save").removeAttr("disabled");
-        $("#node_details_save").removeClass("disabled");
-    } else {
-        $("#node_details_save").attr("disabled");
-        $("#node_details_save").addClass("disabled");
-    }
-}
+//function toggleSave(status) {
+//    if(status === "enabled") {
+//        $("#node_details_save").removeAttr("disabled");
+//        $("#node_details_save").removeClass("disabled");
+//    } else {
+//        $("#node_details_save").attr("disabled");
+//        $("#node_details_save").addClass("disabled");
+//    }
+//}
 
 function click(d) {
 
    if(d.type === "parameter") {
       current_param = d;
-      toggleSave("disbled");
+//      toggleSave("disbled");
       
               
 //      $(function() {

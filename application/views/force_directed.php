@@ -79,33 +79,38 @@ line {
 
  });
  
- function createGraph(jsondata){
+ function createGraph(jsondata, scenario_id){
      sg = null;
      graph_data = null;
      $("#svgdiv").children("svg").remove();
 //     $("#result").load("index.php/model/force", function(data){
         graph_data = jsondata;
         sg = new Graph(graph_data);
+        var selector = "#" + scenario_id;
+        sg.scenario_id = scenario_id;
+        sg.name = $(selector ).html()
+        sg.description = $(selector + "_description").html();
         sg.update();
 //     });
  }
  
 function saveScenario() {
-    var description = "reduction in load by 5%";
-    var name = "scenario 1 baby";
     var json_string = JSON.stringify(graph_data);
     alert(json_string);
     $("#result").load("index.php/scenario/saveScenario",
         {
-            scenario_id: 1,
-            name: name,
-            description: description,
+            scenario_id: sg.scenario_id,
+            name: sg.name,
+            description: sg.description,
             parms_json: json_string
         }, function(data, status) {
             console.log(data);
-            alert(status);
+            if(status === "success") {
+                $("#" + sg.scenario_id + "_params").html(json_string);
+            }
         }
     );
 }
-   
+
+
 </script>

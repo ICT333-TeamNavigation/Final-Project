@@ -57,7 +57,7 @@ class Scenario extends CI_Controller
            
     public function loadScenario()
     {
-        $scenario_id = $this->input->post("scenario_id");
+        $scenario_id = (int)$this->input->post("scenario_id");
         
         try
         {

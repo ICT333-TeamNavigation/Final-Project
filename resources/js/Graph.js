@@ -6,7 +6,9 @@ var current_param;
 
 function Graph(graphData){
     
-    
+    this.scenario_id;
+    this.name;
+    this.description;
     // properties
     this.orig_data = graphData;
     this.json = jQuery.extend(true, {}, graphData);
@@ -142,6 +144,9 @@ function saveParameter(val){
   console.log("saving parameter");
     // update the value of the parameter graph object
     current_param.value = val;
+    
+    //active vate save scenario button
+    $('#'+ sg.scenario_id +'_save').show();
 
     // locate and update the value of the parameter presistance object
     for(var i=0; i<graph_data.nodes.length; i++) {

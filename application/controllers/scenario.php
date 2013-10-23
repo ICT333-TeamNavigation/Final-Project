@@ -22,28 +22,13 @@ class Scenario extends CI_Controller
            
     public function loadStudyScenarios()
     {
-//        $scenario_id = $this->input->post("study_id");
+        //$scenario_id = $this->input->post("study_id");
         
         try
         {
             $this->scenario_model->setAttributes(self::MODEL_ID, $this->m_study_id);
-//            $load_allowed = $this->scenario_model->isStudyScenario($scenario_id); 
-//            if( $load_allowed === false )
-//            {
-//                throw new Exception(
-//                "Error loading scenario: $scenario_id. The scenario does not belong to the current study.");
-//            }    
-            
-//            $this->scenario_model->setAttributes( self::MODEL_ID, $study_id );
             $data["study_scenarios"] = $this->scenario_model->getStudyScenarios();
-            
-//            $scenario = $this->scenario_model->getScenario($scenario_id);
-            if( $data["study_scenarios"] === false )
-            {
-                throw new Exception( "Error loading scenarios for study: $this->m_study_id. No scenarios exist.");
-            }    
-            
-//            $data["scenario"] = $scenario;        
+       
             $this->load->view("scenario_list", $data);
         }
         catch(Exception $e)

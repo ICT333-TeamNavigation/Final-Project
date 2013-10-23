@@ -39,9 +39,10 @@ line {
 </style>
 
 <div>
-    <div class="left_frame" id="scenario_list"></div>
-    <div class="right_frame"id="svgdiv"></div>
+    <div class="left_frame" id="scenario_list" ></div>
+    <div class="right_frame" id="svgdiv" ></div>
 </div>
+
 <div id="node_details" style="display: none;">
     <h3 id="node_type"></h3>
     <div>

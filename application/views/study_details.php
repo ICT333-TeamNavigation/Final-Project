@@ -138,7 +138,7 @@ $(document).ready(function(){
     print "<h3 class='left_frame'>Scenarios:</h3>";
     print "<span class='right_frame'>";
     
-    print "<span id='study_id'>{$study_details[COL_STUDY_ID]}</span>";
+    
     if($study_scenarios === false)
     {
         print "<span class='left_frame'>No scenarios.</span>";

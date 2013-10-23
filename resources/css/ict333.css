@@ -209,13 +209,42 @@ h3
     border-radius:       10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;
 }
 
+.small_button {
+    border: 1px solid black;
+    font-weight: 100;
+    padding: 5px 7px;
+    margin: 10px 10px 10px 0;
+    text-align: center;
+    background: #4479BA;
+    color: #FFF;
+    width: 70px;
+    border-radius:       10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;
+}
 
-.button:hover
+.small_button_selected {
+    border: 1px solid black;
+    font-weight:normal;
+    padding: 10px 15px;
+    margin: 10px 10px 10px 0;
+    text-align: center;
+    background: #4479BA;
+    color: #FFF;
+    width: 100px;
+    border-radius:       10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;
+}
+
+
+.button:hover 
 {
     background: #4470BF;
     cursor: pointer;
 }
 
+.small_button:hover
+{
+    background: #4470BF;
+    cursor: pointer;
+}
 
 
 .disabled{

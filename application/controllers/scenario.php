@@ -110,12 +110,15 @@ class Scenario extends CI_Controller
         $name        = trim( $this->input->post("name") );
         $description = trim( $this->input->post("description") );
         
+        $result_data["result"] = "error";
         try
         {
             $this->scenario_model->setAttributes(self::MODEL_ID, $this->m_study_id);
             $created_scenario_id = $this->scenario_model->createScenario($name, $description); 
-                                                                
-            $data["created_scenario_id"] = $created_scenario_id;            
+                           
+            $result_data["created_scenario_id"] = $created_scenario_id;       
+            $result_data["result"] = "success";
+            $data['ajax'] = json_encode($result_data);
             $this->load->view("ajax", $data);
         }
         catch(Exception $e)
@@ -130,8 +133,9 @@ class Scenario extends CI_Controller
     
     public function removeScenario()
     {
-        $scenario_id = $this->input->post("scenario_id");
-        
+        $scenario_id = (int)$this->input->post("scenario_id");
+                
+        $result_data["result"] = "error";
         try
         {
             $this->scenario_model->setAttributes(self::MODEL_ID, $this->m_study_id);
@@ -149,7 +153,9 @@ class Scenario extends CI_Controller
                 "Error deleting scenario: $scenario_id. The scenario does not exist so cannot be deleted.");
             }    
             
-            $data["removed_scenario_id"] = $scenario_id;            
+            $result_data["removed_scenario_id"] = $scenario_id;     
+            $result_data["result"] = "success";
+            $data['ajax'] = json_encode($result_data);
             $this->load->view("ajax", $data);
         }
         catch(Exception $e)

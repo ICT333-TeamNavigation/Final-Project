@@ -85,7 +85,7 @@ class Json_builder_model extends CI_Model
             throw new Exception("Failed to get model JSON. Unable to get node data from node table.");
         }  
                 
-        $json_str = "\"nodes\": [ \n";
+        $json_str = "{ \"nodes\": [ \n";
                   
         $i = 0;
         $last_node_index = count($nodes) - 1;
@@ -95,8 +95,9 @@ class Json_builder_model extends CI_Model
             $model_id = $node_row[COL_MODEL_ID];
             $node_id  = $node_row[COL_NODE_ID];
             $name     = $node_row[COL_NAME];
+            $picture  = $node_row[COL_PICTURE];
             
-            $node_json = $this->getNodeJSON($model_id, $node_id, $name);
+            $node_json = $this->getNodeJSON($model_id, $node_id, $name, $picture);
             if( $node_json === false )
             {
                 throw new Exception("Failed to get node JSON. Unable to build node 
@@ -110,7 +111,7 @@ class Json_builder_model extends CI_Model
             $i++;
         }
         
-        $json_str .= "]";
+        $json_str .= "] }";
         
         return $json_str;
     }
@@ -120,7 +121,7 @@ class Json_builder_model extends CI_Model
     
     
     // returns the json for a single node
-    public function getNodeJSON( $model_id, $node_id, $name )
+    public function getNodeJSON( $model_id, $node_id, $name, $picture )
     {
         $node_parameters = $this->getNodeParameters( $model_id, $node_id );   
         if( $node_parameters === false )
@@ -143,6 +144,7 @@ class Json_builder_model extends CI_Model
                 
         $node_json  = "{\n  \"node_id\"          : $node_id,";
         $node_json .=  "\n  \"name\"             : \"$name\",";
+        $node_json .=  "\n  \"picture\"          : \"$picture\",";
         $node_json .=  "\n  \"parameters\"       : [\n ";
                    
         
@@ -195,11 +197,11 @@ class Json_builder_model extends CI_Model
         
         $parm_json = " {";
         $parm_json .= "\n     \"parm_name\"     : \"". $node_parm[COL_PARM_NAME] . "\"";
-        $parm_json .= "\n     \"current_value\" : "  . $node_parm[COL_DEFAULT_VALUE];
-        $parm_json .= "\n     \"min_value\"     : "  . $node_parm[COL_MIN_VALUE];
-        $parm_json .= "\n     \"max_value\"     : "  . $node_parm[COL_MAX_VALUE];
-        $parm_json .= "\n     \"visible\"       : "  . $visible;
-        $parm_json .= "\n     \"control_type\"  : \"". $node_parm[COL_CONTROL_TYPE] . "\"";
+        $parm_json .= ",\n     \"current_value\" : "  . $node_parm[COL_DEFAULT_VALUE];
+        $parm_json .= ",\n     \"min_value\"     : "  . $node_parm[COL_MIN_VALUE];
+        $parm_json .= ",\n     \"max_value\"     : "  . $node_parm[COL_MAX_VALUE];
+        $parm_json .= ",\n     \"visible\"       : "  . $visible;
+        $parm_json .= ",\n     \"control_type\"  : \"". $node_parm[COL_CONTROL_TYPE] . "\"";
         $parm_json .= "\n  }";
         
         return $parm_json;

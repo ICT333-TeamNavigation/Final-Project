@@ -64,7 +64,7 @@
     background: #ffffff;
     height: 100%;
     min-height: 400px;
-    padding: 50px 100px;
+    padding: 40px 90px;
 }
 
 #primary_footer 
@@ -217,20 +217,14 @@ h3
     text-align: center;
     background: #4479BA;
     color: #FFF;
-    width: 70px;
+    width: 50px;
     border-radius:       10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;
 }
 
-.small_button_selected {
-    border: 1px solid black;
-    font-weight:normal;
-    padding: 10px 15px;
-    margin: 10px 10px 10px 0;
-    text-align: center;
-    background: #4479BA;
+.selected {
+    background: #00AAAA;
     color: #FFF;
-    width: 100px;
-    border-radius:       10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;
+    
 }
 
 
@@ -240,11 +234,12 @@ h3
     cursor: pointer;
 }
 
+
 .small_button:hover
 {
-    background: #4470BF;
     cursor: pointer;
 }
+
 
 
 .disabled{

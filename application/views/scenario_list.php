@@ -28,8 +28,18 @@ $(document).ready(function(){
     });
     
     $('.scenario_delete').click(function(){
+        
+        
         // get scenario_id from previous element
         var scenario_id = $(this).prev().prev().attr('id');
+        var scenario_name = $("#" + scenario_id + "_name").html();
+        
+        var delete_confirmed = confirm("Delete scenario, " + scenario_name + "?");
+        if(!delete_confirmed)
+        {
+            return;
+        }    
+        
         postDeleteScenario(scenario_id);
     });
     

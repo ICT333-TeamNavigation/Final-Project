@@ -25,7 +25,7 @@ function postCreateUserStudy()
 function postDeleteUserStudy()
 {
     var study_id = $('#study_id').html();
-        
+            
     $('#result_ajax').load('index.php/study/removeStudy', { study_id: study_id },
         function(data, status)
         {               
@@ -90,6 +90,15 @@ $(document).ready(function(){
     });
     
     $('#delete_user_study').click(function(){
+        
+        var study_name = $("#study_name").html();
+                
+        var delete_confirmed = confirm("Delete study, " + study_name + "?");
+        if(!delete_confirmed)
+        {
+            return;
+        }    
+        
         postDeleteUserStudy();
     });
     

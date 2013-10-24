@@ -138,9 +138,21 @@ function postCreateScenario()
 {
     var name = $('#scenario_name').val();
     name = name.trim();
+    if( name.length === 0 )
+    {
+        var msg = new MessageService("error", "Please Enter a Scenario Name. Try again.");
+        msg.showMessage();
+        return;
+    }
       
     var description = $('#scenario_description').val();
     description = description.trim();
+    if( description.length === 0 )
+    {
+        var msg = new MessageService("error", "Please Enter a Scenario Description. Try again.");
+        msg.showMessage();
+        return;
+    }
            
     var post_obj = { name:        name, 
                      description: description }; 

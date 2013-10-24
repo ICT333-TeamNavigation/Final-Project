@@ -144,6 +144,10 @@ $(document).ready(function(){
     print "<span class='right_frame'>{$study_details[COL_USERNAME]}</span>";
     print "<br/> <br/> <br/>";
     
+    print "<h3 class='left_frame'>Date Created:</h3>";
+    print "<span class='right_frame'>{$study_details[COL_DATE_CREATED]}</span>";
+    print "<br/> <br/> <br/>";
+    
     print "<h3 class='left_frame'>Scenarios:</h3>";
     print "<span class='right_frame'>";
     

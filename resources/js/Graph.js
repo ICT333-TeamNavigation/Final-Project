@@ -9,6 +9,7 @@ function Graph(graphData){
     this.scenario_id;
     this.name;
     this.description;
+    this.myLinks = new Array();
     // properties
     this.orig_data = graphData;
     this.json = jQuery.extend(true, {}, graphData);
@@ -32,29 +33,57 @@ function Graph(graphData){
     
     // redraw the graph
     this.update=function() {
-        var myLinks = this.json.links;    
+//        var myLinks = this.json.links;
+        var myLinks = this.myLinks;
         var myNodes = this.json.nodes;
+                
 
         //clear expanded links to parameter nodes in previous updates
-        myLinks.splice(this.orig_data.links.length, myLinks.length - this.orig_data.links.length);
+//        myLinks.splice(this.orig_data.links.length, myLinks.length - this.orig_data.links.length);
+        myLinks.length = 0;
 
-        for(n=0; n < myNodes.length; n++) {
+        for(var n=0; n < myNodes.length; n++) {
             var node = myNodes[n];
-            myChildren = node.parameters;
+            var myChildren = null;
             console.log('parent: ' + node.name);
             console.log('children: ' + myChildren);
+            
+            //populate links between nodes
+            if(node.links) {
+            for(var l=0; l < node.links.length; l++) {
+                var linkedNode = node.links[l];
+                var targetNode = myNodes[linkedNode - 1];
+                var addLink = true;
+                for(var e=0; e < myLinks.length; e++){
+                    if((myLinks[e].source === node && myLinks[e].target === targetNode) ||
+                        (myLinks[e].source === targetNode && myLinks[e].target === node)) {
+                            addLink = false;
+                        }
+                }
+                if(addLink){
+                    myLinks.push({"source": node , "target": targetNode});
+                }
+                
+            }
+            }
+            
             // show nodes that have been expanded
-            if(myChildren){
+            if(node.parameters){
+                myChildren = node.parameters;
+                console.log("number of nodes to add: " + myChildren.length);
                 for(i=0; i < myChildren.length; i++) {
                   if(expanded.indexOf(node.name) > -1) {
                     //if node is not already there!!
                     console.log('expanded: ' + node.name);
                     if(myNodes.indexOf(myChildren[i]) === -1){
-                        x = myNodes.push(myChildren[i]);
-                        myChildren[i].parent = n;
-                        this.json.links.push({"source":n,"target":x-1});
+                        var x = myNodes.push(myChildren[i]);
+                        var addedNode = myNodes[x-1];
+//                        myChildren[i].parent = n;
+                          console.log("adding child node @ " + x);
+                          console.log(myNodes[x-1]);
+                        myLinks.push({"source": node, "target": addedNode});
                     } else {
-                        this.json.links.push({"source":n,"target":myNodes.indexOf(myChildren[i])});
+                        myLinks.push({"source": node, "target":myNodes[myNodes.indexOf(myChildren[i])]});
                     }    
                   } else {
                         var childIndex = myNodes.indexOf(myChildren[i]);
@@ -76,13 +105,13 @@ function Graph(graphData){
 
             force
                 .nodes(this.json.nodes)
-                .links(this.json.links)
+                .links(myLinks)
                 .start();
 
             $("svg").empty();
 
             var link = svg.selectAll(".link")
-                .data(this.json.links)
+                .data(myLinks)
               .enter().append("line")
                 .attr("class", "link");
 
@@ -94,16 +123,23 @@ function Graph(graphData){
                 .call(force.drag);
 
             node.append("image")
-                .attr("xlink:href", function(d) { return site_root + "resources/images/" + d.type + ".png";} )
+                .attr("xlink:href", function(d) {
+                    if(d.picture === undefined){
+                        return site_root + "resources/images/param.png";
+                    }else{
+                        return site_root + "resources/images/" + d.picture;
+                    }
+                    
+                } )
                 .attr("x", -8)
                 .attr("y", -8)
-                .attr("width", 24)
-                .attr("height", 24);
+                .attr("width", 36)
+                .attr("height", 36);
 
             node.append("text")
                 .attr("dx", 16)
                 .attr("dy", ".35em")
-                .text(function(d) { return d.name });
+                .text(function(d) { if(d.name === undefined){return d.parm_name;} else {return d.name;}});
 
             force.on("tick", function() {
               link.attr("x1", function(d) { return d.source.x; })
@@ -120,7 +156,7 @@ function Graph(graphData){
 function saveParameter(val){
   console.log("saving parameter");
     // update the value of the parameter graph object
-    current_param.value = val;
+    current_param.current_value = val;
     
     //activate save scenario button
     $('#'+ sg.scenario_id +'_save').show();
@@ -130,8 +166,8 @@ function saveParameter(val){
         var params = graph_data.nodes[i].parameters;
         if(params.length > 0){
             for(var p=0;p<params.length; p++) {
-                if(params[p].name == current_param.name) {
-                    params[p].value = current_param.value;
+                if(params[p].parm_name == current_param.parm_name) {
+                    params[p].current_value = current_param.current_value;
                }
            }  
        }
@@ -143,13 +179,13 @@ function saveParameter(val){
 
 function click(d) {
 
-   if(d.type === "parameter") {
+   if(d.name === undefined) {
        current_param = d;
-       $("#node_slider").attr('max', 3000);
-       $("#node_slider").attr('min', 0);
-       $("#node_slider").val(d.value);
+       $("#node_slider").attr('max', d.max_value);
+       $("#node_slider").attr('min', d.min_value);
+       $("#node_slider").val(d.current_value);
        
-       $("#node_type").text(d.name);
+       $("#node_type").text(d.parm_name);
        $("#node_details").show();
     } else {
         current_param = null;

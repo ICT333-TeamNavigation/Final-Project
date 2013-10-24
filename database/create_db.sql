@@ -1,7 +1,7 @@
 DROP DATABASE IF EXISTS team05;
 CREATE DATABASE team05;
 USE team05;
-warnings
+warnings;
 
 
 DROP TABLE IF EXISTS user_config;
@@ -24,7 +24,7 @@ CREATE TABLE model
     description     TEXT, 
     api             VARCHAR(50)   NOT NULL, 
     creator         VARCHAR(50),
-    date_created    DATETIME DEFAULT CURRENT_TIMESTAMP,
+    date_created    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     PRIMARY KEY (model_id)
 );
@@ -99,7 +99,7 @@ CREATE TABLE study
     questions       TEXT          NOT NULL, 
     FULLTEXT(name, questions),  
     creator         VARCHAR(50),
-    date_created    DATETIME      DEFAULT CURRENT_TIMESTAMP,
+    date_created    TIMESTAMP      DEFAULT CURRENT_TIMESTAMP,
     
 
     username        VARCHAR(50),
@@ -114,7 +114,7 @@ CREATE TABLE study
         REFERENCES model(model_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
-);
+)engine=MyISAM;
 
 
 CREATE TABLE scenario
@@ -131,7 +131,7 @@ CREATE TABLE scenario
         REFERENCES study(study_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
-);
+) engine = MyISAM;
 
 
 CREATE TABLE study_parameter 
@@ -152,7 +152,7 @@ CREATE TABLE study_parameter
         REFERENCES parameter(model_id, node_id, parm_name)
         ON DELETE CASCADE
         ON UPDATE CASCADE
-);
+) engine = MyISAM;
 
 
 CREATE TABLE user_config

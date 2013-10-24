@@ -98,10 +98,17 @@ $(document).ready(function(){
     });
     
     
+    $('#testonly').click(function(){
+        $.post('index.php/scenario/loadScenario', {scenario_id:1}, function(data){
+            console.log(data);
+            testdata = data;
+        });
+    });
+    
 });
 </script>
 
-<h2>Study Details</h2>
+<h2 id="testonly">Study Details</h2>
 <div id="delete_result" class='center_frame' ></div>
 <br/> 
 

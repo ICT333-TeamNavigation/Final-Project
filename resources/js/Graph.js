@@ -32,110 +32,87 @@ function Graph(graphData){
     
     // redraw the graph
     this.update=function() {
-//    var xpand = x;
-//    this.json = jQuery.extend(true, {}, graphData);
-//    this.json = jQuery.extend(true, {}, this.orig_data);
-    //this.json.links = jQuery.extend(true, {}, orig_data.links);
+        var myLinks = this.json.links;    
+        var myNodes = this.json.nodes;
 
-    var myLinks = this.json.links;    
-    var myNodes = this.json.nodes;
-    
-    //clear expanded links to parameter nodes in previous updates
-    myLinks.splice(this.orig_data.links.length, myLinks.length - this.orig_data.links.length);
-    
-    for(n=0; n < myNodes.length; n++) {
-        var node = myNodes[n];
-        myChildren = node.parameters;
-        console.log('parent: ' + node.name);
-        console.log('children: ' + myChildren);
-        // show nodes that have been expanded
-        if(myChildren){
-            for(i=0; i < myChildren.length; i++) {
-              if(expanded.indexOf(node.name) > -1) {
-                //if node is not already there!!
-                console.log('expanded: ' + node.name);
-                if(myNodes.indexOf(myChildren[i]) === -1){
-                    x = myNodes.push(myChildren[i]);
-                    myChildren[i].parent = n;
-                    this.json.links.push({"source":n,"target":x-1});
-                } else {
-                    this.json.links.push({"source":n,"target":myNodes.indexOf(myChildren[i])});
-                }    
-              } else {
-                    var childIndex = myNodes.indexOf(myChildren[i]);
-                    if(childIndex > -1) {
-                        myNodes.splice(childIndex,1);
-                    }
-              }
+        //clear expanded links to parameter nodes in previous updates
+        myLinks.splice(this.orig_data.links.length, myLinks.length - this.orig_data.links.length);
+
+        for(n=0; n < myNodes.length; n++) {
+            var node = myNodes[n];
+            myChildren = node.parameters;
+            console.log('parent: ' + node.name);
+            console.log('children: ' + myChildren);
+            // show nodes that have been expanded
+            if(myChildren){
+                for(i=0; i < myChildren.length; i++) {
+                  if(expanded.indexOf(node.name) > -1) {
+                    //if node is not already there!!
+                    console.log('expanded: ' + node.name);
+                    if(myNodes.indexOf(myChildren[i]) === -1){
+                        x = myNodes.push(myChildren[i]);
+                        myChildren[i].parent = n;
+                        this.json.links.push({"source":n,"target":x-1});
+                    } else {
+                        this.json.links.push({"source":n,"target":myNodes.indexOf(myChildren[i])});
+                    }    
+                  } else {
+                        var childIndex = myNodes.indexOf(myChildren[i]);
+                        if(childIndex > -1) {
+                            myNodes.splice(childIndex,1);
+                        }
+                  }
+                }
             }
         }
-    }
-    console.log("nodes and links");
-    console.log(myNodes);
-    for(a=0; a<myLinks.length; a++){
-        console.log("Link: " + a);
-        console.log(myLinks[a].source);
-        console.log(myLinks[a].target);
-        
-    }
-    
-    
-    // manage links
-//        for(l=0; l < myLinks.length; l++) {
-//            var link = myLinks[l];
-//            if (myNodes.indexOf(link.target) === -1 ){
-//                console.log("omit: " + myNodes.indexOf(link.target));
-//                console.log(link.target);
-//                myLinks.splice(l,1);
-//                
-//            } else {
-//                console.log("keep: " + myNodes.indexOf(link.target));
-//            }
-//        }
-//            console.log("nodes: ");
-//            console.log(this.json.nodes);
-//            console.log("Links: ");
-//            console.log(this.json.links);
-        
-        force
-            .nodes(this.json.nodes)
-            .links(this.json.links)
-            .start();
-    
-        $("svg").empty();
+        console.log("nodes and links");
+        console.log(myNodes);
+        for(a=0; a<myLinks.length; a++){
+            console.log("Link: " + a);
+            console.log(myLinks[a].source);
+            console.log(myLinks[a].target);
 
-        var link = svg.selectAll(".link")
-            .data(this.json.links)
-          .enter().append("line")
-            .attr("class", "link");
+        }
 
-        var node = svg.selectAll(".node")
-            .data(this.json.nodes)
-          .enter().append("g")
-            .attr("class", "node")
-            .on("click", click)
-            .call(force.drag);
+            force
+                .nodes(this.json.nodes)
+                .links(this.json.links)
+                .start();
 
-        node.append("image")
-            .attr("xlink:href", function(d) { return site_root + "resources/images/" + d.type + ".png";} )
-            .attr("x", -8)
-            .attr("y", -8)
-            .attr("width", 24)
-            .attr("height", 24);
+            $("svg").empty();
 
-        node.append("text")
-            .attr("dx", 16)
-            .attr("dy", ".35em")
-            .text(function(d) { return d.name });
+            var link = svg.selectAll(".link")
+                .data(this.json.links)
+              .enter().append("line")
+                .attr("class", "link");
 
-        force.on("tick", function() {
-          link.attr("x1", function(d) { return d.source.x; })
-              .attr("y1", function(d) { return d.source.y; })
-              .attr("x2", function(d) { return d.target.x; })
-              .attr("y2", function(d) { return d.target.y; });
+            var node = svg.selectAll(".node")
+                .data(this.json.nodes)
+              .enter().append("g")
+                .attr("class", "node")
+                .on("click", click)
+                .call(force.drag);
 
-          node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-        });
+            node.append("image")
+                .attr("xlink:href", function(d) { return site_root + "resources/images/" + d.type + ".png";} )
+                .attr("x", -8)
+                .attr("y", -8)
+                .attr("width", 24)
+                .attr("height", 24);
+
+            node.append("text")
+                .attr("dx", 16)
+                .attr("dy", ".35em")
+                .text(function(d) { return d.name });
+
+            force.on("tick", function() {
+              link.attr("x1", function(d) { return d.source.x; })
+                  .attr("y1", function(d) { return d.source.y; })
+                  .attr("x2", function(d) { return d.target.x; })
+                  .attr("y2", function(d) { return d.target.y; });
+
+              node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+            });
     };
 
 }
@@ -145,7 +122,7 @@ function saveParameter(val){
     // update the value of the parameter graph object
     current_param.value = val;
     
-    //active vate save scenario button
+    //activate save scenario button
     $('#'+ sg.scenario_id +'_save').show();
 
     // locate and update the value of the parameter presistance object
@@ -160,39 +137,14 @@ function saveParameter(val){
        }
    }
    
-//   toggleSave("disabled");
+
 } 
 
-//function toggleSave(status) {
-//    if(status === "enabled") {
-//        $("#node_details_save").removeAttr("disabled");
-//        $("#node_details_save").removeClass("disabled");
-//    } else {
-//        $("#node_details_save").attr("disabled");
-//        $("#node_details_save").addClass("disabled");
-//    }
-//}
 
 function click(d) {
 
    if(d.type === "parameter") {
-      current_param = d;
-//      toggleSave("disbled");
-      
-              
-//      $(function() {
-//          $( "#node_slider" ).slider({
-//             range: "min",
-//             value: d.value,
-//             min:  1500,
-//             max: 3000,
-//             slide: function( event, ui ) {
-//               $( "#amount" ).val( ui.value );
-//               toggleSave("enabled");
-//             }
-//           });
-//          $( "#amount" ).val( $( "#node_slider" ).slider( "value" ) );
-//       }); 
+       current_param = d;
        $("#node_slider").attr('max', 3000);
        $("#node_slider").attr('min', 0);
        $("#node_slider").val(d.value);

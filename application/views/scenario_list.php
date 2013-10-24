@@ -1,5 +1,6 @@
 <script type="text/javascript">
 
+testdata;
 
 $(document).ready(function(){
     var id;
@@ -14,17 +15,14 @@ $(document).ready(function(){
     });
     
     $('.scenario_save').click(function(){saveScenario();});
-    
-    
+
 
 });
 
 </script>
 
-
 <?php
     print "<h2>Scenario List</h2>";    
-
     if($study_scenarios === false)
     {
         print "No results.";
@@ -44,6 +42,5 @@ $(document).ready(function(){
         print "</div>";
         print "<br/>";
     }
-   
-    
+
 ?> 

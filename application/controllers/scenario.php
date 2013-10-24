@@ -75,8 +75,10 @@ class Scenario extends CI_Controller
                 throw new Exception( "Error loading scenario: $scenario_id. The scenario does not exist.");
             }    
             
-            $data["scenario"] = $scenario;        
-            $this->load->view("ajax", $data);
+            $data["ajax"] = $scenario;
+            echo json_encode($scenario);
+            exit();
+//            $this->load->view("ajax", $data);
         }
         catch(Exception $e)
         {

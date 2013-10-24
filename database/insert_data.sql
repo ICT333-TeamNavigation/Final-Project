@@ -2,19 +2,19 @@ USE team05;
 
 -- model table
 DELETE FROM model;
-INSERT INTO model ( model_id, name, description, api, creator ) 
+INSERT INTO model ( model_id, name, description, api, creator, date_created ) 
 VALUES ( 1 , "Pit to Port", 
 "This model is used for monitoring and making predictions about the operations on a mine site.",
-"dummyAPI", "Ben" );
+"dummyAPI", "Ben", NOW() );
 
 -- node table
 DELETE FROM node;
-INSERT INTO node ( model_id, node_id, name ) VALUES ( 1 , 1, "Diggers" );
-INSERT INTO node ( model_id, node_id, name ) VALUES ( 1 , 2, "Trucks" );
-INSERT INTO node ( model_id, node_id, name ) VALUES ( 1 , 3, "Silos" );
-INSERT INTO node ( model_id, node_id, name ) VALUES ( 1 , 4, "Trains" );
-INSERT INTO node ( model_id, node_id, name ) VALUES ( 1 , 5, "Port" );
-INSERT INTO node ( model_id, node_id, name ) VALUES ( 1 , 6, "Globals" );
+INSERT INTO node ( model_id, node_id, name, picture ) VALUES ( 1 , 1, "Diggers", "digger.png" );
+INSERT INTO node ( model_id, node_id, name, picture ) VALUES ( 1 , 2, "Trucks", "truck.png" );
+INSERT INTO node ( model_id, node_id, name, picture ) VALUES ( 1 , 3, "Silos", "silo.png" );
+INSERT INTO node ( model_id, node_id, name, picture ) VALUES ( 1 , 4, "Trains", "train.png" );
+INSERT INTO node ( model_id, node_id, name, picture ) VALUES ( 1 , 5, "Port", "port.png" );
+INSERT INTO node ( model_id, node_id, name, picture ) VALUES ( 1 , 6, "Globals", "globe.png" );
 
 -- link table
 DELETE FROM link;

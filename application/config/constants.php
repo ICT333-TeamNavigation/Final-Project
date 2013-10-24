@@ -73,6 +73,7 @@ define('COL_MAX_VALUE',         'max_value');
 define('COL_VISIBLE',           'visible');
 define('COL_VISIBLE_DEFAULT',   'visible_default');
 define('COL_CONTROL_TYPE',      'control_type');
+define('COL_PICTURE',           'picture');
 
 
 /* End of file constants.php */

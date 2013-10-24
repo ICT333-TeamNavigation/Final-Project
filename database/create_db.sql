@@ -8,9 +8,9 @@ DROP TABLE IF EXISTS user_config;
 DROP TABLE IF EXISTS scenario;
 DROP TABLE IF EXISTS study_parameter;
 DROP TABLE IF EXISTS study;
-DROP TABLE IF EXISTS `user`;
-DROP TABLE IF EXISTS `parameter`;
-DROP TABLE IF EXISTS `link`;
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS parameter;
+DROP TABLE IF EXISTS link;
 DROP TABLE IF EXISTS node;
 DROP TABLE IF EXISTS model;
 
@@ -24,7 +24,7 @@ CREATE TABLE model
     description     TEXT, 
     api             VARCHAR(50)   NOT NULL, 
     creator         VARCHAR(50),
-    date_created    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_created    DATETIME,
     
     PRIMARY KEY (model_id)
 );
@@ -99,7 +99,7 @@ CREATE TABLE study
     questions       TEXT          NOT NULL, 
     FULLTEXT(name, questions),  
     creator         VARCHAR(50),
-    date_created    TIMESTAMP      DEFAULT CURRENT_TIMESTAMP,
+    date_created    DATETIME,
     
 
     username        VARCHAR(50),
@@ -168,6 +168,9 @@ CREATE TABLE user_config
         ON UPDATE CASCADE
 );
 
+CREATE TRIGGER set_study_date
+BEFORE INSERT ON study 
+FOR EACH ROW SET NEW.date_created = NOW();
 
 
 SHOW TABLES;

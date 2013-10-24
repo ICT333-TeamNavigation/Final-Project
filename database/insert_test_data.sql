@@ -25,7 +25,7 @@ What is the effect on ore production in bad weather?",
 SELECT * FROM study;
 
 
--- user_scenario table
+-- scenario table
 DELETE FROM scenario;
 INSERT INTO scenario ( study_id, scenario_id, name, description, parms_json )
 VALUES ( 1, 1, "scenario one", "this is the first test scenario created", "dummy json 1" );

@@ -39,9 +39,11 @@ line {
 </style>
 
 <div>
-    <div class="left_frame" id="scenario_list"></div>
-    <div class="right_frame"id="svgdiv"></div>
+    <div class="left_frame" id="scenario_list" ></div>
+    <div class="right_frame" id="svgdiv" ></div>
 </div>
+ 
+
 <div id="node_details" style="display: none;">
     <h3 id="node_type"></h3>
     <div>
@@ -54,6 +56,18 @@ line {
 </div>
 <div id="result"></div>
 
+<div class="left_frame">
+    <h2>Create New Scenario</h2>
+    <label for="scenario_name" >Scenario Name: </label>
+    <input type="text" id="scenario_name" required="required" > 
+    <label for="scenario_description" >Description: </label> 
+    <input type="text" id="scenario_description" required="required" >
+    <div id='create_scenario' class="button" style="float: left;" >Submit</div> 
+    <div id="create_scenario_result"></div>
+</div>  
+
+
+<div id="message_service"></div>
 
 <script type="text/javascript">
  site_root = '<?php echo base_url(); ?>'
@@ -66,6 +80,11 @@ line {
      });
      
      $("#scenario_list").load("index.php/scenario/loadStudyScenarios");
+     
+     $('#create_scenario').click(function(){
+        postCreateScenario();
+     });
+    
 
      sg = null;
      graph_data = null;
@@ -88,7 +107,7 @@ line {
         sg = new Graph(graph_data);
         var selector = "#" + scenario_id;
         sg.scenario_id = scenario_id;
-        sg.name = $(selector ).html()
+        sg.name = $(selector + "_name").html()
         sg.description = $(selector + "_description").html();
         sg.update();
 //     });
@@ -110,6 +129,50 @@ function saveScenario() {
             }
         }
     );
+}
+
+
+
+  
+function postCreateScenario()
+{
+    var name = $('#scenario_name').val();
+    name = name.trim();
+    if( name.length === 0 )
+    {
+        var msg = new MessageService("error", "Please Enter a Scenario Name. Try again.");
+        msg.showMessage();
+        return;
+    }
+      
+    var description = $('#scenario_description').val();
+    description = description.trim();
+    if( description.length === 0 )
+    {
+        var msg = new MessageService("error", "Please Enter a Scenario Description. Try again.");
+        msg.showMessage();
+        return;
+    }
+           
+    var post_obj = { name:        name, 
+                     description: description }; 
+         
+    $('#create_scenario_result').load('index.php/scenario/createScenario', post_obj,
+        function(data, status)
+        {               
+            if(ajax_result['result'] == "success")
+            {
+                var msg = new MessageService('success', "Scenario created.");
+                msg.showMessage();
+                
+                $("#scenario_list").load("index.php/scenario/loadStudyScenarios");
+            } 
+            else 
+            {
+                var msg = new MessageService('error', "Error creating scenario.");
+                msg.showMessage();
+            }
+        } );     
 }
 
 

@@ -240,6 +240,7 @@ class Scenario_model extends CI_Model
     // returns the next scenario_id as an int
     public function getNextScenarioID()
     {
+        $this->data_access_object->setTableName(TABLE_SCENARIO);
         return $this->data_access_object->getNextID(COL_SCENARIO_ID);
     }
     

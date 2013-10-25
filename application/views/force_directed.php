@@ -115,7 +115,7 @@ line {
  
 function saveScenario() {
     var json_string = JSON.stringify(graph_data);
-    alert(json_string);
+ 
     $("#result").load("index.php/scenario/saveScenario",
         {
             scenario_id: sg.scenario_id,

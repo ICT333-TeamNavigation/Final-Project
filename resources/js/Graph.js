@@ -133,11 +133,11 @@ function Graph(graphData){
                 } )
                 .attr("x", -8)
                 .attr("y", -8)
-                .attr("width", 36)
-                .attr("height", 36);
+                .attr("width", 30)
+                .attr("height", 30);
 
             node.append("text")
-                .attr("dx", 16)
+                .attr("dx", 24)
                 .attr("dy", ".35em")
                 .text(function(d) { if(d.name === undefined){return d.parm_name;} else {return d.name;}});
 

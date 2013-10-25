@@ -49,8 +49,8 @@
     width: 80%;
     max-width: /*1024px*/ 960px;
     margin: auto;
-    min-height: 570px;
-    padding: 0px;
+    /*min-height: 570px;*/
+    padding: 0/* 0 100px 0*/;
 }
 
 #primary_header 
@@ -149,6 +149,11 @@ body
 {
     float: left; 
     margin: 2px 0; 
+}
+
+.home{
+    float: right;
+    margin-top: 15px;
 }
 
 h1 

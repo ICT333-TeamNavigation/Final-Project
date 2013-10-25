@@ -24,7 +24,7 @@
                 $('#primary_content').load('index.php/home');
             });
             
-            $("#home").click(function(){
+            $(".home").click(function(){
                 $('#primary_content').load('index.php/home');
             });
         });
@@ -37,17 +37,23 @@
         <div id="message_service"></div>
         <div id="primary_header">
             <div class="logo"><img src="<?php echo base_url('resources/images/logo.png');?>" /></div>
+            <div class="home"><img src="<?php echo base_url('resources/images/home.png');?>" width="25px" height="25px"/></div>
             
-            <h2 id="home" style="text-align: right;" >Home</h2>
+            <!--<h2 id="home" style="text-align: right;" ><img src="<?php echo base_url('resources/iamges/home.png)');?>"</h2>-->
         </div>
         <div id="primary_content"></div>
     </div>
-    </div>
-    
+        
     <div id="primary_footer">
         <p>Site created as part of Murdoch University ICT333 Project</p>
         <p>Page rendered in {elapsed_time} seconds</p>
     </div>
+    </div>
+    
+    <!--<div id="primary_footer">
+        <p>Site created as part of Murdoch University ICT333 Project</p>
+        <p>Page rendered in {elapsed_time} seconds</p>
+    </div>-->
 
 </body>
 </html>

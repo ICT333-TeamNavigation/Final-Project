@@ -249,3 +249,7 @@ h3
 .scenario_list {
     font-size: 12px;
 }
+
+.ui-loader{
+    display:none;
+}

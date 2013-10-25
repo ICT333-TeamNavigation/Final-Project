@@ -1,6 +1,5 @@
 <script type="text/javascript">
 
-//testdata;
 
 $(document).ready(function(){
     

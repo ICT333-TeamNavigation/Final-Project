@@ -39,7 +39,9 @@ line {
 </style>
 
 <div>
-    <div class="left_frame" id="scenario_list" ></div>
+    <div class="left_frame" id="scenario_list" >
+        <img src="<?php echo base_url('resources/images/ajax-loader.gif');?>" />
+    </div>
     <div class="right_frame" id="svgdiv" ></div>
 </div>
  
@@ -64,10 +66,7 @@ line {
     <input type="text" id="scenario_description" required="required" >
     <div id='create_scenario' class="button" style="float: left;" >Submit</div> 
     <div id="create_scenario_result"></div>
-</div>  
-
-
-<div id="message_service"></div>
+</div>
 
 <script type="text/javascript">
  site_root = '<?php echo base_url(); ?>'

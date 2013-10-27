@@ -38,35 +38,20 @@ line {
 }
 </style>
 
+
 <div>
-    <div class="left_frame" id="scenario_list" >
+    <div id="scenario_list" >
         <img src="<?php echo base_url('resources/images/ajax-loader.gif');?>" />
     </div>
-    <div class="right_frame" id="svgdiv" ></div>
+    <div id="scenario_tab" class="rotate" style="display: none;">Scenarios</div>
+    <div id="svgdiv"></div>
 </div>
  
+<div id="node_details" style="display: none;"></div>
 
-<div id="node_details" style="display: none;">
-    <h3 id="node_type"></h3>
-    <div>
-        <label for="amount">Value:</label>
-        <input type="text" id="amount" style="border: 0; color: #f6931f; font-weight: bold;" />
-    </div>        
-    <div id="node_slider" ></div>
-    <div style="padding: 10px 10px 10px 10px;"></div>
-    <div class="button" id="node_details_save" >save</div>
-</div>
-<div id="result"></div>
+<div id="result" style="display: none;"></div>
 
-<div class="left_frame">
-    <h2>Create New Scenario</h2>
-    <label for="scenario_name" >Scenario Name: </label>
-    <input type="text" id="scenario_name" required="required" > 
-    <label for="scenario_description" >Description: </label> 
-    <input type="text" id="scenario_description" required="required" >
-    <div id='create_scenario' class="button" style="float: left;" >Submit</div> 
-    <div id="create_scenario_result"></div>
-</div>
+
 
 <script type="text/javascript">
  site_root = '<?php echo base_url(); ?>'
@@ -74,8 +59,10 @@ line {
 
  
  $('document').ready(function(){
+     
+     $('#create_scenario_form').hide();
+     
      $("#node_details").load("index.php/study/node", function(){
-         
      });
      
      $("#scenario_list").load("index.php/scenario/loadStudyScenarios");
@@ -83,6 +70,16 @@ line {
      $('#create_scenario').click(function(){
         postCreateScenario();
      });
+     
+     $("#scenario_tab").click(function(){
+         $("#scenario_list").show("slow");
+         $(this).hide();
+     });
+
+     
+//     
+     
+//});
     
 
      sg = null;

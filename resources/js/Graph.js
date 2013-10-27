@@ -13,7 +13,7 @@ function Graph(graphData){
     // properties
     this.orig_data = graphData;
     this.json = jQuery.extend(true, {}, graphData);
-    var width = 500,
+    var width = 850,
         height = 500;
 
     // TODO: specify the DOM object for the graph
@@ -22,7 +22,7 @@ function Graph(graphData){
         .attr("height", height);
 
     var force = d3.layout.force()
-        .gravity(.001)
+        .gravity(0.00001)
         .distance(100)
         .charge(-100)
         .size([width, height]);

@@ -15,7 +15,7 @@
     <body>
         <h3 id="node_type"></h3>
         <div>
-            <input id="node_slider" name="slider" type="range" name="node_slider" id="node_slider" value="60" min="0" max="100" data-highlight="true"/>
+            <input id="node_slider" type="range" name="node_slider" value="60" min="0" max="100" data-highlight="true"/>
         </div>
 <!--        <div class="button" id="node_details_save" >save</div>-->
     </body>

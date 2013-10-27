@@ -26,6 +26,13 @@ $(document).ready(function(){
         
         console.log(jsData);
         createGraph(jsData, id);
+        
+        // hide the scenario list
+        $( "#scenario_list" ).hide("Slow", function(){
+            console.log("hidden");
+            $("#scenario_tab").show();
+        });
+        
     });
     
     $('.scenario_delete').click(function(){
@@ -72,10 +79,10 @@ function postDeleteScenario( scenario_id )
 }
 
 </script>
+<h2>Scenario List </h2>
+<div class="small_button" style="float:right">Create</div>
 
-<?php
-
-    print "<h2>Scenario List</h2>";    
+<?php    
     if($study_scenarios === false)
     {
         print "No results.";

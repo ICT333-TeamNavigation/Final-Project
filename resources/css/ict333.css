@@ -86,7 +86,20 @@ div .page_section
     border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;
 }
         
-
+#scenario_list
+{
+    position:absolute;
+    top:130px;
+    left:20px;
+    width: 240px;
+    height: 500px;
+    font-weight:bold;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background: #ffffff;
+    overflow-y: scroll;
+    
+}
 
 /* AlertMessage */
 #message_service{
@@ -198,6 +211,7 @@ h3
     padding: 10px 10px 10px 10px;
     width:300px;
     z-index:900;
+    background: #ffffff;
     border-radius:       10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;
     box-shadow:     0 0 8px #000000 ; -moz-box-shadow: 0 0 8px #000000 ; -webkit-box-shadow: 0 0 8px #000000 ;
 }
@@ -257,4 +271,30 @@ h3
 
 .ui-loader{
     display:none;
+}
+
+#scenario_tab{
+    border: 1px solid black;
+    background: #4479BA;
+    color: #FFF;
+    position:absolute;
+    top:150px;
+    left:20px;
+}
+.rotate {
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+
+  /* also accepts left, right, top, bottom coordinates; not required, but a good idea for styling */
+  -webkit-transform-origin: 50% 50%;
+  -moz-transform-origin: 50% 50%;
+  -ms-transform-origin: 50% 50%;
+  -o-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+
+  /* Should be unset in IE9+ I think. */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }

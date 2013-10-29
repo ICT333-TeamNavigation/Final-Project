@@ -38,7 +38,7 @@ line {
 }
 </style>
 
-
+<div id="result" style="display: none;"></div>
 <div>
     <div id="scenario_list" >
         <img src="<?php echo base_url('resources/images/ajax-loader.gif');?>" />
@@ -49,18 +49,27 @@ line {
  
 <div id="node_details" style="display: none;"></div>
 
-<div id="result" style="display: none;"></div>
 
 
+<div id="create_scenario_form" style="background: #fff; display: none">
+    <h2>Create New Scenario</h2>
+    <form>
+        <label for="scenario_name" >Scenario Name: </label>
+        <input type="text" id="scenario_name" required="required" > 
+        <label for="scenario_description" >Description: </label> 
+        <input type="text" id="scenario_description" required="required" >
+        <div id='create_scenario' class="button" style="float: left;" >Submit</div>
+        <div id='cancel_create_scenario' class="button" style="float: left;" >Cancel</div> 
+        <div id="create_scenario_result"></div>
+    </form>
+</div>
 
 <script type="text/javascript">
- site_root = '<?php echo base_url(); ?>'
+ site_root = '<?php echo base_url(); ?>';
  expanded = new Array();
 
  
  $('document').ready(function(){
-     
-     $('#create_scenario_form').hide();
      
      $("#node_details").load("index.php/study/node", function(){
      });
@@ -69,28 +78,20 @@ line {
      
      $('#create_scenario').click(function(){
         postCreateScenario();
+        $('#create_scenario_form').hide();
+     });
+     
+     $('#cancel_create_scenario').click(function(){
+        cancelCreateScenario();
      });
      
      $("#scenario_tab").click(function(){
          $("#scenario_list").show("slow");
          $(this).hide();
      });
-
-     
-//     
-     
-//});
-    
-
+   
      sg = null;
      graph_data = null;
-
-
-//     $("#result").load("index.php/model/force", function(data){
-//        graph_data = ajax_result;
-//        sg = new Graph(graph_data);
-//        sg.update();
-//     });
 
  });
  
@@ -98,15 +99,13 @@ line {
      sg = null;
      graph_data = null;
      $("#svgdiv").children("svg").remove();
-//     $("#result").load("index.php/model/force", function(data){
         graph_data = jsondata;
         sg = new Graph(graph_data);
         var selector = "#" + scenario_id;
         sg.scenario_id = scenario_id;
-        sg.name = $(selector + "_name").html()
+        sg.name = $(selector + "_name").html();
         sg.description = $(selector + "_description").html();
         sg.update();
-//     });
  }
  
 function saveScenario() {
@@ -122,14 +121,19 @@ function saveScenario() {
             console.log(data);
             if(status === "success") {
                 $("#" + sg.scenario_id + "_params").html(json_string);
+                var msg = new MessageService('success', "Scenario saved.");
+                msg.showMessage();
             }
         }
     );
 }
 
+function cancelCreateScenario() {
+    $('#scenario_description').val('');
+    $('#scenario_name').val('');
+    $('#create_scenario_form').hide();
+}
 
-
-  
 function postCreateScenario()
 {
     var name = $('#scenario_name').val();
@@ -156,7 +160,7 @@ function postCreateScenario()
     $('#create_scenario_result').load('index.php/scenario/createScenario', post_obj,
         function(data, status)
         {               
-            if(ajax_result['result'] == "success")
+            if(ajax_result['result'] === "success")
             {
                 var msg = new MessageService('success', "Scenario created.");
                 msg.showMessage();
@@ -170,6 +174,5 @@ function postCreateScenario()
             }
         } );     
 }
-
 
 </script>

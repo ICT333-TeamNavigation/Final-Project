@@ -9,10 +9,16 @@
                 $( "#node_slider" ).on( 'slidestop', function( event ) { 
                     saveParameter($("#node_slider").val());
                 });
+                
+                $('#close').click(function(){
+                    $('#node_details').hide();
+                });
+            
             });
         </script>
     </head>
     <body>
+        <div id="close"></div>
         <h3 id="node_type"></h3>
         <div>
             <input id="node_slider" type="range" name="node_slider" value="60" min="0" max="100" data-highlight="true"/>

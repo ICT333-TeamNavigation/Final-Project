@@ -101,6 +101,7 @@ div .page_section
     
 }
 
+
 /* AlertMessage */
 #message_service{
 	position:absolute;
@@ -216,6 +217,22 @@ h3
     box-shadow:     0 0 8px #000000 ; -moz-box-shadow: 0 0 8px #000000 ; -webkit-box-shadow: 0 0 8px #000000 ;
 }
 
+#node_type {
+    
+}
+
+#create_scenario_form{
+    position:absolute;
+    top:200px;
+    right:80px;
+    padding: 10px 10px 10px 10px;
+    width:400px;
+    z-index:900;
+    background: #ffffff;
+    border-radius:       10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;
+    box-shadow:     0 0 8px #000000 ; -moz-box-shadow: 0 0 8px #000000 ; -webkit-box-shadow: 0 0 8px #000000 ;
+}
+
 .button {
     border: 1px solid black;
     font-weight:bold;
@@ -297,4 +314,12 @@ h3
 
   /* Should be unset in IE9+ I think. */
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+#close{
+    display:block;
+    float:right;
+    width:26px;
+    height:26px;
+    background:url("../images/close.png") no-repeat;
+    background-size: 24px 24px;
 }

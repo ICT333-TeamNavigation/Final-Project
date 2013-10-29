@@ -8,6 +8,9 @@ $(document).ready(function(){
         // hide all save and delete buttons
         $(".scenario_save").hide();
         $(".scenario_delete").hide();
+        
+        //hide node details
+        $("#node_details").hide();
                 
         var id = $(this).attr('id');
         
@@ -33,6 +36,14 @@ $(document).ready(function(){
             $("#scenario_tab").show();
         });
         
+
+        // define create behaviour
+        $("#create_scenario_btn").click(function(){
+            console.log("clicked!");
+            $('#create_scenario_form').show("slow");
+
+        });
+        
     });
     
     $('.scenario_delete').click(function(){
@@ -51,7 +62,10 @@ $(document).ready(function(){
         postDeleteScenario(scenario_id);
     });
     
-    $('.scenario_save').click(function(){saveScenario();});
+    $('.scenario_save').click(function(){
+        $('#node_details').hide();
+        saveScenario();
+    });
 
 
 });
@@ -63,7 +77,7 @@ function postDeleteScenario( scenario_id )
     $('#delete_result').load('index.php/scenario/removeScenario', post_obj,
         function(data, status)
         {               
-            if(ajax_result['result'] == "success")
+            if(ajax_result['result'] === "success")
             {
                 var msg = new MessageService('success', "Scenario deleted.");
                 msg.showMessage();
@@ -79,8 +93,10 @@ function postDeleteScenario( scenario_id )
 }
 
 </script>
+
+<div class="small_button" style="float:right" id="create_scenario_btn">Create</div>
 <h2>Scenario List </h2>
-<div class="small_button" style="float:right">Create</div>
+
 
 <?php    
     if($study_scenarios === false)

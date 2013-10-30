@@ -114,7 +114,7 @@ CREATE TABLE study
         REFERENCES model(model_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
-);
+) engine MyISAM;
 
 
 CREATE TABLE scenario
@@ -131,7 +131,7 @@ CREATE TABLE scenario
         REFERENCES study(study_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
-);
+)engine MyISAM;
 
 
 CREATE TABLE study_parameter 
@@ -152,7 +152,7 @@ CREATE TABLE study_parameter
         REFERENCES parameter(model_id, node_id, parm_name)
         ON DELETE CASCADE
         ON UPDATE CASCADE
-);
+)engine MyISAM;
 
 
 CREATE TABLE user_config

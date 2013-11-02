@@ -1,6 +1,42 @@
+
+<div class="small_button" style="float:right" id="create_scenario_btn">Create</div>
+<h2>Scenario List </h2>
+
+
+<?php    
+    if($study_scenarios === false)
+    {
+        print "No results.";
+    }
+    else
+    {    
+        foreach($study_scenarios as $scenario)
+        {
+            print "<div id='scenario_list_heading' class='study scenario_list'>";
+            
+            print "<span class='left_frame'>Name:</span>";
+            print "<span id='{$scenario[COL_SCENARIO_ID]}_name' class='right_frame'>{$scenario[COL_NAME]}</span>";
+            
+            print "<span class='left_frame'>Description:</span>";
+            print "<span id='{$scenario[COL_SCENARIO_ID]}_description' class='right_frame'>{$scenario[COL_DESCRIPTION]}</span>";
+            print "<br/><br/>"; 
+            
+            print "<span id='{$scenario[COL_SCENARIO_ID]}' class='left_frame small_button scenario_select'>Select</span>";
+            print "<span id='{$scenario[COL_SCENARIO_ID]}_save' class='right_frame small_button scenario_save selected' style='display: none;'>Save</span>";
+            print "<span id='{$scenario[COL_SCENARIO_ID]}_delete' class='right_frame small_button scenario_delete selected' style='display: none;'>Delete</span>";
+            
+            print "<span id='{$scenario[COL_SCENARIO_ID]}_params' class='study_id' style='display: none;'>{$scenario[COL_PARMS_JSON]}</span>";
+            
+            print "</div>";
+            
+            
+        }
+    }
+      
+?> 
+<div id="delete_result" ></div>
 <script type="text/javascript">
-
-
+    
 $(document).ready(function(){
     
     $('.scenario_select').click(function(){
@@ -35,15 +71,14 @@ $(document).ready(function(){
             console.log("hidden");
             $("#scenario_tab").show();
         });
-        
+ 
+    });
+    
+    // define create behaviour
+    $("#create_scenario_btn").click(function(){
+        console.log("clicked!");
+        $('#create_scenario_form').show("slow");
 
-        // define create behaviour
-        $("#create_scenario_btn").click(function(){
-            console.log("clicked!");
-            $('#create_scenario_form').show("slow");
-
-        });
-        
     });
     
     $('.scenario_delete').click(function(){
@@ -93,40 +128,3 @@ function postDeleteScenario( scenario_id )
 }
 
 </script>
-
-<div class="small_button" style="float:right" id="create_scenario_btn">Create</div>
-<h2>Scenario List </h2>
-
-
-<?php    
-    if($study_scenarios === false)
-    {
-        print "No results.";
-    }
-    else
-    {    
-        foreach($study_scenarios as $scenario)
-        {
-            print "<div class='study scenario_list'>";
-            
-            print "<span class='left_frame'>Name:</span>";
-            print "<span id='{$scenario[COL_SCENARIO_ID]}_name' class='right_frame'>{$scenario[COL_NAME]}</span>";
-            
-            print "<span class='left_frame'>Description:</span>";
-            print "<span id='{$scenario[COL_SCENARIO_ID]}_description' class='right_frame'>{$scenario[COL_DESCRIPTION]}</span>";
-            print "<br/><br/>"; 
-            
-            print "<span id='{$scenario[COL_SCENARIO_ID]}' class='left_frame small_button scenario_select'>Select</span>";
-            print "<span id='{$scenario[COL_SCENARIO_ID]}_save' class='right_frame small_button scenario_save selected' style='display: none;'>Save</span>";
-            print "<span id='{$scenario[COL_SCENARIO_ID]}_delete' class='right_frame small_button scenario_delete selected' style='display: none;'>Delete</span>";
-            
-            print "<span id='{$scenario[COL_SCENARIO_ID]}_params' class='study_id' style='display: none;'>{$scenario[COL_PARMS_JSON]}</span>";
-            
-            print "</div>";
-            
-            
-        }
-    }
-      
-?> 
-<div id="delete_result" ></div>

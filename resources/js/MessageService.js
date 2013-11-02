@@ -6,7 +6,8 @@ function MessageService(alertType, alertText) {
 	this.alertType = alertType;
 	this.displayTime = 2000;
 	
-	if (this.alertType == 'success') {
+	if (this.alertType === 'success') {
+                $('#message_service').removeClass('message_error');
 		$('#message_service').addClass('message_success');
 	} else {
 		$('#message_service').addClass('message_error');

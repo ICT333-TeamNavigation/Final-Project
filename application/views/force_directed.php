@@ -121,7 +121,7 @@ function saveScenario() {
             console.log(data);
             if(status === "success") {
                 $("#" + sg.scenario_id + "_params").html(json_string);
-                var msg = new MessageService('success', "Scenario saved.");
+                var msg = new MessageService("success", "Scenario saved.");
                 msg.showMessage();
             }
         }

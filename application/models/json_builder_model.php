@@ -202,6 +202,7 @@ class Json_builder_model extends CI_Model
         $parm_json .= ",\n     \"max_value\"     : "  . $node_parm[COL_MAX_VALUE];
         $parm_json .= ",\n     \"visible\"       : "  . $visible;
         $parm_json .= ",\n     \"control_type\"  : \"". $node_parm[COL_CONTROL_TYPE] . "\"";
+        $parm_json .= ",\n     \"node_id\"  : \"". $node_parm[COL_NODE_ID] . "\"";
         $parm_json .= "\n  }";
         
         return $parm_json;

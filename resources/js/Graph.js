@@ -166,7 +166,9 @@ function saveParameter(val){
         var params = graph_data.nodes[i].parameters;
         if(params.length > 0){
             for(var p=0;p<params.length; p++) {
-                if(params[p].parm_name == current_param.parm_name) {
+                if(params[p].parm_name === current_param.parm_name &&
+                        params[p].node_id === current_param.node_id
+                        ) {
                     params[p].current_value = current_param.current_value;
                }
            }  
